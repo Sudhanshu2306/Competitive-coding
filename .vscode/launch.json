@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/sudha/Competitive-coding",
-      "program": "c:/Users/sudha/Competitive-coding/build/Debug/outDebug",
+      "cwd": "c:/Users/sudha/OneDrive/Desktop/Competitive-coding",
+      "program": "c:/Users/sudha/OneDrive/Desktop/Competitive-coding/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
