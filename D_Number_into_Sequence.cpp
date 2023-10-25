@@ -50,22 +50,51 @@ typedef pair<ll, ll> pll;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
+void primeFactors(int n, umap<ll,ll> &ans){
+    while(n%2==0){
+        ans[2]++;
+        n/=2;
+    }
+
+    for(int i=3;i<=sqrt(n);i+=2){
+        while(n%i==0){
+            ans[i]++;
+            n/=i;
+        }
+    }
+    if(n>2){
+        ans[n]++;
+    }
+
+}
 
 void solve() {
     // Your code goes here
     int n; cin>>n;
-    if(n%2!=0){
-        for1(i,n){
-            cout<<1<<" ";
-        }
+    umap<ll,ll> ans;
+    primeFactors(n,ans);
+
+    ll res=0;
+    ll x=0;
+    for(auto i:ans){
+        if(i.second>res){
+            res=i.second;
+            x=i.first;
+        }      
     }
-    else{
-        for1(i,n-2){
-            cout<<2<<" ";
-        }
-        cout<<1<<" "<<3;
+    for1(i,res-1){
+        cout<<res<<endl;
+        cout<<x<<" ";
     }
+    int p=x;
+    for(auto i:ans){
+        if(i.first!=x){
+            p*=pow(i.first,i.second);
+        }      
+    }
+    cout<<p;
     cout<<endl;
+    
 }
 
 int32_t main() {

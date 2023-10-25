@@ -50,22 +50,23 @@ typedef pair<ll, ll> pll;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
+const int maxn=100005;
+int arr[maxn];
+
+int gcd1(int a,int b){
+	return b==0?a:gcd(b,a%b);
+}
 
 void solve() {
     // Your code goes here
     int n; cin>>n;
-    if(n%2!=0){
-        for1(i,n){
-            cout<<1<<" ";
-        }
+    int temp=0;
+    for1(i,n){
+        cin>>arr[i];
+        temp=gcd1(temp,arr[i]);
     }
-    else{
-        for1(i,n-2){
-            cout<<2<<" ";
-        }
-        cout<<1<<" "<<3;
-    }
-    cout<<endl;
+    
+    cout<<arr[n]/temp +(arr[1]==0)<<endl;
 }
 
 int32_t main() {
