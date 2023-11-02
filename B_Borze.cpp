@@ -1,4 +1,3 @@
-# Competitive-coding
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -54,18 +53,36 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    
+    string s; cin>>s;
+    int i=0;
+    string ans;
+    while(i<s.length()){
+        if(s[i]=='.'){
+            ans.push_back('0');
+            i+=1;
+        }
+        else if(s[i]=='-' && s[i+1]=='.'){
+            ans.push_back('1');
+            i+=2;
+        }
+        else if(s[i]=='-' && s[i+1]=='-'){
+            ans.push_back('2');
+            i+=2;
+        }
+    }
+    cout<<ans<<endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    int t;
-    cin >> t;
-    while (t--) {
-        solve();
-    }
+    // int t;
+    // cin >> t;
+    // while (t--) {
+    //     solve();
+    // }
+    solve();
 
     return 0;
 }
