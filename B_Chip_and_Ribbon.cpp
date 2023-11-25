@@ -53,29 +53,36 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    string s; cin>>s;
-    string ans="";
-
-    for0(i,s.length()){
-        if(s[i]!='a' && s[i]!='e' && s[i]!='i' && s[i]!='o' && s[i]!='u' && s[i]!='y' 
-        && s[i]!='Y' && s[i]!='A' && s[i]!='E' && s[i]!='I' && s[i]!='O' && s[i]!='U'){
-             if(s[i]>='A' && s[i]<='Z'){
-                s[i]=s[i]+32;
+    int n; cin>>n;
+    vll arr(n);
+    for0(i,n){
+        cin>>arr[i];
+    }
+    if(n==1){
+        cout<<arr[0]-1<<endl;
+    }
+    else{
+        ll ans=arr[0];
+        for(int i=1;i<n;i++){
+            if(arr[i]-arr[i-1]>0){
+                ll diff=arr[i]-arr[i-1];
+                ans+=max(ll(0),diff);
             }
-            ans.push_back(s[i]);
         }
+        ans-=1;
+        cout<<ans<<endl;
     }
-    for(int i=0;i<ans.length();i++){
-        cout<<"."<<ans[i];
-    }
-    
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    solve();
+    int t;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
 
     return 0;
 }

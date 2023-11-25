@@ -53,22 +53,37 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    string s; cin>>s;
-    string ans="";
-
-    for0(i,s.length()){
-        if(s[i]!='a' && s[i]!='e' && s[i]!='i' && s[i]!='o' && s[i]!='u' && s[i]!='y' 
-        && s[i]!='Y' && s[i]!='A' && s[i]!='E' && s[i]!='I' && s[i]!='O' && s[i]!='U'){
-             if(s[i]>='A' && s[i]<='Z'){
-                s[i]=s[i]+32;
-            }
-            ans.push_back(s[i]);
+    ll n; cin>>n;
+    for(int i=0;i<=n;i++){
+        for(int j=0;j<n-i;j++){
+            cout<<" ";
         }
+        for(int j=0;j<i;j++){
+            cout<<j<<" ";
+        }
+        for(int j=i;j>=0;j--){
+            cout<<j;
+            if(j!=0){
+                cout<<" ";
+            }
+        }
+        cout<<endl;
     }
-    for(int i=0;i<ans.length();i++){
-        cout<<"."<<ans[i];
+    for(int i=n-1;i>=0;i--){
+        for(int j=0;j<n-i;j++){
+            cout<<" ";
+        }
+        for(int j=0;j<i;j++){
+            cout<<j<<" ";
+        }
+        for(int j=i;j>=0;j--){
+            cout<<j;
+            if(j!=0){
+                cout<<" ";
+            }
+        }
+        cout<<endl;
     }
-    
 }
 
 int32_t main() {
