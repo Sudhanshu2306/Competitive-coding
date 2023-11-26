@@ -53,28 +53,30 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    int n ; cin>>n;
-    string s; cin>>s;
-    int count=0;
-    int ans=0;
-    for(int i=0;i<n;i++){
-        if(s[i]=='.'){
-            count++;
-        }
-        else{
-            if(count<=2){
-                ans+=count;
-            }
-            else if(count>2 && count<=4){
-                ans+=2;
-            }
-            else{
-                ans+=(2+(count-4));
-            }
-            count=0;
-        }
+    int a,b,c; cin>>a>>b>>c;
+    vi arr(3);
+    if(abs(b-c)%2==0){
+        arr[0]=1;
     }
-    cout<<ans<<endl;
+    else{
+        arr[0]=0;
+    }
+    if(abs(a-c)%2==0){
+        arr[1]=1;
+    }
+    else{
+        arr[1]=0;
+    }
+    if(abs(a-b)%2==0){
+        arr[2]=1;
+    }
+    else{
+        arr[2]=0;
+    }
+    for(int i=0;i<2;i++){
+        cout<<arr[i]<<" ";
+    }
+    cout<<arr[2]<<endl;
 }
 
 int32_t main() {

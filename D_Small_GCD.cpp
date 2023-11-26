@@ -47,31 +47,26 @@ typedef pair<ll, ll> pll;
 #define debug(x) cerr << #x << " = " << x << endl
 
 // Shortcuts for commonly used functions
-#define gcd __gcd
+// #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
+
+ll gcd(ll a, ll b) {
+    return b == 0 ? a : gcd(b, a % b);
+}
 
 
 void solve() {
     // Your code goes here
-    int n ; cin>>n;
-    string s; cin>>s;
-    int count=0;
-    int ans=0;
-    for(int i=0;i<n;i++){
-        if(s[i]=='.'){
-            count++;
-        }
-        else{
-            if(count<=2){
-                ans+=count;
-            }
-            else if(count>2 && count<=4){
-                ans+=2;
-            }
-            else{
-                ans+=(2+(count-4));
-            }
-            count=0;
+    int n; cin>>n;
+    vll arr(n);
+    for0(i,n){
+        cin>>arr[i];
+    }
+    sort(arr.begin(), arr.end());
+    ll ans=0;
+    for(int i=0;i<=n-3;i++){
+        for(int j=i+1;j<n-1;j++){
+            ans+=(gcd(arr[i],arr[j]))*(n-j-1);
         }
     }
     cout<<ans<<endl;

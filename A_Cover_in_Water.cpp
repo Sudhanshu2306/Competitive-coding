@@ -55,23 +55,26 @@ void solve() {
     // Your code goes here
     int n ; cin>>n;
     string s; cin>>s;
-    int count=0;
     int ans=0;
+    int res=0;
+    int total=0;
     for(int i=0;i<n;i++){
-        if(s[i]=='.'){
-            count++;
+        if(s[i]=='.' && res==1){
+            ans++;
+            total++;
         }
-        else{
-            if(count<=2){
-                ans+=count;
-            }
-            else if(count>2 && count<=4){
-                ans+=2;
-            }
-            else{
-                ans+=(2+(count-4));
-            }
-            count=0;
+        if(total>=3){
+            ans=2;
+            break;
+        }
+        if(s[i]=='.' && res==0){
+            res=1;
+            ans++;
+            total++;
+        }
+        if(res==1 && s[i]=='#'){
+            total=0;
+            res=0;
         }
     }
     cout<<ans<<endl;
@@ -89,5 +92,6 @@ int32_t main() {
 
     return 0;
 }
+
 
 
