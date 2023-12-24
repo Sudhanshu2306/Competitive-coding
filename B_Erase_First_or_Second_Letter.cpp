@@ -23,7 +23,6 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef vector<vi> vvi;
 typedef vector<vll> vvll;
-typedef vector<pair<int,int>> vpii;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 
@@ -51,47 +50,32 @@ typedef pair<ll, ll> pll;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
+// void generateStrings(const string& s, unordered_set<string>& result, string current) {
+//     if (current.length()==0) {
+//         return;
+//     }
+//     current.erase(0,1);
+//     string x=current;
+//     generateStrings(s, result, x.erase(0,1));
+//     result.insert(x);
+//     x=current;
+//     generateStrings(s, result, x.erase(1,1));
+//     result.insert(x);
+    
+// }
 
 void solve() {
     // Your code goes here
     int n; cin>>n;
-    vi l(n), r(n), w(n);
+    string s; cin>>s;
+    unordered_set<char> a;
+    long long int ans=0;
     for0(i,n){
-        cin>>l[i];
-    }
-    for0(i,n){
-        cin>>r[i];
-    }
-    for0(i,n){
-        cin>>w[i];
-    }
-
-    vi a,c;
-    vector<pair<int,bool>> e;
-    sort(w.begin(),w.end(), greater<int>());
-
-    for0(i,n){
-        e.push_back(make_pair(l[i],false));
-        e.push_back(make_pair(r[i],true));
-    }
-
-    sort(e.begin(),e.end());
-    for0(i,e.size()){
-        if(e[i].second==false)
-            c.push_back(e[i].first);
-        else{
-            a.push_back((c.back()-e[i].first));
-            c.pop_back();
-        }
-    }
-    sort(a.begin(),a.end());
-
-    int ans=0;
-    for0(i,n){
-        ans+=a[i]*w[i];
+        a.insert(s[i]);
+        ans+=a.size();
     }
     cout<<ans<<endl;
-
+    
 }
 
 int32_t main() {

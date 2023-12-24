@@ -23,7 +23,6 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef vector<vi> vvi;
 typedef vector<vll> vvll;
-typedef vector<pair<int,int>> vpii;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 
@@ -55,42 +54,32 @@ typedef pair<ll, ll> pll;
 void solve() {
     // Your code goes here
     int n; cin>>n;
-    vi l(n), r(n), w(n);
+    vi arr(n);
     for0(i,n){
-        cin>>l[i];
-    }
-    for0(i,n){
-        cin>>r[i];
-    }
-    for0(i,n){
-        cin>>w[i];
+        cin>>arr[i];
     }
 
-    vi a,c;
-    vector<pair<int,bool>> e;
-    sort(w.begin(),w.end(), greater<int>());
+    int f=0;
+    int z=0;
 
     for0(i,n){
-        e.push_back(make_pair(l[i],false));
-        e.push_back(make_pair(r[i],true));
-    }
-
-    sort(e.begin(),e.end());
-    for0(i,e.size()){
-        if(e[i].second==false)
-            c.push_back(e[i].first);
+        if(arr[i]<0){
+            f=!f;
+        }
+        else if(arr[i]>0){
+            continue;
+        }
         else{
-            a.push_back((c.back()-e[i].first));
-            c.pop_back();
+            z=1;
         }
     }
-    sort(a.begin(),a.end());
-
-    int ans=0;
-    for0(i,n){
-        ans+=a[i]*w[i];
+    if(z||f){
+        cout<<0<<endl;
     }
-    cout<<ans<<endl;
+    else{
+        cout<<1<<endl;
+        cout<<"1 0"<<endl;
+    }
 
 }
 

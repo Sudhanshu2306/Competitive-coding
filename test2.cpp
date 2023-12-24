@@ -23,7 +23,6 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef vector<vi> vvi;
 typedef vector<vll> vvll;
-typedef vector<pair<int,int>> vpii;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 
@@ -54,44 +53,36 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    int n; cin>>n;
-    vi l(n), r(n), w(n);
-    for0(i,n){
-        cin>>l[i];
-    }
-    for0(i,n){
-        cin>>r[i];
-    }
-    for0(i,n){
-        cin>>w[i];
+    int n;
+    cin >> n;
+
+    vll arr(n);
+    for0 (i,n) {
+        cin >> arr[i];
     }
 
-    vi a,c;
-    vector<pair<int,bool>> e;
-    sort(w.begin(),w.end(), greater<int>());
+    unordered_set<int> st;
+    ll ans = 2;
+    ll mod=1e17;
+    while(ans<mod){
+        // unordered_set<int> st;
+        for0(i,n){
+            st.insert(arr[i]%ans);
 
-    for0(i,n){
-        e.push_back(make_pair(l[i],false));
-        e.push_back(make_pair(r[i],true));
-    }
-
-    sort(e.begin(),e.end());
-    for0(i,e.size()){
-        if(e[i].second==false)
-            c.push_back(e[i].first);
-        else{
-            a.push_back((c.back()-e[i].first));
-            c.pop_back();
+            if(st.size()>2){
+                break;
+            }
         }
-    }
-    sort(a.begin(),a.end());
-
-    int ans=0;
-    for0(i,n){
-        ans+=a[i]*w[i];
+        if(st.size()==2){
+            break;
+        }
+        else{
+            st.clear();
+        }
+        ans=ans*2;
     }
     cout<<ans<<endl;
-
+    
 }
 
 int32_t main() {
@@ -106,5 +97,6 @@ int32_t main() {
 
     return 0;
 }
+
 
 
