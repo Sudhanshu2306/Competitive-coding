@@ -6,8 +6,6 @@ using namespace std;
 #define for1(i, n) for (int i = 1; i <= (n); ++i)
 #define rfor0(i, n) for (int i = (n) - 1; i >= 0; --i)
 #define rfor1(i, n) for (int i = (n); i >= 1; --i)
-#define py cout<<"YES"<<endl;
-#define pn cout<<"NO"<<endl;
 
 // Minimum and maximum macros
 #define min3(a, b, c) min(a, min(b, c))
@@ -52,30 +50,51 @@ typedef pair<ll, ll> pll;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
+int f(int A, int B) {
+    int diff=abs(A - B);
+
+    if (diff == 0) {
+        return 0;
+    }
+
+    if (diff % 2 == 1) {
+        return -1;
+    }
+
+    int moves = 0;
+
+    for (int i = 1; i <= diff; ++i) {
+        moves += i;
+        if (moves >= diff) {
+            return i;  
+        }
+    }
+    return -1;
+}
 
 void solve() {
     // Your code goes here
-    int n,k; cin>>n>>k;
-    vi a(n); for0(i,n) cin>>a[i];
+    ll a,b;cin>>a>>b;
+    ll d=abs(a-b);
+    ll y=0; ll x=sqrt(d);
+    x*=2;
+    while(x!=y){
+        ll mid=x+y;mid/=2;
+        ll sum=mid*(mid+1);
+        sum/=2;
+        if(sum>=d)x=mid;
+        else y=mid+1;
+    }
 
-    ll p=1; for0(i,n) p*=a[i];
-    int ans=6;
-    for(int i=0;i<n;i++){
-        ans=(a[i] % k==0)?0:min(ans,(k-a[i]%k));
+    if(d%2==0){
+        if(y%4==1)y+=2;
+        else if(y%4==2)y++;
     }
-    if(k==4){
-        int cnt=0;
-        
-        for(int i=0;i<n;i++){
-            if(a[i]%2==0) cnt++;
-            
-            if(cnt > 1) ans=0;
-            else{
-                ans=min(ans,2-cnt);
-            }
-        }
+    if(d%2==1){
+        if(y%4==3)y+=2;
+        else if(y%4==0)y++;
     }
-    cout<<ans<<endl;
+    cout<<y<<endl;
 }
 
 int32_t main() {

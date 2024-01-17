@@ -6,8 +6,6 @@ using namespace std;
 #define for1(i, n) for (int i = 1; i <= (n); ++i)
 #define rfor0(i, n) for (int i = (n) - 1; i >= 0; --i)
 #define rfor1(i, n) for (int i = (n); i >= 1; --i)
-#define py cout<<"YES"<<endl;
-#define pn cout<<"NO"<<endl;
 
 // Minimum and maximum macros
 #define min3(a, b, c) min(a, min(b, c))
@@ -55,27 +53,28 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    int n,k; cin>>n>>k;
-    vi a(n); for0(i,n) cin>>a[i];
-
-    ll p=1; for0(i,n) p*=a[i];
-    int ans=6;
-    for(int i=0;i<n;i++){
-        ans=(a[i] % k==0)?0:min(ans,(k-a[i]%k));
-    }
-    if(k==4){
-        int cnt=0;
-        
-        for(int i=0;i<n;i++){
-            if(a[i]%2==0) cnt++;
-            
-            if(cnt > 1) ans=0;
-            else{
-                ans=min(ans,2-cnt);
-            }
+    int n; cin>>n;
+    string s; cin>>s;
+    string x=s;
+    // sort(s.begin(),s.end());
+    char ch=s[n-1];
+    int ind=-1;
+    for(int i=0;i<n-1;i++){
+        if(s[i]>s[i+1]){
+            ind=i; break;
         }
     }
-    cout<<ans<<endl;
+    if(ind==-1){
+        string d=s.substr(0,n-1);
+        cout<<d<<endl;
+    }
+    else{
+        string a=s.substr(0,ind);
+        string b=s.substr(ind+1);
+        string res=a+b;
+        cout<<res<<endl;
+    }
+
 }
 
 int32_t main() {
