@@ -23,14 +23,12 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef vector<vi> vvi;
 typedef vector<vll> vvll;
-typedef vector<pair<int,int>> vpii;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 
 // 2D vector initialization
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
 #define vvll(a, m, n, x) vector<vector<ll>> a(m, vector<ll>(n, x))
-#define sort(a) sort(a.begin(),a.end())
 
 // map & set
 #define umap unordered_map
@@ -55,7 +53,15 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    
+    int n; cin>>n;
+    long long int count=1;
+       for(int i=2;i*i<=n;i++){
+           if(n%i==0){
+               count=n/i;
+               break;
+           }
+       }
+       cout<<count<<" "<<n-count<<endl;
 }
 
 int32_t main() {
@@ -70,3 +76,5 @@ int32_t main() {
 
     return 0;
 }
+
+

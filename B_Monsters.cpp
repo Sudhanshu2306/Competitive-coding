@@ -23,14 +23,12 @@ typedef vector<int> vi;
 typedef vector<ll> vll;
 typedef vector<vi> vvi;
 typedef vector<vll> vvll;
-typedef vector<pair<int,int>> vpii;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 
 // 2D vector initialization
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
 #define vvll(a, m, n, x) vector<vector<ll>> a(m, vector<ll>(n, x))
-#define sort(a) sort(a.begin(),a.end())
 
 // map & set
 #define umap unordered_map
@@ -52,10 +50,31 @@ typedef pair<ll, ll> pll;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
+bool cmp(const pair<int, int>& a, const pair<int, int>& b) {
+    if (a.first != b.first) {
+        return a.first > b.first;
+    } else {
+        return a.second < b.second;
+    }
+}
 
 void solve() {
     // Your code goes here
-    
+    int n,p; cin>>n>>p;
+    vector<pll> a;
+
+    for1(i,n) {
+        int j; cin>>j;
+        if(j>p) {
+            if(j%p>0) j%=p;
+            else j=p;
+        }
+        a.push_back(make_pair(j,i));
+    }
+    sort(a.begin(),a.end(),cmp);
+    for(auto i:a){
+        cout<<i.second<<" ";
+    } cout<<endl;
 }
 
 int32_t main() {
@@ -70,3 +89,5 @@ int32_t main() {
 
     return 0;
 }
+
+
