@@ -74,7 +74,8 @@
     "unordered_set": "cpp",
     "vector": "cpp",
     "initializer_list": "cpp",
-    "valarray": "cpp"
+    "valarray": "cpp",
+    "*.tcc": "cpp"
   },
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "C_Cpp.errorSquiggles": "disabled"
