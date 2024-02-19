@@ -53,55 +53,25 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    ll n; cin>>n;
-    char c; cin>>c;
-
-    map<char,vector<string>> mp;
-    for(int i=0;i<2*n;i++){
-        string s; cin>>s;
-        mp[s[1]].push_back(s);
+    int n; cin>>n; 
+    vi a(n);
+    ll sum=0;
+    ll c1=0,c0=0;
+    for0(i,n){
+        cin>>a[i];
+        sum+=a[i];
+        if(a[i]==1) c1++;
+        if(a[i]==0) c0++;
     }
-
-    vector<char> arr;
-    arr.push_back('C');
-    arr.push_back('D');
-    arr.push_back('H');
-    arr.push_back('S');
-
-    vector<pair<string,string>> ans;
- 
-
-    for(int i=0;i<arr.size();i++) 
-        sort(mp[arr[i]].begin(),mp[arr[i]].end());
-    ll count=0;
-    for(ll i=0;i<arr.size();i++){
-        if(arr[i]!=c){
-            if(mp[arr[i]].size()%2==1) count++;
-        }
-    }
-
-    if(count>mp[c].size()||mp[c].size()%2!=count%2)cout<<"IMPOSSIBLE"<<endl;
-    else {
-
-        for(ll i=0;i<arr.size();i++){
-            if(arr[i]!=c){
-                if(mp[arr[i]].size()%2==1){
-                    cout<<mp[arr[i]][mp[arr[i]].size()-1]<<" "<<mp[c][mp[c].size()-1]<<endl;
-                    mp[arr[i]].pop_back();
-                    mp[c].pop_back();
-                }
-            }
-        }
-
-        for(ll i=0;i<arr.size();i++){
-            char a=arr[i];
-            // ll j=0;
-            for(int j=0;j<mp[a].size();j+=2){
-                cout<<mp[a][j]<<" "<<mp[a][j+1]<<endl;
-                // j+=2;
-            }
-        }
+    if(c1==0){
+        cout<<0<<endl; return;
     } 
+    if(c0==0){
+        cout<<c1<<endl; return;
+    }
+    ll ans=pow(2,c0)*c1;
+    cout<<(ll)ans<<endl;
+
 }
 
 int32_t main() {

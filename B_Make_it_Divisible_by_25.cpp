@@ -50,58 +50,32 @@ typedef pair<ll, ll> pll;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
+int f(string s, string t){
+    ll c=0;
+    ll x=s.length();
+
+    while(s.length()>0 && t.length()>0){
+        if(s.back()==t.back()){
+            t.pop_back();
+        }
+        else{
+            c++;
+        }
+        s.pop_back();
+    }
+    if(t.length()==0) return c;
+    else return x;
+}
 
 void solve() {
     // Your code goes here
-    ll n; cin>>n;
-    char c; cin>>c;
-
-    map<char,vector<string>> mp;
-    for(int i=0;i<2*n;i++){
-        string s; cin>>s;
-        mp[s[1]].push_back(s);
+    string s; cin>>s;
+    if(s.length()<2){
+        cout<<s.length()<<endl; return;
     }
-
-    vector<char> arr;
-    arr.push_back('C');
-    arr.push_back('D');
-    arr.push_back('H');
-    arr.push_back('S');
-
-    vector<pair<string,string>> ans;
- 
-
-    for(int i=0;i<arr.size();i++) 
-        sort(mp[arr[i]].begin(),mp[arr[i]].end());
-    ll count=0;
-    for(ll i=0;i<arr.size();i++){
-        if(arr[i]!=c){
-            if(mp[arr[i]].size()%2==1) count++;
-        }
+    else{
+        cout<<min({f(s,"00"),f(s,"25"),f(s,"50"),f(s,"75")})<<endl;
     }
-
-    if(count>mp[c].size()||mp[c].size()%2!=count%2)cout<<"IMPOSSIBLE"<<endl;
-    else {
-
-        for(ll i=0;i<arr.size();i++){
-            if(arr[i]!=c){
-                if(mp[arr[i]].size()%2==1){
-                    cout<<mp[arr[i]][mp[arr[i]].size()-1]<<" "<<mp[c][mp[c].size()-1]<<endl;
-                    mp[arr[i]].pop_back();
-                    mp[c].pop_back();
-                }
-            }
-        }
-
-        for(ll i=0;i<arr.size();i++){
-            char a=arr[i];
-            // ll j=0;
-            for(int j=0;j<mp[a].size();j+=2){
-                cout<<mp[a][j]<<" "<<mp[a][j+1]<<endl;
-                // j+=2;
-            }
-        }
-    } 
 }
 
 int32_t main() {

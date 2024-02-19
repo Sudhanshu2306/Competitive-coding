@@ -70,7 +70,7 @@ void solve() {
     ll val=1;
     for(int i=n-2;i>=-1;i--){
         val=x%m;
-        x=x%m;
+        x=val;
         
         ans.push_back(val);
         if(s[i]=='L'){
