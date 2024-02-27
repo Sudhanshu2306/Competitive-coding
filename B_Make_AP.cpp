@@ -53,17 +53,15 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    int n; cin>>n;
-    string x;cin>>x;
-    int ans=0;
-    for0 ( i,n){
-        if( x[i]=='@') ans++;
+    int a,b,c; cin>>a>>b>>c;
+    /*3-cases:
+    i.e changes a or b or c;
 
-        if(x[i]== '*'){
-            if( x[i+1]== '*')break;
-        }
-    }
-    cout<< ans<<endl;
+    */
+
+    if(((a+c>=2*b && (a+c)%(2*b)==0)) || ((2*b-a>=c && (2*b-a)%c==0)) || ((2*b-c>=a && (2*b-c)%a==0)))
+        cout<<"YES"<<endl;
+    else cout<<"NO"<<endl;
 }
 
 int32_t main() {

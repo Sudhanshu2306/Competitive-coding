@@ -54,16 +54,7 @@ typedef pair<ll, ll> pll;
 void solve() {
     // Your code goes here
     int n; cin>>n;
-    string x;cin>>x;
-    int ans=0;
-    for0 ( i,n){
-        if( x[i]=='@') ans++;
-
-        if(x[i]== '*'){
-            if( x[i+1]== '*')break;
-        }
-    }
-    cout<< ans<<endl;
+    cout<<1<<" "<<n-2-1<<" "<<1<<" "<<1<<endl;
 }
 
 int32_t main() {

@@ -53,17 +53,41 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    int n; cin>>n;
-    string x;cin>>x;
-    int ans=0;
-    for0 ( i,n){
-        if( x[i]=='@') ans++;
+    int n; cin>>n; 
+    ll k; cin>>k;
+    vi a(n); 
+    vector<pair<int,int>> arr; 
 
-        if(x[i]== '*'){
-            if( x[i+1]== '*')break;
-        }
+    for0(i,n) { 
+        cin>>a[i]; 
+    } 
+    for0(i,n) { 
+        int num; cin>>num; 
+        arr.push_back({abs(num), a[i]}); 
+    } 
+
+    int res=1; 
+    ll s=0; 
+
+    sort(arr.begin(),arr.end()); 
+    
+    for0(i, arr.size()){ 
+        int x=arr[i].first; 
+         
+        s=s+arr[i].second; 
+        int y = s/k;
+ 
+        if(s % k!=0) y++; 
+        if(y > x) res=0;
+        
+    } 
+
+    if(res) {
+        cout<<"YES"<<endl; 
+    } 
+    else {
+        cout<<"NO"<<endl;
     }
-    cout<< ans<<endl;
 }
 
 int32_t main() {

@@ -54,16 +54,26 @@ typedef pair<ll, ll> pll;
 void solve() {
     // Your code goes here
     int n; cin>>n;
-    string x;cin>>x;
-    int ans=0;
-    for0 ( i,n){
-        if( x[i]=='@') ans++;
+    vi a(n);
+    for0(i,n) cin>>a[i];
 
-        if(x[i]== '*'){
-            if( x[i+1]== '*')break;
-        }
+    map<int,int> mp;
+    int maxi=INT_MIN;
+    for(auto i:a){
+        mp[i]++;
     }
-    cout<< ans<<endl;
+    for(int i=0;i<n;i++){
+        maxi=max(maxi,mp[a[i]]);
+    }
+    int rem=n-maxi;
+    int inc=0;
+    int x=0;
+    while(x<rem){
+        inc++;
+        x+=maxi;
+        maxi*=2;
+    }
+    cout<<rem+inc<<endl;
 }
 
 int32_t main() {
