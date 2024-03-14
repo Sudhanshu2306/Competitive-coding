@@ -53,15 +53,54 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    int n; cin>>n;
-    vi a(n+1,0);
-    int count=0;
-    for1(i,n){
-        cin>>a[i];
-        if(a[i]>0 && a[i-1]==0) count++;
-    } 
-    cout<<min(count,2)<<endl;
-        
+    int n,m,x;
+    cin>>n>>m>>x;
+
+    vector<pair<int,char>> arr;
+    for(int i=0;i<m;++i){
+        int r;
+        char c;
+        cin>>r>>c;
+        arr.push_back({r, c});
+    }
+
+    set<int> p;
+    p.insert(x);
+
+    for(auto& th:arr){
+        set<int> np;
+        for(int pl : p){
+            int npw;
+            if (th.second == '0'){
+                npw = (pl + th.first) % n;
+                if (npw == 0)
+                    npw = n;
+            } 
+            else if(th.second == '1'){
+                npw=(pl-th.first+n)%n;
+                if(npw==0)
+                    npw = n;
+            } 
+            else{
+                int npcw = (pl + th.first) % n;
+                if (npcw == 0)
+                    npcw = n;
+                int npccw = (pl - th.first + n) % n;
+                if (npccw == 0)
+                    npccw = n;
+                np.insert(npcw);
+                np.insert(npccw);
+                continue;
+            }
+            np.insert(npw);
+        }
+        p=np;
+    }
+
+    cout<<p.size()<<endl;
+    for (int pl : p)
+        cout << pl << " ";
+    cout << endl;
 }
 
 int32_t main() {

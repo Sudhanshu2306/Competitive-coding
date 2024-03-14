@@ -54,14 +54,30 @@ typedef pair<ll, ll> pll;
 void solve() {
     // Your code goes here
     int n; cin>>n;
-    vi a(n+1,0);
-    int count=0;
-    for1(i,n){
-        cin>>a[i];
-        if(a[i]>0 && a[i-1]==0) count++;
-    } 
-    cout<<min(count,2)<<endl;
-        
+    string s; cin>>s;
+
+    int countmap=0; int countpie=0;
+    int countcommon=0;
+    for0(i,n){
+        if(s.substr(i,5)=="mapie"){
+            countcommon++;
+            i+=4;
+        } 
+    }
+    for0(i,n){
+        if(s.substr(i,3)=="map"){
+            countmap++;
+            i+=2;
+        } 
+    }
+    for0(i,n){
+        if(s.substr(i,3)=="pie"){
+            countpie++;
+            i+=2;
+        } 
+    }
+    
+    cout<<countmap+countpie-countcommon<<endl;
 }
 
 int32_t main() {

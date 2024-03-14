@@ -53,15 +53,19 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    int n; cin>>n;
-    vi a(n+1,0);
+    int n,m,k; cin>>n>>m>>k;
+    vi b(n);
+    for0(i,n) cin>>b[i];
+    vi c(m);
+    for0(i,m) cin>>c[i];
+
     int count=0;
-    for1(i,n){
-        cin>>a[i];
-        if(a[i]>0 && a[i-1]==0) count++;
-    } 
-    cout<<min(count,2)<<endl;
-        
+    for0(i,n){
+        for0(j,m){
+            if(b[i]+c[j]<=k) count++;
+        }
+    }
+    cout<<count<<endl;
 }
 
 int32_t main() {
@@ -76,5 +80,6 @@ int32_t main() {
 
     return 0;
 }
+
 
 
