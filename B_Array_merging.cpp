@@ -59,7 +59,7 @@ void solve() {
 
     for0(i,n) cin>>a[i];
     for0(i,n) cin>>b[i];
-    
+
     unordered_map<int,int> mp;
 
     int count=1;
@@ -70,13 +70,17 @@ void solve() {
         }
         else{
             if(mp[a[i-1]]!=0){
-                if(mp[a[i-1]]<count) mp[a[i-1]]=count;
-                if(ans1<count) ans1=count;
+                int x=mp[a[i-1]];
+                if(x<count){
+                    mp[a[i-1]]=count;
+                    if(ans1<count) ans1=count;
+                } 
             }
             else{
                 mp[a[i-1]]=count;
                 if(ans1<count) ans1=count;
             }
+            count=1;
         }
     }
     mp[a[n-1]]=max(mp[a[n-1]],count);
@@ -95,7 +99,7 @@ void solve() {
             count=1;
         }
     }
-    if(count+mp[b[n-1]]) ans2=mp[b[n-1]]+count;
+    if(count+mp[b[n-1]]>ans2) ans2=mp[b[n-1]]+count;
 
     if(ans1>ans2) cout<<ans1<<endl;
     else cout<<ans2<<endl;
