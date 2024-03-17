@@ -53,53 +53,25 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    int  n; cin>>n; 
-    vi a(n);
-    vi b(n);
+    int n; cin>>n;
 
-    for0(i,n) cin>>a[i];
-    for0(i,n) cin>>b[i];
-    
-    unordered_map<int,int> mp;
-
-    int count=1;
-    int ans1=INT_MIN;
-    for(int i=1;i<n;i++){
-        if(a[i]==a[i-1]){
-            count++;
-        }
-        else{
-            if(mp[a[i-1]]!=0){
-                if(mp[a[i-1]]<count) mp[a[i-1]]=count;
-                if(ans1<count) ans1=count;
-            }
-            else{
-                mp[a[i-1]]=count;
-                if(ans1<count) ans1=count;
-            }
-        }
+    int x=sqrt(n);
+    string ans="";
+    for0(i,x){
+        ans+="X";
     }
-    mp[a[n-1]]=max(mp[a[n-1]],count);
-    if(ans1<count) ans1=count;
-
-    count=1;
-    int ans2=INT_MIN;
-    for(int i=1;i<n;i++){
-        if(b[i]==b[i-1]){
-            count++;
-        }
-        else{
-            if(ans2<count+mp[b[i-1]]){
-                ans2=mp[b[i-1]]+count;
-            }
-            count=1;
-        }
+    for0(i,x){
+        ans+="D";
     }
-    if(count+mp[b[n-1]]) ans2=mp[b[n-1]]+count;
 
-    if(ans1>ans2) cout<<ans1<<endl;
-    else cout<<ans2<<endl;
-
+    int rem=n-x*x;
+    while(rem>x){
+        rem-=x; 
+        ans+="D";
+        x++;
+    }
+    if(rem>0) ans.insert(ans.size()-rem,"X");
+    cout<<ans<<endl;
 }
 
 int32_t main() {
