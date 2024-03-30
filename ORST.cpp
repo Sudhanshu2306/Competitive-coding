@@ -26,7 +26,6 @@ typedef vector<vll> vvll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 
-
 // 2D vector initialization
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
 #define vvll(a, m, n, x) vector<vector<ll>> a(m, vector<ll>(n, x))
@@ -34,6 +33,7 @@ typedef pair<ll, ll> pll;
 // map & set
 #define umap unordered_map
 #define umset unordered_set
+
 // Iterate over container elements
 #define foreach(it, v) for (auto it = v.begin(); it != v.end(); ++it)
 #define fori(i, a, b) for (int i = a; i <= b; ++i)
@@ -50,54 +50,27 @@ typedef pair<ll, ll> pll;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
-int cc(string s){
-    int a = 0,ab = 0,abc = 0;
-    for(char c : s){
-        if(c=='a'){
-            a=(2 * a)+1;
-        } 
-        else if (c == 'b') {
-            ab+=a;
-        } 
-        else if(c == 'c'){
-            abc+=ab;
-        }
-    }
-    return abc;
-}
 
 void solve() {
     // Your code goes here
-    int n; cin>>n;
-    string a; cin>>a;
-    string b; cin>>b;
-    vi arr,brr,crr;
-    bool flag=1;
-    if(a==b){
-        cout<<"Yes"<<endl;
-        return;
+    int n,m; cin>>n>>m;
+    vi a(n),b(m);
+
+    for0(i,n) cin>>a[i];
+    for0(i,m) cin>>b[i];
+
+    int x=*max_element(b.begin(),b.end());
+    vi c;
+    for(int i=n-x;i<n;i++){
+        c.push_back(a[i]);
     }
-    else{
-        for0(i,n){
-            if(a[i]=='b' && b[i]=='b') brr.push_back(i);
-            else if(a[i]=='a' && b[i]=='c') arr.push_back(i);
-            else if(a[i]=='c' && b[i]=='a') crr.push_back(i);
-            else if(a[i]==b[i]) continue;
-            else{
-                cout<<"NO"<<endl; return;
-            } 
-        }
-        if(arr.size()!=crr.size()){
-            cout<<"NO"<<endl; return;
-        }
-        for0(i,arr.size()){
-            auto x=upper_bound(brr.begin(),brr.end(),arr[i]);
-            if(x==brr.end() || (*x > crr[i])){
-                cout<<"NO"<<endl; return;
-            }
-        }
-        cout<<"YES"<<endl;
+    sort(c.begin(),c.end());
+    int j=0;
+    for(int i=n-x;i<n;i++){
+        a[i]=c[j++];
     }
+    for0(i,n) cout<<a[i]<<" ";
+    cout<<endl;
 }
 
 int32_t main() {

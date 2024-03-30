@@ -2,7 +2,7 @@
 using namespace std;
 
 // Commonly used loops
-#define for0(i, n) for (int i = 0; i < (n); ++i)
+#define for0(i, n) for (int i = 0; i < (n); i++)
 #define for1(i, n) for (int i = 1; i <= (n); ++i)
 #define rfor0(i, n) for (int i = (n) - 1; i >= 0; --i)
 #define rfor1(i, n) for (int i = (n); i >= 1; --i)
@@ -25,7 +25,8 @@ typedef vector<vi> vvi;
 typedef vector<vll> vvll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
-
+typedef vector<bool> vb;
+typedef vector<pair<int,int>> vpii;
 
 // 2D vector initialization
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
@@ -34,6 +35,7 @@ typedef pair<ll, ll> pll;
 // map & set
 #define umap unordered_map
 #define umset unordered_set
+
 // Iterate over container elements
 #define foreach(it, v) for (auto it = v.begin(); it != v.end(); ++it)
 #define fori(i, a, b) for (int i = a; i <= b; ++i)
@@ -50,54 +52,59 @@ typedef pair<ll, ll> pll;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
-int cc(string s){
-    int a = 0,ab = 0,abc = 0;
-    for(char c : s){
-        if(c=='a'){
-            a=(2 * a)+1;
-        } 
-        else if (c == 'b') {
-            ab+=a;
-        } 
-        else if(c == 'c'){
-            abc+=ab;
+vi ss() {
+    vb pp(1e5+1,true);
+    vi p;
+    
+    pp[0]=pp[1]=false;
+    for(int i=2;i*i<=1e5;i++){
+        if(pp[i]) 
+            for(int j=i*i;j<=1e5;j+=i)
+                pp[j]=false;
+            
+        
+    }
+    for(int i=2;i<=1e5;i++) {
+        if(pp[i]) {
+            p.push_back(i);
         }
     }
-    return abc;
+    return p;
 }
+
+
+bool f(int num){ 
+    while(num > 0){
+        int digit = num % 10;
+        if (digit != 0 && digit != 1) {
+            return false;
+        }
+        num /= 10;
+    }
+    return true; 
+}
+
 
 void solve() {
     // Your code goes here
-    int n; cin>>n;
-    string a; cin>>a;
-    string b; cin>>b;
-    vi arr,brr,crr;
-    bool flag=1;
-    if(a==b){
-        cout<<"Yes"<<endl;
-        return;
+    ll a; cin>>a;
+    // vi p=ss();
+    bool flag=false;
+    
+    vll store={100000,1,121,111,101,10,11,100,110,1010,1000,1001,1011,1100,1111,1101,1110,10000,10001,10010,10011,10100,10101,10111,10110,11000,111001,11010,11011,11100,11101,11110,11111};
+    int x=store.size();
+    for0(i, x){
+        if(a%store[i]==0){
+            // if(store[i]!=a)
+            // cout<<"YES"<<endl;
+            flag=true;
+            // return; 
+            break;
+        } 
+        // else cout<<"NO"<<endl;
     }
-    else{
-        for0(i,n){
-            if(a[i]=='b' && b[i]=='b') brr.push_back(i);
-            else if(a[i]=='a' && b[i]=='c') arr.push_back(i);
-            else if(a[i]=='c' && b[i]=='a') crr.push_back(i);
-            else if(a[i]==b[i]) continue;
-            else{
-                cout<<"NO"<<endl; return;
-            } 
-        }
-        if(arr.size()!=crr.size()){
-            cout<<"NO"<<endl; return;
-        }
-        for0(i,arr.size()){
-            auto x=upper_bound(brr.begin(),brr.end(),arr[i]);
-            if(x==brr.end() || (*x > crr[i])){
-                cout<<"NO"<<endl; return;
-            }
-        }
-        cout<<"YES"<<endl;
-    }
+    if(flag) cout<<"YES"<<endl;
+    else cout<<"NO"<<endl;
 }
 
 int32_t main() {
