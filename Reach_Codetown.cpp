@@ -50,32 +50,32 @@ typedef pair<ll, ll> pll;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
-int f(vi &arr,int k, int n){
-    unordered_map<int,int> mp;
-    mp[0]=1;
-    int count=0;
-    int sum=0;
-    for(int i=0;i<n;i++){
-        sum+=arr[i];
-        int x=sum-k;
-        if(mp.find(x)!=mp.end()) count+=mp[x];
-        mp[sum]++;
-    }
-    return count;
+bool isVowel(char ch){
+    if(ch=='A'||ch=='E'||ch=='I'||ch=='O'||ch=='U') return true;
+    else return false;
 }
-
 void solve() {
     // Your code goes here
-    int n; cin>>n;
-    vi arr(n);
-    for0(i,n){
-        cin>>arr[i];
+    string s; cin>>s;
+    string ans="CAPETOWN";
+    int v=0,c=0;
+    for0(i,8){
+        if(s[i]=='A'||s[i]=='E'||s[i]=='I'||s[i]=='O'||s[i]=='U') v++;
+        else c++;
     }
-    vi ans(n);
-    for(int i=n-1;i>=0;i--){
-        cout<<f(arr,arr[i],n)<<" ";
-    }
-    cout<<endl;
+    if(v==3 && c==5){
+        for0(i,8){
+            if ((isVowel(s[i]) && isVowel(ans[i])) || (!isVowel(s[i]) && !isVowel(ans[i]))) {
+            }
+
+            else{
+                cout<<"NO"<<endl;
+                return;
+            }
+        } 
+        cout<<"YES"<<endl;
+    } 
+    else cout<<"NO"<<endl;
 
 }
 
@@ -91,6 +91,5 @@ int32_t main() {
 
     return 0;
 }
-
 
 

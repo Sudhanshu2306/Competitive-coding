@@ -50,33 +50,30 @@ typedef pair<ll, ll> pll;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
-int f(vi &arr,int k, int n){
-    unordered_map<int,int> mp;
-    mp[0]=1;
-    int count=0;
-    int sum=0;
-    for(int i=0;i<n;i++){
-        sum+=arr[i];
-        int x=sum-k;
-        if(mp.find(x)!=mp.end()) count+=mp[x];
-        mp[sum]++;
-    }
-    return count;
-}
 
 void solve() {
     // Your code goes here
-    int n; cin>>n;
-    vi arr(n);
+    ll n; cin>>n;
+    vll a(n);
+    unordered_map<int,int> mp;
     for0(i,n){
-        cin>>arr[i];
+        cin>>a[i];
+        mp[a[i]]++;
+    } 
+    int x=mp.size();
+    if(mp.size()==1) cout<<"YES"<<endl;
+    else if(mp.size()==2){
+        int x=0,y=0;
+        for(auto i:mp){
+            y=x;
+            x=i.second;
+        }
+        if(abs(x-y)==1 && n%2==1) cout<<"YES"<<endl;
+        else if(abs(x-y)==0 && n%2==0) cout<<"YES"<<endl;
+        else cout<<"NO"<<endl;
     }
-    vi ans(n);
-    for(int i=n-1;i>=0;i--){
-        cout<<f(arr,arr[i],n)<<" ";
-    }
-    cout<<endl;
-
+    else cout<<"NO"<<endl;
+    
 }
 
 int32_t main() {
@@ -91,6 +88,5 @@ int32_t main() {
 
     return 0;
 }
-
 
 

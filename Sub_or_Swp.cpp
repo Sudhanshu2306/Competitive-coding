@@ -50,40 +50,24 @@ typedef pair<ll, ll> pll;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
-int f(vi &arr,int k, int n){
-    unordered_map<int,int> mp;
-    mp[0]=1;
-    int count=0;
-    int sum=0;
-    for(int i=0;i<n;i++){
-        sum+=arr[i];
-        int x=sum-k;
-        if(mp.find(x)!=mp.end()) count+=mp[x];
-        mp[sum]++;
-    }
-    return count;
-}
 
 void solve() {
     // Your code goes here
-    int n; cin>>n;
-    vi arr(n);
-    for0(i,n){
-        cin>>arr[i];
-    }
-    vi ans(n);
-    for(int i=n-1;i>=0;i--){
-        cout<<f(arr,arr[i],n)<<" ";
-    }
-    cout<<endl;
+    ll x,y; cin>>x>>y;
 
+    while(y>0){        
+        ll z=y;
+        y=x%y;
+        x=z;   
+    }
+    cout<<x<<endl;
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    int t;
+    ll t;
     cin >> t;
     while (t--) {
         solve();
@@ -91,6 +75,5 @@ int32_t main() {
 
     return 0;
 }
-
 
 
