@@ -53,20 +53,21 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    int n,m,x;
-    cin>>n>>m>>x;
-
-    vector<pair<int,char>> arr;
-    for(int i=0;i<m;++i){
-        int r;
-        char c;
-        cin>>r>>c;
-        arr.push_back({r, c});
+    // <=12
+    int a,b,c,d; cin>>a>>b>>c>>d;
+    // a-b c-d
+    
+    if(b < a) swap(a, b);
+    if(c > d) swap(c, d);
+    
+    if(a < c && b < d && c < b || c < a && d < b && a < d){
+        cout<<"YES"<<endl;
+        return;
     }
-
-    set<int> p;
-    p.insert(x);
-
+    else{
+        cout<<"NO"<<endl;
+        return;
+    }
     
 }
 

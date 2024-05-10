@@ -53,21 +53,30 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    int n,m,x;
-    cin>>n>>m>>x;
-
-    vector<pair<int,char>> arr;
-    for(int i=0;i<m;++i){
-        int r;
-        char c;
-        cin>>r>>c;
-        arr.push_back({r, c});
+    string s; cin>>s;
+    int n=s.size();
+    int f=1;
+    for1(i,n-1){
+        if(s[i]=='0' && s[i-1]=='1'){
+            f=0; break;
+        }
     }
+    int count=0;
+    if(f==1){
+        cout<<1<<endl;
+        return;
+    }
+    else{
+        for1(i,n-1){
+            if(s[i]=='1' && s[i-1]=='0' || s[i]=='0' && s[i-1]=='1'){
+                if(s[i]=='1' && s[i-1]=='0') f=1;
 
-    set<int> p;
-    p.insert(x);
-
-    
+                count++;
+            }
+            
+        }
+        cout<<count-f+1<<endl;
+    }
 }
 
 int32_t main() {

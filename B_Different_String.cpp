@@ -53,21 +53,32 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    int n,m,x;
-    cin>>n>>m>>x;
+    string s; cin>>s;
+    unordered_map<char,int> mp;
 
-    vector<pair<int,char>> arr;
-    for(int i=0;i<m;++i){
-        int r;
-        char c;
-        cin>>r>>c;
-        arr.push_back({r, c});
+    if(s.size()==1) {
+        cout<<"NO"<<endl;
+        return;
     }
-
-    set<int> p;
-    p.insert(x);
-
-    
+    else{
+        for0(i,s.size()){
+            mp[s[i]]++;
+        }
+        if(mp.size()==1){
+            cout<<"NO"<<endl;
+            return;
+        }
+        else{
+            for1(i,s.size()-1){
+                if(s[i]!=s[i-1]){
+                    swap(s[i],s[i-1]);
+                    break;
+                }
+            }
+            cout<<"YES"<<endl;
+            cout<<s<<endl;
+        }
+    }
 }
 
 int32_t main() {

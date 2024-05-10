@@ -53,21 +53,8 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    int n,m,x;
-    cin>>n>>m>>x;
-
-    vector<pair<int,char>> arr;
-    for(int i=0;i<m;++i){
-        int r;
-        char c;
-        cin>>r>>c;
-        arr.push_back({r, c});
-    }
-
-    set<int> p;
-    p.insert(x);
-
-    
+    int x,y; cin>>x>>y;
+    cout<<min(x,y)<<" "<<max(x,y)<<endl;
 }
 
 int32_t main() {

@@ -53,21 +53,14 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    int n,m,x;
-    cin>>n>>m>>x;
+    ll r; cin>>r;
+    ll count = 0;
+    for (ll i=-r;i<=r;i++){
+		ll x=r*r-i*i,y=(r+1)*(r+1)-i*i-1;
+		count+=(ll)(sqrtl(y))-(ll)(sqrtl(x))+((ll)(sqrtl(x))==sqrtl(x));
+	}
+	cout<<count*2-2<<endl;
 
-    vector<pair<int,char>> arr;
-    for(int i=0;i<m;++i){
-        int r;
-        char c;
-        cin>>r>>c;
-        arr.push_back({r, c});
-    }
-
-    set<int> p;
-    p.insert(x);
-
-    
 }
 
 int32_t main() {

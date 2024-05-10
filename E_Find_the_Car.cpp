@@ -53,21 +53,15 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    int n,m,x;
-    cin>>n>>m>>x;
+    int n,k,q; cin>>n>>k>>q;
+    vi a(n); for0(i,n) cin>>a[i];
+    vi b(n); for0(i,n) cin>>b[i];
 
-    vector<pair<int,char>> arr;
-    for(int i=0;i<m;++i){
-        int r;
-        char c;
-        cin>>r>>c;
-        arr.push_back({r, c});
-    }
-
-    set<int> p;
-    p.insert(x);
-
-    
+    vi d(q);
+    for0(i,q){
+        // int d;
+        cin>>d[i];  
+    } 
 }
 
 int32_t main() {
