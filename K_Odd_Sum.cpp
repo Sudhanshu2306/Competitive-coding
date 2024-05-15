@@ -55,6 +55,21 @@ void solve() {
     // Your code goes here
     int n,k; cin>>n>>k;
     
+    // k can never be odd, it has to be even
+    for(int i=1;i<=k;i++){
+        cout<<i<<" ";
+    }
+    int i,j; i=k+2;
+    while(i<=n){
+        cout<<i<<" ";
+        i+=2;
+    }
+    j=k+1;
+    while(j<=n){
+        cout<<j<<" ";
+        j+=2;
+    }
+    cout<<endl;
 }
 
 int32_t main() {

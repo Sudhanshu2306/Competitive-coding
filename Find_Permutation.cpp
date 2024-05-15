@@ -55,8 +55,15 @@ void solve() {
     // Your code goes here
     int n; cin>>n;
     vi a(2*n);
-    for(int i:a) cin>>i;
-    
+    set<int> st;
+    vi ans;
+    for(int i:a){
+        cin>>i;
+        if(st.find(i)==st.end()) ans.push_back(i);
+        st.insert(i);
+    } 
+    for(auto i:ans) cout<<i<<" ";
+    cout<<endl;
 }
 
 int32_t main() {

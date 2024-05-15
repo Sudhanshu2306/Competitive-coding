@@ -53,19 +53,7 @@ typedef pair<ll, ll> pll;
 
 void solve() {
     // Your code goes here
-    ll n,k,pb,ps;
-	cin>>n>>k>>pb>>ps;
-	ll p[n+1],a[n+1];
-	for(int i=1;i<=n;i++)cin>>p[i];
-	for(int i=1;i<=n;i++)cin>>a[i];
-	ll mxb=0,mxs=0,b=0,s=0;
-	for(int i=1;i<=min(n,k);i++){
-		b+=a[pb],s+=a[ps];
-		mxb=max(mxb,b+(k-i)*a[pb]);
-		mxs=max(mxs,s+(k-i)*a[ps]);
-		pb=p[pb];ps=p[ps];
-	}
-	cout<<((mxb==mxs)?"Draw":((mxb>mxs)?"Bodya":"Sasha"))<<endl;
+    
 }
 
 int32_t main() {
@@ -80,3 +68,5 @@ int32_t main() {
 
     return 0;
 }
+
+

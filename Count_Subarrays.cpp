@@ -62,18 +62,28 @@ int f(vi &arr,int k, int n){
         mp[sum]++;
     }
     return count;
-}
+} // TLE for this
 
 void solve() {
     // Your code goes here
     int n; cin>>n;
-    vi arr(n);
+    vi a(n);
     for0(i,n){
-        cin>>arr[i];
+        cin>>a[i];
     }
-    vi ans(n);
-    for(int i=n-1;i>=0;i--){
-        cout<<f(arr,arr[i],n)<<" ";
+    vi ans(n+1);
+    for(int i = 0; i < n; i++){
+        int sum = 0;
+        for(int j = i; j < n; j++){
+            sum += a[j];
+            if(sum <= n)
+                ans[sum]++;
+            else
+                break;
+        }
+    }
+    for(int i=1;i<=n;i++){
+        cout<<ans[i]<<" ";
     }
     cout<<endl;
 
