@@ -75,7 +75,8 @@
     "vector": "cpp",
     "initializer_list": "cpp",
     "valarray": "cpp",
-    "*.tcc": "cpp"
+    "*.tcc": "cpp",
+    "scoped_allocator": "cpp"
   },
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "C_Cpp.errorSquiggles": "disabled"
