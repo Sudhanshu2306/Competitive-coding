@@ -1,72 +1,46 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-// Commonly used loops
-#define for0(i, n) for (int i = 0; i < (n); ++i)
-#define for1(i, n) for (int i = 1; i <= (n); ++i)
-#define rfor0(i, n) for (int i = (n) - 1; i >= 0; --i)
-#define rfor1(i, n) for (int i = (n); i >= 1; --i)
-
-// Minimum and maximum macros
-#define min3(a, b, c) min(a, min(b, c))
-#define max3(a, b, c) max(a, max(b, c))
-
-// Bit manipulation macros
-#define setBit(x, i) (x |= (1LL << i))
-#define clearBit(x, i) (x &= ~(1LL << i))
-#define toggleBit(x, i) (x ^= (1LL << i))
-#define checkBit(x, i) ((x & (1LL << i)) != 0)
-
-// Shortcuts for common data types
-typedef long long ll;
-typedef vector<int> vi;
-typedef vector<ll> vll;
-typedef vector<vi> vvi;
-typedef vector<vll> vvll;
-typedef vector<pair<int,int>> vpii;
-typedef pair<int, int> pii;
-typedef pair<ll, ll> pll;
-
-// 2D vector initialization
-#define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
-#define vvll(a, m, n, x) vector<vector<ll>> a(m, vector<ll>(n, x))
-#define sort(a) sort(a.begin(),a.end())
-
-// map & set
-#define umap unordered_map
-#define umset unordered_set
-
-// Iterate over container elements
-#define foreach(it, v) for (auto it = v.begin(); it != v.end(); ++it)
-#define fori(i, a, b) for (int i = a; i <= b; ++i)
-#define fora(e, v) for (const auto &e : v)
-
-// Floating-point comparisons
-#define EPS 1e-9
-#define EQ(a, b) (abs(a - b) < EPS)
-
-// Debugging macro
-#define debug(x) cerr << #x << " = " << x << endl
-
-// Shortcuts for commonly used functions
-#define gcd __gcd
-#define lcm(a, b) ((a) / gcd(a, b) * (b))
-
-
-void solve() {
-    // Your code goes here
-    
-}
-
-int32_t main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
-    int t;
-    cin >> t;
-    while (t--) {
-        solve();
+string GetOriginalString(string s){
+    vector<int>main_map(26,0);
+    for(auto it:s){
+        if(it!='i'){
+            main_map[it-'a']++;
+        }
     }
+    for(auto it:main_map){
+        if(it%2==1) return "notpossible";
+    }
+    vector<int>cur_map(26,0);
+    int ind=0;
+    for(int i=0;i<s.size();++i){
+        char it=s[i];
+        if(it!='i'){
+            cur_map[it-'a']++;
+        }
+        bool flag=true;
+        for(int k=0;k<26;k++){
+            if(cur_map[k]*2!=main_map[k]){
+                flag=false;
+                break;
+            }
+        }
+        if(flag){
+            ind=i;
+            break;
+        }
+    }
+    int upper_reach=ind+1;
+    while(s[upper_reach]=='i'){
+        upper_reach++;
+    }
+    string ans=s.substr(0,upper_reach);
+    return ans;
+}
+int main(){
+    string s;cin>>s;
+    string ans=GetOriginalString(s);
+    cout<<ans<<"\n";
 
     return 0;
 }
