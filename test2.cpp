@@ -1,102 +1,94 @@
-#include <bits/stdc++.h>
+#include <vector>
+#include <unordered_map>
+#include <functional>
+
 using namespace std;
 
-// Commonly used loops
-#define for0(i, n) for (int i = 0; i < (n); ++i)
-#define for1(i, n) for (int i = 1; i <= (n); ++i)
-#define rfor0(i, n) for (int i = (n) - 1; i >= 0; --i)
-#define rfor1(i, n) for (int i = (n); i >= 1; --i)
+int countGoodEdge(int n, int k, vector<int>& values, vector<vector<int>>& edges) {
+        unordered_map<int, vector<int>> graph;
+        for (const auto& edge : edges) {
+            int u = edge[0], v = edge[1];
+            graph[u].push_back(v);
+            graph[v].push_back(u);
+        }
 
-// Minimum and maximum macros
-#define min3(a, b, c) min(a, min(b, c))
-#define max3(a, b, c) max(a, max(b, c))
+        vector<unordered_map<int, int>> freq_in_subtree(n + 1);
 
-// Bit manipulation macros
-#define setBit(x, i) (x |= (1LL << i))
-#define clearBit(x, i) (x &= ~(1LL << i))
-#define toggleBit(x, i) (x ^= (1LL << i))
-#define checkBit(x, i) ((x & (1LL << i)) != 0)
+        function<void(int, int)> dfs = [&](int current, int parent) {
+            freq_in_subtree[current][values[current - 1]]++;
+            for (int neighbor : graph[current]) {
+                if (neighbor != parent) {
+                    dfs(neighbor, current);
+                    for (const auto& entry : freq_in_subtree[neighbor]) {
+                        int value = entry.first;
+                        int count = entry.second;
+                        freq_in_subtree[current][value] += count;
+                    }
+                }
+            }
+        };
 
-// Shortcuts for common data types
-typedef long long ll;
-typedef vector<int> vi;
-typedef vector<ll> vll;
-typedef vector<vi> vvi;
-typedef vector<vll> vvll;
-typedef pair<int, int> pii;
-typedef pair<ll, ll> pll;
+        dfs(1, -1);
 
-// 2D vector initialization
-#define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
-#define vvll(a, m, n, x) vector<vector<ll>> a(m, vector<ll>(n, x))
+        int count_valid_edges = 0;
 
-// map & set
-#define umap unordered_map
-#define umset unordered_set
+        for (const auto& edge : edges) {
+            int u = edge[0], v = edge[1];
+            if (freq_in_subtree[v][values[v - 1]] > freq_in_subtree[u][values[u - 1]]) {
+                swap(u, v);
+            }
+            auto& freq_subtree = freq_in_subtree[v];
+            unordered_map<int, int> freq_remaining_tree = freq_in_subtree[1];
+            for (const auto& entry : freq_subtree) {
+                int value = entry.first;
+                int count = entry.second;
+                freq_remaining_tree[value] -= count;
+            }
 
-// Iterate over container elements
-#define foreach(it, v) for (auto it = v.begin(); it != v.end(); ++it)
-#define fori(i, a, b) for (int i = a; i <= b; ++i)
-#define fora(e, v) for (const auto &e : v)
+            bool is_valid = true;
+            for (const auto& entry : freq_subtree) {
+                int count = entry.second;
+                if (count > k) {
+                    is_valid = false;
+                    break;
+                }
+            }
+            if (is_valid) {
+                for (const auto& entry : freq_remaining_tree) {
+                    int count = entry.second;
+                    if (count > k) {
+                        is_valid = false;
+                        break;
+                    }
+                }
+            }
 
-// Floating-point comparisons
-#define EPS 1e-9
-#define EQ(a, b) (abs(a - b) < EPS)
-
-// Debugging macro
-#define debug(x) cerr << #x << " = " << x << endl
-
-// Shortcuts for commonly used functions
-#define gcd __gcd
-#define lcm(a, b) ((a) / gcd(a, b) * (b))
-
-
-void solve() {
-    // Your code goes here
-    int n;
-    cin >> n;
-
-    vll arr(n);
-    for0 (i,n) {
-        cin >> arr[i];
-    }
-
-    unordered_set<int> st;
-    ll ans = 2;
-    ll mod=1e17;
-    while(ans<mod){
-        // unordered_set<int> st;
-        for0(i,n){
-            st.insert(arr[i]%ans);
-
-            if(st.size()>2){
-                break;
+            if (is_valid) {
+                count_valid_edges++;
             }
         }
-        if(st.size()==2){
-            break;
-        }
-        else{
-            st.clear();
-        }
-        ans=ans*2;
+
+        return count_valid_edges;
     }
-    cout<<ans<<endl;
+
+int main() {
+    cin >> n >> k;
     
-}
-
-int32_t main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
-    int t;
-    cin >> t;
-    while (t--) {
-        solve();
+    for (int i = 1; i <= n; i++) {
+        cin >> values[i];
     }
-
+    
+    for (int i = 0; i < n - 1; i++) {
+        int u, v;
+        cin >> u >> v;
+        tree[u].push_back(v);
+        tree[v].push_back(u);
+    }
+    
+    dfs(1, -1);
+    count_good_edges(1, -1);
+    
+    cout << result << endl;
+    
     return 0;
 }
-
-
-

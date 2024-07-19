@@ -24,9 +24,7 @@ typedef vector<ll> vll;
 typedef vector<vi> vvi;
 typedef vector<vll> vvll;
 typedef pair<int, int> pii;
-// typedef pair<ll, ll> pll;
-using ll = long long;
-using pll = pair<ll, int>;
+typedef pair<ll, ll> pll;
 
 // 2D vector initialization
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
@@ -52,30 +50,51 @@ using pll = pair<ll, int>;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
-
 void solve() {
     // Your code goes here
-    ll h,n; cin>>h>>n;
-    vll a(n);
-    for0(i,n) cin>>a[i];
-    vll c(n);
-    for0(i,n) cin>>c[i];
+    int n,m,k; cin>>n>>m>>k;
+
+    string s; cin>>s;
+    vector<bool> vis(n+2,0);
+    queue<pii> q;
+    vis[0] = 1;
+
+    q.push({0, 0});
     
-    ll s=1,e=1e11;
-    ll ans=1e11;
-
-    while(s<=e){
-        ll temp=0;
-        ll mid=s+(e-s)/2;
-        for0(i,n) temp+=(((mid-1)/c[i])+1)*a[i];
-        if(temp>=h){
-            e=mid-1;
-            ans=min(ans,mid);
+    bool flag=0;
+    while (!flag && !q.empty()) {
+        pii temp = q.front();
+        q.pop();
+        int x=temp.first;
+        int y=temp.second;
+        if (x==0 || s[x - 1]=='L') {
+            for1(i,m) {
+                int z = x+i;
+                if(z==n + 1){
+                    flag = true;
+                    break;
+                }
+                if(z<=n && s[z - 1]!='C' && !vis[z]) {
+                    vis[z] = true;
+                    q.push({z,y});
+                }
+            }
         }
-        else s=mid+1;
+        if (x>0 && x<=n && y<k && s[x-1]=='W') {
+            int z=x+1;
+            if (z==n+1) {
+                flag=1;
+                break;
+            }
+            if (z <= n && s[z - 1] != 'C' && !vis[z]) {
+                vis[z]=1;
+                q.push({z,y+1});
+            }
+        }
     }
+    if(flag)cout<<"YES"<<endl;
+    else cout<<"NO"<<endl;
 
-    cout<<ans<<endl;
 }
 
 int32_t main() {

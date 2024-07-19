@@ -24,9 +24,7 @@ typedef vector<ll> vll;
 typedef vector<vi> vvi;
 typedef vector<vll> vvll;
 typedef pair<int, int> pii;
-// typedef pair<ll, ll> pll;
-using ll = long long;
-using pll = pair<ll, int>;
+typedef pair<ll, ll> pll;
 
 // 2D vector initialization
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
@@ -55,27 +53,22 @@ using pll = pair<ll, int>;
 
 void solve() {
     // Your code goes here
-    ll h,n; cin>>h>>n;
-    vll a(n);
-    for0(i,n) cin>>a[i];
-    vll c(n);
-    for0(i,n) cin>>c[i];
+    int n; cin>>n;
+    string s; cin>>s;
     
-    ll s=1,e=1e11;
-    ll ans=1e11;
-
-    while(s<=e){
-        ll temp=0;
-        ll mid=s+(e-s)/2;
-        for0(i,n) temp+=(((mid-1)/c[i])+1)*a[i];
-        if(temp>=h){
-            e=mid-1;
-            ans=min(ans,mid);
-        }
-        else s=mid+1;
+    int one=0,zero=0;
+    for0(i,n){
+        if(s[i]=='1') one++;
     }
-
-    cout<<ans<<endl;
+    for0(i,n){
+        if(s[i]=='0'){
+            zero++;
+            while(s[i]=='0' && i<n) i++;
+            if(i==n) break;
+        }
+    }
+    if(one>zero) cout<<"Yes"<<endl;
+    else cout<<"No"<<endl;
 }
 
 int32_t main() {

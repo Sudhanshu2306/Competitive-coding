@@ -24,9 +24,7 @@ typedef vector<ll> vll;
 typedef vector<vi> vvi;
 typedef vector<vll> vvll;
 typedef pair<int, int> pii;
-// typedef pair<ll, ll> pll;
-using ll = long long;
-using pll = pair<ll, int>;
+typedef pair<ll, ll> pll;
 
 // 2D vector initialization
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
@@ -55,27 +53,20 @@ using pll = pair<ll, int>;
 
 void solve() {
     // Your code goes here
-    ll h,n; cin>>h>>n;
-    vll a(n);
-    for0(i,n) cin>>a[i];
-    vll c(n);
-    for0(i,n) cin>>c[i];
-    
-    ll s=1,e=1e11;
-    ll ans=1e11;
+    int n,k; cin>>n>>k;
+    vi a(k+1,0);
+    // int maxi=INT_MIN;
+    for1(i,k){
+        cin>>a[i];
+    } 
 
-    while(s<=e){
-        ll temp=0;
-        ll mid=s+(e-s)/2;
-        for0(i,n) temp+=(((mid-1)/c[i])+1)*a[i];
-        if(temp>=h){
-            e=mid-1;
-            ans=min(ans,mid);
-        }
-        else s=mid+1;
+    sort(a.begin(),a.end());
+    int ans=n-a[k];
+    for1(i,k-1){
+        ans+=(a[i]-1);
     }
-
     cout<<ans<<endl;
+
 }
 
 int32_t main() {

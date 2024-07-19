@@ -24,9 +24,7 @@ typedef vector<ll> vll;
 typedef vector<vi> vvi;
 typedef vector<vll> vvll;
 typedef pair<int, int> pii;
-// typedef pair<ll, ll> pll;
-using ll = long long;
-using pll = pair<ll, int>;
+typedef pair<ll, ll> pll;
 
 // 2D vector initialization
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
@@ -52,41 +50,30 @@ using pll = pair<ll, int>;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
+double dp[101][101][101];
 
 void solve() {
     // Your code goes here
-    ll h,n; cin>>h>>n;
-    vll a(n);
-    for0(i,n) cin>>a[i];
-    vll c(n);
-    for0(i,n) cin>>c[i];
-    
-    ll s=1,e=1e11;
-    ll ans=1e11;
 
-    while(s<=e){
-        ll temp=0;
-        ll mid=s+(e-s)/2;
-        for0(i,n) temp+=(((mid-1)/c[i])+1)*a[i];
-        if(temp>=h){
-            e=mid-1;
-            ans=min(ans,mid);
+    for(int i=1;i<101;i++) {
+        for (int j=1;j<101;j++) {
+            dp[i][j][0]=1.0;
+            for(int k=1;k<101;k++){
+                double total=i*j+j*+k*i;
+                dp[i][j][k]+=(i*j*dp[i][j-1][k]+j*k*dp[i][j][k-1]+k*i*dp[i-1][j][k])/total;
+            }
         }
-        else s=mid+1;
     }
-
-    cout<<ans<<endl;
+    int r,s,p; cin>>r>>s>>p;
+    cout<<dp[r][s][p]<<" "<<dp[s][p][r]<<" "<<dp[p][r][s]<<endl;
+    
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    int t;
-    cin >> t;
-    while (t--) {
-        solve();
-    }
+    solve();
 
     return 0;
 }
