@@ -24,9 +24,7 @@ typedef vector<ll> vll;
 typedef vector<vi> vvi;
 typedef vector<vll> vvll;
 typedef pair<int, int> pii;
-// typedef pair<ll, ll> pll;
-using ll = long long;
-using pll = pair<ll, int>;
+typedef pair<ll, ll> pll;
 
 // 2D vector initialization
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
@@ -52,46 +50,48 @@ using pll = pair<ll, int>;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
-bool f(ll mid, vll &a, vll &c, ll h){
-    ll x=0;
-    for0(i,a.size()){
-        ll turns;
-        if(a[i]>=h) return true;
-        
-        if((mid%c[i])==0) turns=mid/c[i];
-        else turns=mid/c[i]+1;
-
-        if(turns>=h) return true;
-        x+=(turns*a[i]);
-        if(x>=h)return true;
+vi f(string x,int l, int r){
+    vi count(26,0);
+    for(int i=l;i<=r;i++){
+        count[x[i]-'a']++;
     }
-    if(x>=h)return true;
-    return false;
+    return count;
 }
-
-
 void solve() {
     // Your code goes here
-    ll h,n; cin>>h>>n;
-    vll a(n);
-    for0(i,n) cin>>a[i];
-    vll c(n);
-    for0(i,n) cin>>c[i];
-    
-    ll s=1,e=1e12;
-    ll ans=1e12;
+    int n; cin>>n;
+    int q; cin>>q;
 
-    while(s<=e){
-        ll temp=0;
-        ll mid=s+(e-s)/2;
-        if(f(mid,a,c,h)){
-            e=mid-1;
-            ans=min(ans,mid);
+    string a; cin>>a;
+    string b; cin>>b;
+
+    vvi pa(n+1,vi(26,0));
+    vvi pb(n+1,vi(26,0));
+
+    for1(i,n){
+        for0(j,26){
+            pa[i][j]=pa[i-1][j];
+            pb[i][j]=pb[i-1][j];
         }
-        else s=mid+1;
+        pa[i][a[i-1]-'a']++;
+        pb[i][b[i-1]-'a']++;
     }
 
-    cout<<ans<<endl;
+    vector<pii> queries(q);
+    for0(i,q){
+        // cin>>queries[i].first;
+        // cin>>queries[i].second;
+        int l,r; cin>>l>>r;
+
+        int count=0;
+        for0(i,26){
+            int x=pa[r][i]-pa[l-1][i];
+            int y=pb[r][i]-pb[l-1][i];
+            count+=abs(x-y);
+        }
+        cout<<count/2<<endl;
+        
+    }
 }
 
 int32_t main() {

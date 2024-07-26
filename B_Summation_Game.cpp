@@ -24,9 +24,7 @@ typedef vector<ll> vll;
 typedef vector<vi> vvi;
 typedef vector<vll> vvll;
 typedef pair<int, int> pii;
-// typedef pair<ll, ll> pll;
-using ll = long long;
-using pll = pair<ll, int>;
+typedef pair<ll, ll> pll;
 
 // 2D vector initialization
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
@@ -52,46 +50,30 @@ using pll = pair<ll, int>;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
-bool f(ll mid, vll &a, vll &c, ll h){
-    ll x=0;
-    for0(i,a.size()){
-        ll turns;
-        if(a[i]>=h) return true;
-        
-        if((mid%c[i])==0) turns=mid/c[i];
-        else turns=mid/c[i]+1;
-
-        if(turns>=h) return true;
-        x+=(turns*a[i]);
-        if(x>=h)return true;
-    }
-    if(x>=h)return true;
-    return false;
-}
-
 
 void solve() {
     // Your code goes here
-    ll h,n; cin>>h>>n;
-    vll a(n);
-    for0(i,n) cin>>a[i];
-    vll c(n);
-    for0(i,n) cin>>c[i];
-    
-    ll s=1,e=1e12;
-    ll ans=1e12;
+    int n,k,x; cin>>n>>k>>x;
+    vi a(n+1,0);
+    for1(i,n) cin>>a[i];
 
-    while(s<=e){
-        ll temp=0;
-        ll mid=s+(e-s)/2;
-        if(f(mid,a,c,h)){
-            e=mid-1;
-            ans=min(ans,mid);
-        }
-        else s=mid+1;
+    sort(a.begin(),a.end());
+
+    vi pre(n+1,0);
+    pre[1]=a[1];
+    for(int i=2;i<=n;i++){
+        pre[i]=pre[i-1]+a[i];
     }
+    int ans=INT_MIN;
+    for(int i=0;i<=k;i++){
+        int not_negative=max(0,n-i-x);
+        int x=2*pre[not_negative]-pre[n-i];
+		ans=max(ans,x);
+	}
 
-    cout<<ans<<endl;
+	// ans=max(ans,0);
+	cout<<ans<<endl;
+	//cout<<endl;
 }
 
 int32_t main() {

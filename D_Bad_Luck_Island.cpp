@@ -51,31 +51,21 @@ typedef pair<ll, ll> pll;
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
 double dp[101][101][101];
-
-void solve() {
-    // Your code goes here
-
-    for(int i=1;i<101;i++) {
-        for (int j=1;j<101;j++) {
-            dp[i][j][0]=1.0;
-            for(int k=1;k<101;k++){
-                double total=i*j+j*+k*i;
-                dp[i][j][k]+=(i*j*dp[i][j-1][k]+j*k*dp[i][j][k-1]+k*i*dp[i-1][j][k])/total;
-            }
-        }
-    }
-    int r,s,p; cin>>r>>s>>p;
-    cout<<dp[r][s][p]<<" "<<dp[s][p][r]<<" "<<dp[p][r][s]<<endl;
-    
+double dfs(int i,int j,int k){
+    if(!k) return dp[i][j][k]=1;
+    if(!(i&&j)) return dp[i][j][k]=0;
+    if(dp[i][j][k]) return dp[i][j][k];
+    return dp[i][j][k]=(i*j*dfs(i,j-1,k)+k*i*dfs(i-1,j,k)+j*k*dfs(i,j,k-1))/(i*j+j*k+k*i);
 }
-
-int32_t main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
-    solve();
-
-    return 0;
+int main()
+{
+    int r,s,p;
+    cin>>r>>s>>p;
+    printf("%.12f ",dfs(r,s,p));
+    memset(dp,0,sizeof dp);
+    printf("%.12f ",dfs(s,p,r));
+    memset(dp,0,sizeof dp);
+    printf("%.12f\n",dfs(p,r,s));
 }
 
 
