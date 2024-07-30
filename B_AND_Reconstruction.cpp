@@ -50,70 +50,27 @@ typedef pair<ll, ll> pll;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
-bool isNonDecreasing(const vi& sequence) {
-    for (size_t i = 1; i < sequence.size(); ++i) {
-        if (sequence[i] < sequence[i - 1]) {
-            return false;
-        }
-    }
-    return true;
-}
 
 void solve() {
     // Your code goes here
     int n; cin>>n;
-    vi a(n); for0(i,n) cin>>a[i];
+    vi b(n+1);
+    for1(i,n-1) cin>>b[i];
+    vi a(n+1);
 
-    if(n==3){
-        cout<<"YES"<<endl; return;
-    }
-    vi b(n-1);
-    for0(i,n-1){
-        b[i]=gcd(a[i],a[i+1]);
-    }
-    
-    vi prefix(n,0),suffix(n,0);
-    prefix[0]=1; prefix[1]=1;
-    suffix[n-1]=1; suffix[n-2]=1;
+	for1(i,n) a[i]=(b[i-1]|b[i]);
+	int flag=1;
 
-    int m=b.size();
-    for(int i=m-2;i>=0;i--){
-        if(b[i]>b[i+1]) break;
-        else suffix[i]=1;
-    }
-
-    for(int i=1;i<m;i++){
-        if(b[i]>=b[i-1]) prefix[i+1]=1;
-        else break;
-    }
-
-    for0(i,n){
-        if(i==0 && suffix[1]==1) {
-            cout<<"YES"<<endl; return;
+	for1(i,n-1){
+		if((a[i]&a[i+1])!=b[i]){
+            flag=0; break;
         }
-        else if(i==n-1 && prefix[n-2]==true) {
-            cout<<"YES"<<endl;
-            return;
-        }
-        else if(i>0 && i<n-1){
-            if(prefix[i-1]==0 || suffix[i+1]==0) continue;
-            
-            int curr=gcd(a[i-1],a[i+1]);
-            if(i==1 && curr<=gcd(a[i+1],a[i+2])){
-                cout<<"YES"<<endl; return;
-            }
-            else if(i==n-2 && curr>=gcd(a[i-1],a[i-2])){
-                cout<<"YES"<<endl; return;
-            }
-            else if(i>1 && i<n-2){  
-                if(curr>=gcd(a[i-1],a[i-2]) && curr<=gcd(a[i+1],a[i+2])){
-                    cout<<"YES"<<endl;
-                    return;
-                }
-            }
-        }
+	}
+    if(flag==0) cout<<-1<<endl;
+	else {
+        for1(i,n) cout<<a[i]<<" ";
+        cout<<endl;
     }
-    cout<<"NO"<<endl;
     
 }
 

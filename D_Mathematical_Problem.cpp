@@ -50,71 +50,39 @@ typedef pair<ll, ll> pll;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
-bool isNonDecreasing(const vi& sequence) {
-    for (size_t i = 1; i < sequence.size(); ++i) {
-        if (sequence[i] < sequence[i - 1]) {
-            return false;
-        }
-    }
-    return true;
-}
 
 void solve() {
     // Your code goes here
     int n; cin>>n;
-    vi a(n); for0(i,n) cin>>a[i];
-
-    if(n==3){
-        cout<<"YES"<<endl; return;
-    }
-    vi b(n-1);
-    for0(i,n-1){
-        b[i]=gcd(a[i],a[i+1]);
-    }
-    
-    vi prefix(n,0),suffix(n,0);
-    prefix[0]=1; prefix[1]=1;
-    suffix[n-1]=1; suffix[n-2]=1;
-
-    int m=b.size();
-    for(int i=m-2;i>=0;i--){
-        if(b[i]>b[i+1]) break;
-        else suffix[i]=1;
-    }
-
-    for(int i=1;i<m;i++){
-        if(b[i]>=b[i-1]) prefix[i+1]=1;
-        else break;
-    }
-
-    for0(i,n){
-        if(i==0 && suffix[1]==1) {
-            cout<<"YES"<<endl; return;
+    string s; cin>>s;
+    if(n==2){
+        ll ans=0;
+        for(int i=0;i<2;i++){
+            ans*=10;
+            ans+=(s[i]-'0');
         }
-        else if(i==n-1 && prefix[n-2]==true) {
-            cout<<"YES"<<endl;
-            return;
-        }
-        else if(i>0 && i<n-1){
-            if(prefix[i-1]==0 || suffix[i+1]==0) continue;
-            
-            int curr=gcd(a[i-1],a[i+1]);
-            if(i==1 && curr<=gcd(a[i+1],a[i+2])){
-                cout<<"YES"<<endl; return;
-            }
-            else if(i==n-2 && curr>=gcd(a[i-1],a[i-2])){
-                cout<<"YES"<<endl; return;
-            }
-            else if(i>1 && i<n-2){  
-                if(curr>=gcd(a[i-1],a[i-2]) && curr<=gcd(a[i+1],a[i+2])){
-                    cout<<"YES"<<endl;
-                    return;
-                }
-            }
-        }
+        cout<<ans<<endl; return;
     }
-    cout<<"NO"<<endl;
-    
+    int cnt=0;
+    // for(int i=0;i<s.size();i++){
+    //     if(s[i]=='0') cnt++;
+    // }
+    // if(cnt>=1) {
+    //     cout<<"0"<<endl;
+    //     return;
+    // }
+    ll mini=1e9;
+    for(int i=0;i<n-1;i++){
+        ll x=stoi(s.substr(i,2));
+        ll res=x;
+        for(int j=0;j<n;j++){
+            if(j==i || j==i+1) continue;
+            ll x=s[j]-'0';
+            res=min(res+x,res*x);
+        }
+        mini=min(mini,res);
+    }
+    cout<<mini<<endl;
 }
 
 int32_t main() {
