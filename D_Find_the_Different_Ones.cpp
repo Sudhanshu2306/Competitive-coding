@@ -16,9 +16,6 @@ using namespace std;
 #define s second
 #define sz(s) (int)(s.size())
 #define Num_of_Digits(n) ((int)log10(n) + 1)
-#define inint(x) int x; cin>>x;
-#define inll(x) long long int x; cin>>x;
-#define instr(x) string x; cin>>x;
 #define sort(v) sort(v.begin(),v.end());
 #define all(x) x.begin(), x.end()
 #define MAX(x) *max_element(all(x))
@@ -29,7 +26,7 @@ using namespace std;
 #define pm cout<<"-1"<<endl
 #define ps(x,y) fixed<<setprecision(y)<<x
 #define PI (3.141592653589)
-#define mod 1000000007
+#define M 1000000007
 
 // Bit manipulation macros
 #define setBit(x, i) (x |= (1LL << i))
@@ -118,7 +115,28 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    
+    int n; cin>>n;
+    vi a(n+1);
+    for1(i,n) cin>>a[i];
+    int q; cin>>q;
+    // l and r are one based indexing
+
+    vi temp(n+1);
+    temp[1]=-1;
+    fori(i,2,n){
+        if(a[i]==a[i-1]) temp[i]=temp[i-1];
+        else temp[i]=i-1;
+    }
+    while(q--){
+        int l,r; cin>>l>>r;
+        if(temp[r]<l){
+            cout<<-1<<" "<<-1<<endl;
+        }
+        else{
+            cout<<r<<" "<<temp[r]<<endl;
+        }
+    }
+    cout<<endl;
 }
 
 int32_t main() {
