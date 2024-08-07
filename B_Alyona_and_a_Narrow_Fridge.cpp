@@ -50,44 +50,30 @@ typedef pair<ll, ll> pll;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
-void dfs(int node,vi adj[],ll &c1,ll &c0,int clr, int prev){
-    if(clr==1)c1++;
-    else c0++;
 
-    for(auto it:adj[node]){
-        if(it==prev) continue;
-        dfs(it,adj,c1,c0,clr^1,node);
-    }
-}
 void solve() {
     // Your code goes here
-    int n; cin>>n;
-    
-    vi adj[n+1];
-    for0(i,n-1){
-        int u,v; cin>>u>>v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+    int n,h; cin>>n>>h;
+    vi a(n); for0(i,n) cin>>a[i];
+
+    vi arr;
+    int hc=0;
+    int k=0;
+    for0(i,n){
+        if(hc<h){
+            arr.push_back(a[i]);
+            sort(arr.rbegin(),arr.rend());
+            int he=0;
+            for(int j=0;j<=i;j+=2){
+                he+=arr[j];
+            }
+            // i hamesha pehle se bada hi hoga
+            if(he<=h) k=(i+1);
+            else hc=he;
+        }
     }
-    ll c1=0,c0=0;
-    dfs(1,adj,c1,c0,0,0);
-    // cout<<c1<<" "<<c0<<endl;
-    ll tot=c1*c0;
-    tot-=(n-1);
-    cout<<tot<<endl;
+    cout<<k<<endl;
 }
-
-
-// void solve(){
-//     int n; cin>>n;
-
-//     vi adj[n+1];
-//     for0(i,n-1){
-//         int u,v; cin>>u>>v;
-//         adj[u].push_back(v);
-//         adj[v].push_back(u);
-//     }
-// }
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
@@ -101,4 +87,5 @@ int32_t main() {
 
     return 0;
 }
+
 

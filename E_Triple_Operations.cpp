@@ -50,55 +50,64 @@ typedef pair<ll, ll> pll;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
-void dfs(int node,vi adj[],ll &c1,ll &c0,int clr, int prev){
-    if(clr==1)c1++;
-    else c0++;
-
-    for(auto it:adj[node]){
-        if(it==prev) continue;
-        dfs(it,adj,c1,c0,clr^1,node);
+int f(int s){
+    int count=0;
+    while(s){
+        count++;
+        s/=3;
     }
+    return count;
 }
+int n=2e5+7;
+vi dp(n+1,-1);
+
+int ss(int n, vi &dp){
+    if(n==0) return 0;
+    if(dp[n]!=-1) return dp[n];
+
+    return dp[n]=ss(n/3,dp)+1;
+}
+
 void solve() {
     // Your code goes here
-    int n; cin>>n;
+    int l,r; cin>>l>>r;
+    int s=l;
+    // priority_queue<int,vector<int>,greater<int>> pq;
+
+    int count=0;
+    // while(s){
+    //     count++;
+    //     s/=3;
+    // }
+    // count*=2;  giving TLE
+
     
-    vi adj[n+1];
-    for0(i,n-1){
-        int u,v; cin>>u>>v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+    // one to make l zero
+    count+=dp[l];
+    // account for the other number increased
+    count+=dp[l];
+    // cout<<count<<endl;
+    fori(i, l+1,r){
+        // int x=f(i);
+        count+=dp[i];
     }
-    ll c1=0,c0=0;
-    dfs(1,adj,c1,c0,0,0);
-    // cout<<c1<<" "<<c0<<endl;
-    ll tot=c1*c0;
-    tot-=(n-1);
-    cout<<tot<<endl;
+    cout<<count<<endl;
 }
-
-
-// void solve(){
-//     int n; cin>>n;
-
-//     vi adj[n+1];
-//     for0(i,n-1){
-//         int u,v; cin>>u>>v;
-//         adj[u].push_back(v);
-//         adj[v].push_back(u);
-//     }
-// }
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    int t=1;
-    // cin >> t;
+    int t;
+    cin >> t;
+    for0(i,n+1){
+        ss(i,dp);
+    }
     while (t--) {
         solve();
     }
 
     return 0;
 }
+
 

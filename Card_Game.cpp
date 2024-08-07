@@ -50,55 +50,49 @@ typedef pair<ll, ll> pll;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
-void dfs(int node,vi adj[],ll &c1,ll &c0,int clr, int prev){
-    if(clr==1)c1++;
-    else c0++;
 
-    for(auto it:adj[node]){
-        if(it==prev) continue;
-        dfs(it,adj,c1,c0,clr^1,node);
-    }
-}
 void solve() {
     // Your code goes here
-    int n; cin>>n;
-    
-    vi adj[n+1];
-    for0(i,n-1){
-        int u,v; cin>>u>>v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
-    }
-    ll c1=0,c0=0;
-    dfs(1,adj,c1,c0,0,0);
-    // cout<<c1<<" "<<c0<<endl;
-    ll tot=c1*c0;
-    tot-=(n-1);
-    cout<<tot<<endl;
+    int a1,a2,b1,b2; cin>>a1>>a2>>b1>>b2;
+    int count=0;
+    int su=0, sl=0;
+
+    if (a1>=b1) su++; if (b1>=a1) sl++;
+    if (a2>=b2) su++; if (b2>=a2) sl++;
+
+    if(su>sl) count++;
+
+    su = 0, sl = 0;
+    if(a2>=b2) su++; if(b2>=a2) sl++;
+    if(a1>=b1) su++;if(b1>=a1) sl++;
+
+    if(su>sl) count++;
+
+    su=0, sl=0;
+    if(a1>=b2) su++;if(b2>=a1) sl++;
+    if(a2>=b1) su++; if(b1>=a2) sl++;
+
+    if (su>sl) count++;
+
+    su=0, sl=0;
+    if(a2>=b1) su++; if(b1>=a2) sl++;
+    if(a1>=b2) su++;if(b2>=a1) sl++;
+    if(su>sl) count++;
+
+    cout<<count<<endl;
 }
-
-
-// void solve(){
-//     int n; cin>>n;
-
-//     vi adj[n+1];
-//     for0(i,n-1){
-//         int u,v; cin>>u>>v;
-//         adj[u].push_back(v);
-//         adj[v].push_back(u);
-//     }
-// }
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    int t=1;
-    // cin >> t;
+    int t;
+    cin >> t;
     while (t--) {
         solve();
     }
 
     return 0;
 }
+
 

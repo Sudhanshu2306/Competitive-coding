@@ -30,6 +30,18 @@ typedef pair<ll, ll> pll;
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
 #define vvll(a, m, n, x) vector<vector<ll>> a(m, vector<ll>(n, x))
 
+ll modExp(ll base, ll exp, ll mod){
+    ll ans=1;
+    while(exp>0) {
+        if(exp%2==1){
+            ans=(ans * base) % mod;
+        }
+        base=(base * base) % mod;
+        exp=exp / 2;
+    }
+    return ans;
+}
+
 // map & set
 #define umap unordered_map
 #define umset unordered_set
@@ -50,55 +62,43 @@ typedef pair<ll, ll> pll;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
-void dfs(int node,vi adj[],ll &c1,ll &c0,int clr, int prev){
-    if(clr==1)c1++;
-    else c0++;
 
-    for(auto it:adj[node]){
-        if(it==prev) continue;
-        dfs(it,adj,c1,c0,clr^1,node);
-    }
-}
 void solve() {
     // Your code goes here
-    int n; cin>>n;
-    
-    vi adj[n+1];
-    for0(i,n-1){
-        int u,v; cin>>u>>v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+    ll n,m,k,q; cin>>n>>m>>k>>q;
+
+    ll mod=998244353;
+
+    vector<pll> op(n);
+    for0(i,q){
+        int x,y; cin>>x>>y;
+        op[i]={x,y};
     }
-    ll c1=0,c0=0;
-    dfs(1,adj,c1,c0,0,0);
-    // cout<<c1<<" "<<c0<<endl;
-    ll tot=c1*c0;
-    tot-=(n-1);
-    cout<<tot<<endl;
+
+    unordered_set<int> r,c;
+    for(auto i:op){
+        r.insert(i.first);
+        c.insert(i.second);
+    }
+
+    int x=r.size();
+    int y=c.size();
+
+    ll result = modExp(k, x + y, mod);
+    cout<<result<<endl;
 }
-
-
-// void solve(){
-//     int n; cin>>n;
-
-//     vi adj[n+1];
-//     for0(i,n-1){
-//         int u,v; cin>>u>>v;
-//         adj[u].push_back(v);
-//         adj[v].push_back(u);
-//     }
-// }
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    int t=1;
-    // cin >> t;
+    int t;
+    cin >> t;
     while (t--) {
         solve();
     }
 
     return 0;
 }
+
 

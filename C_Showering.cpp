@@ -50,55 +50,47 @@ typedef pair<ll, ll> pll;
 #define gcd __gcd
 #define lcm(a, b) ((a) / gcd(a, b) * (b))
 
-void dfs(int node,vi adj[],ll &c1,ll &c0,int clr, int prev){
-    if(clr==1)c1++;
-    else c0++;
 
-    for(auto it:adj[node]){
-        if(it==prev) continue;
-        dfs(it,adj,c1,c0,clr^1,node);
-    }
-}
 void solve() {
     // Your code goes here
-    int n; cin>>n;
-    
-    vi adj[n+1];
-    for0(i,n-1){
-        int u,v; cin>>u>>v;
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+    int n,s,m; cin>>n>>s>>m;
+
+    vector<pll> tasks;
+    for0(i,n){
+        ll a,b; cin>>a>>b;
+        tasks.push_back({a,b});
     }
-    ll c1=0,c0=0;
-    dfs(1,adj,c1,c0,0,0);
-    // cout<<c1<<" "<<c0<<endl;
-    ll tot=c1*c0;
-    tot-=(n-1);
-    cout<<tot<<endl;
+
+    sort(tasks.begin(),tasks.end());
+    if (tasks[0].first>=s){
+        cout<<"YES"<<endl; return;
+    }
+
+    for1(i,tasks.size()-1){
+        if((tasks[i].first-tasks[i-1].second)>=s){
+            cout<<"YES"<<endl;
+            return;
+        }
+    }
+    
+    if(m-tasks.back().second>=s){
+        cout<<"YES"<<endl; return;
+    }
+
+    cout<<"NO"<<endl;
 }
-
-
-// void solve(){
-//     int n; cin>>n;
-
-//     vi adj[n+1];
-//     for0(i,n-1){
-//         int u,v; cin>>u>>v;
-//         adj[u].push_back(v);
-//         adj[v].push_back(u);
-//     }
-// }
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    int t=1;
-    // cin >> t;
+    int t;
+    cin >> t;
     while (t--) {
         solve();
     }
 
     return 0;
 }
+
 
