@@ -116,27 +116,41 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+const int MAX = 210000;
+int fac[MAX], finv[MAX], inv[MAX];
+void COMinit() {
+    fac[0] = fac[1] = 1;
+    finv[0] = finv[1] = 1;
+    inv[1] = 1;
+    for (int i = 2; i < MAX; i++){
+        fac[i] = fac[i - 1] * i;
+        inv[i] = M - inv[M%i] * (M / i);
+        finv[i] = finv[i - 1] * inv[i];
+    }
+}
+int COM(int n, int k){
+    if (n < k) return 0;
+    if (n < 0 || k < 0) return 0;
+    return fac[n] * finv[k] * finv[n - k];
+}
+
 void solve() {
     // Your code goes here
-    inint(n);
-    vll a(n);
-    for0(i,n) {
-        cin>>a[i];
-        if(i&1) a[i]=0-a[i];
-    }
-    vll pre(n+1);
-    for0(i,n){
-        pre[i+1]=pre[i]+a[i];
-    }
-    map<ll,int> mp;
-    for0(i,n+1) mp[pre[i]]++;
+    inint(n); inint(k);
+    vi a(n);
+    for0(i,n) cin>>a[i];
 
-    for(auto i:mp){
-        if(i.second>=2){
-            py; return;
-        } 
+    int one=0;
+    for0(i,n){
+        if(a[i]==1) one++;
     }
-    pn;
+    int ans=0;
+    fori(i,(k+1)/2,k){
+        if(i<=one){
+            ans=(ans+COM(one,i)*COM(n-one,k-i))%M;
+        }
+    }
+    cout<<ans%M<<endl;
 }
 
 int32_t main() {

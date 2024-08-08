@@ -119,24 +119,18 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 void solve() {
     // Your code goes here
     inint(n);
-    vll a(n);
+    vi a(n);
+    unordered_map<int,int> mp;
     for0(i,n) {
         cin>>a[i];
-        if(i&1) a[i]=0-a[i];
+        mp[a[i]]++;
     }
-    vll pre(n+1);
-    for0(i,n){
-        pre[i+1]=pre[i]+a[i];
-    }
-    map<ll,int> mp;
-    for0(i,n+1) mp[pre[i]]++;
-
+    int count=0;
     for(auto i:mp){
-        if(i.second>=2){
-            py; return;
-        } 
+        if(i.second==2) count++;
     }
-    pn;
+    cout<<count<<endl;
+
 }
 
 int32_t main() {

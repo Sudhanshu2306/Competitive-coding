@@ -118,23 +118,23 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inint(n);
-    vll a(n);
-    for0(i,n) {
-        cin>>a[i];
-        if(i&1) a[i]=0-a[i];
-    }
-    vll pre(n+1);
-    for0(i,n){
-        pre[i+1]=pre[i]+a[i];
-    }
-    map<ll,int> mp;
-    for0(i,n+1) mp[pre[i]]++;
-
-    for(auto i:mp){
-        if(i.second>=2){
-            py; return;
-        } 
+    int n; cin>>n;
+    int a=0,b=0,c=0;
+    for(int i=2;i<=cbrt(n)+1;i++){
+        if(n%i==0){
+            a=i;
+            for(int j=i+1;j<sqrt(n/a)+1;j++){
+                if(n%j==0){
+                    b=j;
+                    c=n/(a*b);
+                    if(b!=c && a!=c && a*b*c==n){
+                        py;
+                        cout<<a<<" "<<b<<" "<<c<<endl;
+                        return;
+                    }
+                }
+            }
+        }
     }
     pn;
 }
