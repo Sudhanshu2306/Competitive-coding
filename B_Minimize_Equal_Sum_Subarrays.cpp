@@ -116,62 +116,13 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
-void ss(vi& a, int n, int k, int index, int length, int sum, int& mini, vi& dp) {
-    if(length==k){
-        mini=min(mini, sum);
-        return;
-    }
-    
-    if(index==n || length+(n-index)<k) return;
-
-    if(length>0) sum+=abs(a[index]-dp[length-1]);
-    
-    dp[length]=a[index];
-    // take
-    ss(a, n, k, index+1, length+1, sum, mini, dp);
-    // not take
-    ss(a, n, k, index+1, length, sum, mini, dp);
-}
-
-int solve(vector<int>& a, int k) {
-    int n=a.size();
-    if(k>n) return 0;
-
-    int mini=1e9;
-    vi dp(k, 0);
-    ss(a,n,k,0,0,0,mini,dp);
-
-    return mini;
-}
-
-bool s1(vi& arr, int n, int m, int k) {
-    if(k%m != 0) return false; // If K is not a multiple of M, it's impossible
-    
-    int targetScore=k;
-    int currentScore=0;
-    int countM=k/m;
-    
-    sort(arr); // Sort the array to consider smallest elements first
-    
-    // Traverse the sorted array
-    for0(i,n){
-        if(countM==0) break; // No more M to add
-        if(currentScore/(i+1)<=arr[i]) {
-            currentScore+=m;
-            countM--;
-        }
-    }
-    
-    return (currentScore==targetScore);
-}
-
 void solve() {
     // Your code goes here
-    int n,m,k; cin>>n>>m>>k;
+    inint(n);
     vi a(n); for0(i,n) cin>>a[i];
 
-    if(s1(a,n,m,k)) cout<<"yes"<<endl;
-    else cout<<"no"<<endl;
+    for0(i,n-1) cout<<a[i+1]<<" ";
+    cout<<a[0]<<endl;
 }
 
 int32_t main() {
