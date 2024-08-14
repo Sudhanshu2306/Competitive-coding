@@ -118,21 +118,24 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    int n,m; cin>>n>>m;
-    vll k(n); for0(i,n) cin>>k[i];
-    vll c(m); for0(i,m) cin>>c[i];
-
-    sort(k);
-    int j=0;
-    ll sum=0;
-    rfor0(i,n){
-        if(c[k[i]-1]>c[j]){
-            sum+=c[j];
-            j++;
+    inint(n);
+    vi a(n);
+    umap<int,int> mp;
+    int x; cin>>x;
+    mp[x]++;
+    int c=0;
+    for0(i,n-1){
+        int a; cin>>a;
+        mp[a]++;
+        if(mp[a-1]==0 && mp[a+1]==0){
+            c++;
         }
-        else sum+=c[k[i]-1];
+        // cout<<mp[a-1]<<" "<<mp[a+1]<<endl;
     }
-    cout<<sum<<endl;
+    // cout<<endl;
+    if(c==0) cout<<"YES"<<endl;
+    else cout<<"NO"<<endl;
+    
 }
 
 int32_t main() {

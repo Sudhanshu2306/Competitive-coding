@@ -116,23 +116,47 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+pii dfs(int node, int parent, vvi adj, string s, vi &b, vi &w, int &ans){
+    if(adj[node].size()==1 && adj[node][0]==parent){
+        if(s[node]=='B') return {0,1};
+        else return {1,0};
+    }
+    pii temp;
+    if(s[node]=='B') temp={0,1};
+    else temp={1,0};
+
+    for(auto i:adj[node]){
+        if(i==parent) continue;
+        pii x=dfs(i,node,adj,s,b,w,ans);
+        temp.first+=x.first; 
+        temp.second+=x.second;
+    }
+    if(temp.first==temp.second) ans++;
+    return temp;
+}
+
 void solve() {
     // Your code goes here
-    int n,m; cin>>n>>m;
-    vll k(n); for0(i,n) cin>>k[i];
-    vll c(m); for0(i,m) cin>>c[i];
-
-    sort(k);
-    int j=0;
-    ll sum=0;
-    rfor0(i,n){
-        if(c[k[i]-1]>c[j]){
-            sum+=c[j];
-            j++;
-        }
-        else sum+=c[k[i]-1];
+    inint(n);
+    // vi a(n-1);
+    vvi adj(n+1);
+    for(int i=2;i<=n;i++){
+        inint(x);
+        adj[i].push_back(x);
+        adj[x].push_back(i);
     }
-    cout<<sum<<endl;
+
+    instr(s);
+    s=" "+s;
+   
+    vi b(4002,0),w(4002,0);
+    int count=0;
+    dfs(1,0,adj,s,b,w,count);
+    // for1(i,n){
+    //     if(b[i]==w[i]) count++;
+    // }
+
+    cout<<count<<endl;
 }
 
 int32_t main() {
