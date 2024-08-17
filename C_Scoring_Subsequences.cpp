@@ -119,36 +119,10 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 void solve() {
     // Your code goes here
     inint(n);
-    vll a(n);
-    for0(i,n){
-        cin>>a[i];
-    }
-    vll x=a; sort(x);
-    if(x==a){
-        cout<<0<<endl; return;
-    }
-    vll temp;
-    ll maxi=a[0];
-    for0(i,n-1){
-        if(maxi>a[i+1]){
-            temp.pb(maxi-a[i+1]);
-        }
-        maxi=max(maxi,a[i+1]);
-    }
-    sort(temp);
-    if(temp.size()==0){
-        cout<<0<<endl; return;
-    }
-    else{
-        int k=temp.size();
-        ll ans=0;
-        ans+=(k+1)*temp[0];
-        for1(i,k-1){
-            ll x=(k+1-i)*(temp[i]-temp[i-1]);
-            ans+=x;
-        }
-        cout<<ans<<endl;
-    }
+    vi a(n);
+    for0(i,n) cin>>a[i];
+
+    
 }
 
 int32_t main() {

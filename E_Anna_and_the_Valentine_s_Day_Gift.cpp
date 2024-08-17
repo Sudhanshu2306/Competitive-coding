@@ -118,37 +118,35 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inint(n);
+    inll(n); inll(m);
     vll a(n);
+    for0(i,n) cin>>a[i];
+
+    sort(a);
+    string s="";
+    priority_queue<ll> pq;
     for0(i,n){
-        cin>>a[i];
-    }
-    vll x=a; sort(x);
-    if(x==a){
-        cout<<0<<endl; return;
-    }
-    vll temp;
-    ll maxi=a[0];
-    for0(i,n-1){
-        if(maxi>a[i+1]){
-            temp.pb(maxi-a[i+1]);
+        ll digitCount=0;
+        ll d=10;
+        while(a[i]%d==0){
+            digitCount++;
+            d*=10;
         }
-        maxi=max(maxi,a[i+1]);
+        pq.push(digitCount);
+        s+=to_string(a[i]);
     }
-    sort(temp);
-    if(temp.size()==0){
-        cout<<0<<endl; return;
-    }
-    else{
-        int k=temp.size();
-        ll ans=0;
-        ans+=(k+1)*temp[0];
-        for1(i,k-1){
-            ll x=(k+1-i)*(temp[i]-temp[i-1]);
-            ans+=x;
+
+    ll countZeros=0;
+    while(!pq.empty()){
+        int x=pq.top();pq.pop();
+        countZeros+=x;
+
+        if(pq.size()>0){
+            pq.top(); pq.pop();
         }
-        cout<<ans<<endl;
     }
+    if(s.size()-countZeros>m) cout<<"Sasha"<<endl;
+    else cout<<"Anna"<<endl;
 }
 
 int32_t main() {

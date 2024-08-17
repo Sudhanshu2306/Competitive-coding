@@ -119,36 +119,28 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 void solve() {
     // Your code goes here
     inint(n);
-    vll a(n);
+    vector<string> a(n);
+    for0(i,n) cin>>a[i];
+
+    vector<vector<int>> mp(n,vector<int>(26,0));
     for0(i,n){
-        cin>>a[i];
-    }
-    vll x=a; sort(x);
-    if(x==a){
-        cout<<0<<endl; return;
-    }
-    vll temp;
-    ll maxi=a[0];
-    for0(i,n-1){
-        if(maxi>a[i+1]){
-            temp.pb(maxi-a[i+1]);
+        for(char j:a[i]){
+            mp[i][j-'a']++;
         }
-        maxi=max(maxi,a[i+1]);
     }
-    sort(temp);
-    if(temp.size()==0){
-        cout<<0<<endl; return;
-    }
-    else{
-        int k=temp.size();
-        ll ans=0;
-        ans+=(k+1)*temp[0];
-        for1(i,k-1){
-            ll x=(k+1-i)*(temp[i]-temp[i-1]);
-            ans+=x;
+
+    string ans="";
+    for0(i,26){
+        int x=mp[0][i];
+        for0(j,n){
+            x=min(x,mp[j][i]);
         }
-        cout<<ans<<endl;
+        if(x>0){
+            for0(k,x) ans+=(char(i+'a'));
+        }
     }
+    if(ans=="")cout<<"no such string"<<endl;
+    else cout<<ans<<endl;
 }
 
 int32_t main() {
@@ -158,8 +150,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }
