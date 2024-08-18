@@ -118,19 +118,23 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    int n,x,y; cin>>n>>x>>y;
-    vi ans(n+1);
-    for(int i=y;i<=x;i++){
-        ans[i]=1;
+    inint(n);
+    vpii a(n);
+    for0(i,n){
+        cin>>a[i].f;
+        cin>>a[i].s;
     }
-    for(int i=y-1;i>=1;i--){
-        ans[i]=((y-i)&1==1)?-1:1;
+    int xs,ys,xt,yt; cin>>xs>>ys>>xt>>yt;
+    int c=0;
+    for0(i,n){
+        ll sqx1=pow((a[i].f-xt),2),sqy1=pow((a[i].s-yt),2);
+        ll sqx2=pow((xs-xt),2),sqy2=pow((ys-yt),2); 
+        if((sqx1+sqy1)<=(sqx2+sqy2)){
+            c=1; break;
+        }
     }
-    for(int i=x+1;i<=n;i++){
-        ans[i]=((i-x)&1==1)?-1:1;
-    }
-    for1(i,n) cout<<ans[i]<<" ";
-    cout<<endl;
+    if(c==1) cout<<"NO"<<endl;
+    else cout<<"YES"<<endl;
 }
 
 int32_t main() {

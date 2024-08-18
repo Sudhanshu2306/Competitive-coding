@@ -118,19 +118,40 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    int n,x,y; cin>>n>>x>>y;
-    vi ans(n+1);
-    for(int i=y;i<=x;i++){
-        ans[i]=1;
+    ll n,k; cin>>n>>k;
+    vll a(n);
+    for0(i,n){
+        cin>>a[i];
     }
-    for(int i=y-1;i>=1;i--){
-        ans[i]=((y-i)&1==1)?-1:1;
+    if(k>=3){
+        cout<<0<<endl; return;
     }
-    for(int i=x+1;i<=n;i++){
-        ans[i]=((i-x)&1==1)?-1:1;
+    if(k==1){
+        sort(a);
+        ll mini=a[0];
+        for0(i,n-1){
+            mini=min(mini,a[i+1]-a[i]);
+        }
+        cout<<mini<<endl; return;
     }
-    for1(i,n) cout<<ans[i]<<" ";
-    cout<<endl;
+    if(k==2){
+        sort(a);
+        ll ans=a[0];
+        for0(i,n){
+            for(int j=i+1;j<n;j++){
+                ll x=a[j]-a[i];
+                auto it1=lower_bound(a.begin(),a.end(),x);
+                if(it1!=a.end()){
+                    ans=min(ans,min(x,abs(x-*it1)));
+                }
+                auto it2=prev(it1);
+                if(it1!=a.begin()){
+                    ans=min(ans,min(x,abs(x-*it2)));
+                }
+            }
+        }
+        cout<<ans<<endl;
+    }
 }
 
 int32_t main() {

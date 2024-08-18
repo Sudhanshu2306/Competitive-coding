@@ -118,19 +118,25 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    int n,x,y; cin>>n>>x>>y;
-    vi ans(n+1);
-    for(int i=y;i<=x;i++){
-        ans[i]=1;
+    inint(n);
+    vpii a(n+1);
+    vi x(n+1), y(n+1);
+    for1(i,n){
+        cin>>a[i].f;
+        cin>>a[i].s;
+        if(a[i].f==-1) continue;
+        if(a[i].s==0) x[a[i].f]=-1;
+        else y[i]=1;
     }
-    for(int i=y-1;i>=1;i--){
-        ans[i]=((y-i)&1==1)?-1:1;
-    }
-    for(int i=x+1;i<=n;i++){
-        ans[i]=((i-x)&1==1)?-1:1;
-    }
-    for1(i,n) cout<<ans[i]<<" ";
-    cout<<endl;
+    int f=0;
+    for1(i,n){
+        if(x[i]+y[i]==1){
+            cout<<i<<" ";
+            f=1;
+        }
+    } 
+    if(f==0) cout<<-1<<endl;
+
 }
 
 int32_t main() {
@@ -140,8 +146,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }
