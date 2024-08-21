@@ -118,29 +118,33 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    int n,k; cin>>n>>k;
-    vll a(n);
+    int n,x,y; cin>>n>>x>>y;
+    instr(s);
+    int r=0,c=0;
+    int bx=x,by=y;
+    int f=0;
+    for1(i,n){
+        if (s[i-1]=='R') r++;
+        else if (s[i-1]=='L') r--;
+        else if (s[i-1]=='U') c++;
+        else if (s[i-1]=='D') c--;
 
-    for0(i,n) cin>>a[i];
-    ll sum=0;
-    priority_queue<ll, vll, greater<ll>> pq(all(a));
-    int y=k/n;
-    if(y){
-        for0(i,n){
-            ll x=pq.top(); pq.pop();
-            pq.push(x*(1LL<<y));
+        int a=abs(x-r)+abs(y-c);
+        if(a<=i && a%2==i%2){
+            py; return;
         }
+
+        // if(bx>r)bx--;
+        // else if(bx<r)bx++;
+        
+        // if(by>c) by--;
+        // else if(by<c) by++;
+
+        // if(bx==r && by==c){
+        //     cout<<"Yes"<<endl; return;
+        // }
     }
-    k=k%n;
-    for0(i,k){
-        ll x=pq.top(); pq.pop();
-        pq.push(x*2);
-    }
-    while(!pq.empty()){
-        sum=(sum+pq.top())%M;
-        pq.pop();
-    }
-    cout<<sum<<endl;
+    pn;
 }
 
 int32_t main() {

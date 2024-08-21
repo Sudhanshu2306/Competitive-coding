@@ -118,29 +118,11 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    int n,k; cin>>n>>k;
-    vll a(n);
-
+    inint(t);
+    vi a(n);
     for0(i,n) cin>>a[i];
-    ll sum=0;
-    priority_queue<ll, vll, greater<ll>> pq(all(a));
-    int y=k/n;
-    if(y){
-        for0(i,n){
-            ll x=pq.top(); pq.pop();
-            pq.push(x*(1LL<<y));
-        }
-    }
-    k=k%n;
-    for0(i,k){
-        ll x=pq.top(); pq.pop();
-        pq.push(x*2);
-    }
-    while(!pq.empty()){
-        sum=(sum+pq.top())%M;
-        pq.pop();
-    }
-    cout<<sum<<endl;
+
+    
 }
 
 int32_t main() {

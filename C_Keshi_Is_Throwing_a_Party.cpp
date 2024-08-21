@@ -116,31 +116,42 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+int f(vpii &a, int mid){
+    int n=a.size();
+    int count=0;
+
+    for0(i,n){
+        int l=a[i].s, r=a[i].f;
+        if(l>=count && r>=mid-count-1) count++;
+    }
+    return count>=mid;
+}
+
 void solve() {
     // Your code goes here
-    int n,k; cin>>n>>k;
-    vll a(n);
+    inint(n);
+    vpii a(n);
+    for0(i,n) {
+        cin>>a[i].f;
+        cin>>a[i].s;
+    }
+    
+    // if I invite x person in a party I can invite x-1,x-2..etc as well
+    // kyu? kyuki atmost a[i] and atmost b[i] h,zero bhi ho sakte h
 
-    for0(i,n) cin>>a[i];
-    ll sum=0;
-    priority_queue<ll, vll, greater<ll>> pq(all(a));
-    int y=k/n;
-    if(y){
-        for0(i,n){
-            ll x=pq.top(); pq.pop();
-            pq.push(x*(1LL<<y));
+    ll s=0,e=n;
+    int ans=0;
+    while(s<=e){
+        ll mid=s+(e-s)/2;
+        if(f(a,mid)){
+            ans=mid;
+            s=mid+1;
         }
+        else{
+            e=mid-1;
+        } 
     }
-    k=k%n;
-    for0(i,k){
-        ll x=pq.top(); pq.pop();
-        pq.push(x*2);
-    }
-    while(!pq.empty()){
-        sum=(sum+pq.top())%M;
-        pq.pop();
-    }
-    cout<<sum<<endl;
+    cout<<ans<<endl;
 }
 
 int32_t main() {

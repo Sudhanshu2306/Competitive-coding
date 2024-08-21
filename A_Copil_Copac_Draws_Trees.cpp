@@ -116,31 +116,29 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+const int LIM=2e5+7, INF=1e9+7;
+vector<pair<int,int>>V[LIM];
+int ans;
+void DFS(int x, int o, int lst, int d) {
+	ans=max(ans, d);
+	for(auto i : V[x]) if(i.f!=o) {
+		if(i.s<lst) DFS(i.f, x, i.s, d+1);
+		else DFS(i.f, x, i.s, d);
+	}
+}
 void solve() {
-    // Your code goes here
-    int n,k; cin>>n>>k;
-    vll a(n);
-
-    for0(i,n) cin>>a[i];
-    ll sum=0;
-    priority_queue<ll, vll, greater<ll>> pq(all(a));
-    int y=k/n;
-    if(y){
-        for0(i,n){
-            ll x=pq.top(); pq.pop();
-            pq.push(x*(1LL<<y));
-        }
-    }
-    k=k%n;
-    for0(i,k){
-        ll x=pq.top(); pq.pop();
-        pq.push(x*2);
-    }
-    while(!pq.empty()){
-        sum=(sum+pq.top())%M;
-        pq.pop();
-    }
-    cout<<sum<<endl;
+	int n;
+	cin >> n;
+	for0(i,n) V[i].clear();
+	ans=0;
+	for0(i, n-1) {
+		int a, b;
+		cin >> a >> b; --a; --b;
+		V[a].pb({b, i});
+		V[b].pb({a, i});
+	}
+	DFS(0, 0, 1e9+7, 0);
+	cout << ans << '\n';
 }
 
 int32_t main() {

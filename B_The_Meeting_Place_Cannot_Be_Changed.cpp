@@ -41,7 +41,9 @@ using namespace std;
 
 // Shortcuts for common data types
 typedef long long ll;
+typedef long double ld;
 typedef vector<int> vi;
+typedef vector<ld> vld;
 typedef vector<ll> vll;
 typedef vector<vi> vvi;
 typedef vector<vll> vvll;
@@ -116,31 +118,43 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+bool f(vld &x, vld &v, ld mid){
+    vector<pair<ld,ld>> temp;
+    int n=x.size();
+    for0(i,n){
+        temp.pb({x[i]-v[i]*mid,x[i]+v[i]*mid});
+    }
+    ld l=-1e18, r=1e18;
+    for0(i,n){
+        if(l>temp[i].s || r<temp[i].f) return 0;
+        l=max(l,temp[i].f);
+        r=min(r,temp[i].s);
+    }
+    return 1;
+}
+
 void solve() {
     // Your code goes here
-    int n,k; cin>>n>>k;
-    vll a(n);
+    inint(n);
+    vld x(n); for0(i,n) cin>>x[i];
+    vld v(n); for0(i,n) cin>>v[i];
 
-    for0(i,n) cin>>a[i];
-    ll sum=0;
-    priority_queue<ll, vll, greater<ll>> pq(all(a));
-    int y=k/n;
-    if(y){
-        for0(i,n){
-            ll x=pq.top(); pq.pop();
-            pq.push(x*(1LL<<y));
+    // we can try doing binary search on distance, but how to move s and e?
+    // that's bcoz we will try bs on time
+    // kyuki agar time t mein sablog ek jagah aa jaaye toh t+1, t+2, t+3 in sab mein bhiaa jaayenge
+
+    ld s=0, e=1e18;
+    ld ans=1e18;
+    for(int i=0;i<100;i++){
+        ld mid=s+(e-s)/2;
+
+        if(f(x,v,mid)) {
+            ans=mid;
+            e=mid;
         }
+        else s=mid;
     }
-    k=k%n;
-    for0(i,k){
-        ll x=pq.top(); pq.pop();
-        pq.push(x*2);
-    }
-    while(!pq.empty()){
-        sum=(sum+pq.top())%M;
-        pq.pop();
-    }
-    cout<<sum<<endl;
+    cout<<ps(ans,12)<<endl;
 }
 
 int32_t main() {
@@ -150,8 +164,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

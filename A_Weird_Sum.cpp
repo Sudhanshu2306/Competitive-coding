@@ -116,31 +116,37 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+ll f(vll &a){
+    sort(a);
+    ll n=a.size();
+    ll ans=0;
+    for0(i,n-1){
+        ll y=(a[i+1]-a[i])*(i+1)*(n-i-1);
+        ans+=y;
+    }
+    return ans;
+}
+
 void solve() {
     // Your code goes here
-    int n,k; cin>>n>>k;
-    vll a(n);
-
-    for0(i,n) cin>>a[i];
-    ll sum=0;
-    priority_queue<ll, vll, greater<ll>> pq(all(a));
-    int y=k/n;
-    if(y){
-        for0(i,n){
-            ll x=pq.top(); pq.pop();
-            pq.push(x*(1LL<<y));
+    inll(n); inll(m);
+    
+    unordered_map<ll,vll> x,y;
+    for0(i,n){
+        for0(j,m){
+            inll(a);
+            x[a].pb(i); y[a].pb(j);
         }
     }
-    k=k%n;
-    for0(i,k){
-        ll x=pq.top(); pq.pop();
-        pq.push(x*2);
+    ll ans=0;
+    for(auto &i:x){
+        ans+=f(i.second);
     }
-    while(!pq.empty()){
-        sum=(sum+pq.top())%M;
-        pq.pop();
+    for(auto &i:y){
+        ans+=f(i.second);
     }
-    cout<<sum<<endl;
+
+    cout<<ans<<endl;
 }
 
 int32_t main() {
@@ -150,8 +156,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

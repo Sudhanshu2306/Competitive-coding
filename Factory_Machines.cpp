@@ -118,29 +118,27 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    int n,k; cin>>n>>k;
-    vll a(n);
+    inll(n); inll(t);
+    vll a(n); for0(i,n) cin>>a[i];
 
-    for0(i,n) cin>>a[i];
-    ll sum=0;
-    priority_queue<ll, vll, greater<ll>> pq(all(a));
-    int y=k/n;
-    if(y){
+    ll s=0;
+    ll e=1e18;
+    ll ans=0;
+
+    while(s<=e){
+        ll mid=(s+e)/2;
+        ll x=0;
         for0(i,n){
-            ll x=pq.top(); pq.pop();
-            pq.push(x*(1LL<<y));
+            x+=(mid/a[i]);
+            if(x>=t) break;
         }
+        if(x>=t) {
+            ans=mid;
+            e=mid-1;
+        }
+        else s=mid+1;
     }
-    k=k%n;
-    for0(i,k){
-        ll x=pq.top(); pq.pop();
-        pq.push(x*2);
-    }
-    while(!pq.empty()){
-        sum=(sum+pq.top())%M;
-        pq.pop();
-    }
-    cout<<sum<<endl;
+    cout<<ans<<endl;
 }
 
 int32_t main() {
@@ -150,8 +148,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }
