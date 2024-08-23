@@ -116,23 +116,40 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+bool ss(int mid, vi &temp, int n){
+    ll extraTime=0, neededTime=0;
+    for(int i=1;i<=n;i++){
+        if(mid>=temp[i]) extraTime+=(mid-temp[i])/2;
+        else neededTime+=(temp[i]-mid);
+    }
+    
+    return extraTime>=neededTime;
+
+}
+
 void solve() {
     // Your code goes here
-    inll(n); inll(m);
-    vll a(n, -1);
-    for(int i=0; i<m; ++i){
-        ll l,r;
-        cin>>l>>r;
-        --l;
-        --r;
-        if(l>r)
-            swap(l, r);
-        a[r]=max(a[r], l);
+    inint(n); inint(m);
+    vi a(m); for0(i,m) cin>>a[i];
+
+    // if we can complete the whole woprk in t time, we can definately do it in t+1, t+2... time.
+    // so this is definately binary search 
+    int s=1, e=2*m;
+    int ans=1e9;
+
+    vi temp(n+1,0);
+    for(auto i:a){
+        temp[i]++;
     }
-    ll ans=0, ma=-1;
-    for(int i=0; i<n; ++i) {
-        ma=max(ma, a[i]);
-        ans += i - ma;
+
+    while(s<=e){
+        int mid=s+(e-s)/2;
+
+        if(ss(mid,temp,n)){
+            ans=mid;
+            e=mid-1;
+        }
+        else s=mid+1;
     }
     cout<<ans<<endl;
 }
