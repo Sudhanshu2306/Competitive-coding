@@ -118,31 +118,22 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inint(n); inint(k);
-    vi a(n); for0(i,n) cin>>a[i];
+    inint(n); inint(m);
 
-    int i=0,j=0;
-    int count=0;
-    queue<int> q;
-    for(int i=0;i<k;i++){
-        if(a[i]<2*a[i+1]){}
-        else q.push(i);
+    vi a(m);
+    for0(i,m) cin>>a[i];
+    sort(a);
+    vi b;
+    for0(i,m-1) b.pb(a[i+1]-a[i]-1);
+    b.pb(n-a.back() + a[0]-1);
+    sort(b);
+    reverse(all(b));
+    int ans=0;;
+    for0(i,m){
+        ans+=min(b[i],4*i);
+        if(b[i]>4*i+1) ans++;
     }
-    
-    if(q.empty()) count++;
-    else{}
-
-    j=k;
-    while(j<n-1){
-        i++;
-        if(!q.empty() && q.front()<i) q.pop();
-        if(a[j]<2*a[j+1] && q.empty()) count++;
-        else{
-            if(!(a[j]<2*a[j+1])) q.push(j);
-        }
-        j++;
-    }
-    cout<<count<<endl;
+    cout<<ans+m<<endl;
 }
 
 int32_t main() {

@@ -116,33 +116,50 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+int cnt=0;
+void dfs(int node, vector<vpii> adj, vi& vis){
+    vis[node]=1;
+    cnt++;
+    for(auto i:adj[node]){
+        if(vis[i.f]) continue;
+        dfs(i.f,adj,vis);
+    }
+}
+
 void solve() {
     // Your code goes here
-    inint(n); inint(k);
-    vi a(n); for0(i,n) cin>>a[i];
+    inint(n); inint(m);
+    vector<vpii> adj(n+1);
 
-    int i=0,j=0;
-    int count=0;
-    queue<int> q;
-    for(int i=0;i<k;i++){
-        if(a[i]<2*a[i+1]){}
-        else q.push(i);
+    for0(i,m){
+        inint(u); inint(v);
+        inint(w);
+        adj[u].pb({v,w});
+        adj[v].pb({u,w});
     }
-    
-    if(q.empty()) count++;
-    else{}
+    int ans=(1<<30)-1;
 
-    j=k;
-    while(j<n-1){
-        i++;
-        if(!q.empty() && q.front()<i) q.pop();
-        if(a[j]<2*a[j+1] && q.empty()) count++;
-        else{
-            if(!(a[j]<2*a[j+1])) q.push(j);
+    vi vis(n+1,0);
+    vi x=vis;
+    vector<vpii> temp(n+1);
+
+    for(int j=29;j>=0;j--){
+        for(int i=1;i<=n;i++){
+            temp[i].clear();
+            for(auto it:adj[i]){
+                if(((it.s>>j) &1)==0) temp[i].pb(it);
+            }
         }
-        j++;
+        ans-=(1<<j);
+        vis=x;
+        cnt=0;
+        dfs(1,temp,vis);
+        if(cnt<n){
+            ans+=(1<<j);
+        }
+        if(((ans>>j)&1)==0) adj=temp;
     }
-    cout<<count<<endl;
+    cout<<ans<<endl;
 }
 
 int32_t main() {
