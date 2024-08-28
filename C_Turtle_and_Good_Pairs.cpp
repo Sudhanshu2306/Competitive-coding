@@ -92,40 +92,17 @@ bool isPrime(ll n){if(n<=1)return false;if(n<=3)return true;if(n%2==0||n%3==0)re
 bool isPowerOfTwo(int n){if(n==0)return false;return (ceil(log2(n)) == floor(log2(n)));}
 bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}return false;}
 
-void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
+void Sieve(int n){ is_prime.assign(n+1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
-
-bool f(vector<pll> &a, ll mid){
-    ll x=0,y=0;
-    for0(i,a.size()){
-        x=max(a[i].f,x-mid);
-        y=min(a[i].s,y+mid);
-        if(x>y) return false;
-    }
-    return true;
-}
 
 void solve() {
     // Your code goes here
-    inll(n);
-    vector<pll> a(n);
-    ll maxi=0;
-    for0(i,n){
-        cin>>a[i].f; cin>>a[i].s;
-        maxi=max({maxi,a[i].f,a[i].s});
-    }
-
-    ll s=0, e=maxi;
-    ll ans=0;
-    while(s<=e){
-        ll mid=s+(e-s)/2;
-        if(f(a,mid)){
-            ans=mid;
-            e=mid-1;
-        }
-        else s=mid+1;
-    }
-    cout<<ans<<endl;
+    inint(n);
+    instr(s);
+    sort(s);
+    for0(i,n/2) cout<<s[i]<<s[n-i-1];
+    if(n&1)cout<<s[n/2];
+    cout<<endl;
 }
 
 int32_t main() {
@@ -134,7 +111,7 @@ int32_t main() {
 
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
-
+    
     int t;
     cin>>t;
     while(t--){

@@ -95,37 +95,21 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
-bool f(vector<pll> &a, ll mid){
-    ll x=0,y=0;
-    for0(i,a.size()){
-        x=max(a[i].f,x-mid);
-        y=min(a[i].s,y+mid);
-        if(x>y) return false;
-    }
-    return true;
-}
-
 void solve() {
     // Your code goes here
-    inll(n);
-    vector<pll> a(n);
-    ll maxi=0;
-    for0(i,n){
-        cin>>a[i].f; cin>>a[i].s;
-        maxi=max({maxi,a[i].f,a[i].s});
-    }
+    inint(n); inint(l); inint(r);
+    vi a(n);
+    for0(i,n) cin>>a[i];
+    sort(a);
+    ll total=0;
 
-    ll s=0, e=maxi;
-    ll ans=0;
-    while(s<=e){
-        ll mid=s+(e-s)/2;
-        if(f(a,mid)){
-            ans=mid;
-            e=mid-1;
-        }
-        else s=mid+1;
+    for0(i,n){
+        auto itr1=upper_bound(all(a),r-a[i])-a.begin();
+        auto itr2=lower_bound(all(a),l-a[i])-a.begin();
+        total+=(itr1-itr2);
+        if(2*a[i]<=r && 2*a[i]>=l) total-=1;
     }
-    cout<<ans<<endl;
+    cout<<total/2<<endl;
 }
 
 int32_t main() {

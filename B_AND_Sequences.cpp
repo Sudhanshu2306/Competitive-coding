@@ -56,30 +56,9 @@ typedef vector<pii> vpii;
 class DisjointSet{
     public:
     vector<int> parent,size;
-    DisjointSet(int n){
-        parent.resize(n+1,1);
-        size.resize(n+1,1);
-        for(int i=0;i<=n;i++){
-            parent[i]=i;
-        }
-    }
-    int findParent(int node){
-        if(node==parent[node]) return node;
-        return parent[node]=findParent(parent[node]);
-    }
-    void unionBySize(int u, int v){
-        int parent_u=findParent(u);
-        int parent_v=findParent(v);
-        if(parent_u==parent_v) return;
-        if(size[parent_u]>size[parent_v]){
-            parent[parent_v]=parent_u;
-            size[parent_u]+=size[parent_v];
-        }
-        else{
-            parent[parent_u]=parent_v;
-            size[parent_v]+=size[parent_u];
-        }
-    }
+    DisjointSet(int n){parent.resize(n+1,1);size.resize(n+1,1);for(int i=0;i<=n;i++){parent[i]=i;}}
+    int findParent(int node){if(node==parent[node]) return node;return parent[node]=findParent(parent[node]);}
+    void unionBySize(int u, int v){int parent_u=findParent(u);int parent_v=findParent(v);if(parent_u==parent_v) return;if(size[parent_u]>size[parent_v]){parent[parent_v]=parent_u;size[parent_u]+=size[parent_v];}else{parent[parent_u]=parent_v;size[parent_v]+=size[parent_u];}}
 };
 ll bi_expo (ll a,ll b){
     ll ans=1;
@@ -118,11 +97,34 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inint(t);
-    vi a(n);
+    inint(n);
+    vll a(n);
     for0(i,n) cin>>a[i];
 
-    
+    ll num=a[0]; // ans of any two parts has to be atleast this value
+    ll count=0; // counting number of elements that are equal to 'num', there has to be atleast two of them
+    for1(i,n-1) num&=a[i];
+    for0(i,n) if(a[i]==num) count++;
+
+    /*
+    Suppose the array is {a, b, c, d}  
+    Let say, here x = a&b&c^d
+    x=a&(b&c&d) 
+    so, a = bcd
+    According to the question, we have another element, say 'd', which is equal to the AND product of rest of the elements. 
+    So, d = abc, Putting it in the # equation, we get 
+
+    a = (a&b&c)&d = d&d = d
+    So, a and d is same, a=d 
+    So, the array must be atleast in the form of, 
+    {a, b, c, a}
+    */
+
+    ll ans=1LL*count*(count-1)%M;
+    // calculating factorial of n-2, i.e arrange n-2 elemets in how many ways
+    for0(i,n-2) ans=ans*(i+1)%M;
+
+    cout<<ans<<endl;
 }
 
 int32_t main() {

@@ -98,21 +98,17 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 void solve() {
     // Your code goes here
     inint(n); inint(k);
+    map<int,int> mp;
     vi a(n); for0(i,n) {
         cin>>a[i];
+        // temp.push_back({a[i]%k,a[i]});
+        mp[(k-(a[i]%k))%k]++;
     }
-    sort(a);
-    int count=0;
-    int x=0;
-    for0(i,n){
-        if(a[i]%k==0) continue;
-        if((a[i]+x)%k==0) {
-            x++; count++;
-        }
-        while((a[i]+x)%k!=0){
-            x++;
-            count++;
-        }
+    // sort(a);
+    ll count=0;
+    for(auto i:mp){
+        if(i.f==0) continue;
+        count=max(count,(ll)(i.s-1)*(ll)k+i.f+1);
     }
     cout<<count<<endl;
 }

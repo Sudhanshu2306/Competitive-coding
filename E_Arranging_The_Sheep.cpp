@@ -95,37 +95,38 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
-bool f(vector<pll> &a, ll mid){
-    ll x=0,y=0;
-    for0(i,a.size()){
-        x=max(a[i].f,x-mid);
-        y=min(a[i].s,y+mid);
-        if(x>y) return false;
-    }
-    return true;
-}
-
 void solve() {
     // Your code goes here
-    inll(n);
-    vector<pll> a(n);
-    ll maxi=0;
-    for0(i,n){
-        cin>>a[i].f; cin>>a[i].s;
-        maxi=max({maxi,a[i].f,a[i].s});
+    inint(n); instr(s);
+    // . means empty space and * means sheep
+    vi pre(n),suf(n);
+    pre[0]=(s[0]=='*'?0:1);
+    suf[n-1]=(s[n-1]=='*'?0:1);
+
+    for1(i,n-1){
+        if(s[i]=='.') pre[i]=pre[i-1]+1;
+        else pre[i]=pre[i-1];
+    }
+    rfor0(i,n-1){
+        if(s[i]=='.') suf[i]=suf[i+1]+1;
+        else suf[i]=suf[i+1];
     }
 
-    ll s=0, e=maxi;
-    ll ans=0;
-    while(s<=e){
-        ll mid=s+(e-s)/2;
-        if(f(a,mid)){
-            ans=mid;
-            e=mid-1;
-        }
-        else s=mid+1;
+    int mini=1e9;
+    int s1=0,s2=0;
+    int f=0;
+    for0(i,n){
+        if(s[i]=='*' && f==1) s1+=(pre[i]);
+        if(s[i]=='*' && f==0) f=1;
     }
-    cout<<ans<<endl;
+    mini=min(mini,s1);
+    f=0;
+    rfor0(i,n){
+        if(s[i]=='*' && f==1) s2+=(suf[i]);
+        if(s[i]=='*' && f==0) f=1;
+    }
+    mini=min(mini,s2);
+    cout<<mini<<endl;
 }
 
 int32_t main() {
