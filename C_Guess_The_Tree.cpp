@@ -95,40 +95,62 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
-void solve() {
-    // Your code goes here
-    inint(n);
-    vll a(n); for0(i,n) cin>>a[i];
-
-    ll sum=0; int c=0; int z=0;
-    ll mini=1e9;
-    for0(i,n){
-        if(a[i]==0) z++;
-        mini=min(mini,abs(a[i]));
-        sum+=abs(a[i]);
-        if(a[i]<0)c++;
-    }
-    if(z>0) {
-        cout<<sum<<endl; return;
-    }
-    if(c&1) cout<<sum-2*mini<<endl;
-    else cout<<sum<<endl;
+ll q(ll fst, ll sec)
+{
+	cout << "? " << fst << " " << sec << endl;
+	ll res;
+	cin >> res;
+	return res;
 }
-
-int32_t main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
-    // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
-    // NO. 1 is always an odd!
-
-    int t;
-    cin>>t;
-    while(t--){
-        solve();
-    }
-
-    return 0;
+void solve()
+{
+	ll n;
+	cin >> n;
+	vector<pll> arr;
+	vector<ll> arr1[n + 1];
+	ll fst = 1, sec = 2;
+	for (ll i = 2; i <= n; i++)
+	{
+		fst = 1;
+		sec = i;
+		while (1)
+		{
+			ll val = q(fst, sec);
+			if (val == fst || val == sec)
+			{
+				arr1[sec].push_back(fst);
+				break;
+			}
+			fst = val;
+		}
+	}
+	for (ll i = 0; i <= n; i++)
+	{
+		for (auto it : arr1[i])
+		{
+			arr.push_back({i, it});
+		}
+	}
+	cout << "! ";
+	for (auto it : arr)
+	{
+		cout << it.f << " " << it.s << "\n";
+	}
+	cout << endl;
+	return;
+}
+int32_t main()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(0);
+	int t = 1;
+	cin >> t;
+	for (int it = 1; it <= t; it++)
+	{
+		// cout<<"Case "<<it<<": ";
+		solve();
+	}
+	return 0;
 }
 
 
