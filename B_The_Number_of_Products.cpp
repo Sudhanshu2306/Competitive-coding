@@ -95,54 +95,23 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
-ll f(int ind1, string s){
-    int x=0;
-    ll count=0;
-    for(int i=ind1-1;i>=0;i--){
-        if(s[i]=='*') count+=x;
-        else x++;
-    }
-
-    x=0;
-    for(int i=ind1+1;i<s.size();i++){
-        if(s[i]=='*') count+=x;
-        else x++;
-    }
-    return count;
-}
-
 void solve() {
     // Your code goes here
-    inint(n); instr(s);
-    // . means empty space and * means sheep
-    // vi pre(n),suf(n);
-    
-    int c=0;
-    for0(i,n){
-        if(s[i]=='*') c++;
-    }
-    int x=0;
-    int ind1=0, ind2=0;
-    for0(i,n){
-        if(s[i]=='*') x++;
-        if(x==((c+1)/2)){
-            ind1=i; break;
-        }
-    }
-    for0(i,n){
-        if(s[i]=='*') x++;
-        if(x==((c-1)/2)){
-            ind2=i; break;
-        }
-    }
-    // int ind2=((c)/2);
-    // cout<<ind2<<endl;
-    ll a1=f(ind1,s);
-    // int a1=1e9;
-    ll a2=f(ind2,s);
-    cout<<min(a1,a2)<<endl;
-    // cout<<endl;
+    inint(n);
+    vi a(n); for0(i,n) cin>>a[i];
 
+    // number of -ve pairs and +ve pairs will be alltogether total number of pairs
+    ll tot=(1LL*n*(n+1))/2;
+    ll p=1;
+    int cn=0,cp=1;
+    for0(i,n){
+        if(a[i]<0) p*=(-1);
+        if(p<0) cn++;
+        else cp++;
+    }
+    ll nega=1LL*cn*cp;
+    ll pos=tot-nega;
+    cout<<nega<<" "<<pos<<endl;
 }
 
 int32_t main() {
@@ -152,8 +121,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }
