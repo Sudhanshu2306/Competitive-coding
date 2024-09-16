@@ -55,7 +55,7 @@ typedef vector<pii> vpii;
 
 class DisjointSet{
     public:
-    vi parent,size;
+    vector<int> parent,size;
     DisjointSet(int n){parent.resize(n+1,1);size.resize(n+1,1);for(int i=0;i<=n;i++){parent[i]=i;}}
     int findParent(int node){if(node==parent[node]) return node;return parent[node]=findParent(parent[node]);}
     void unionBySize(int u, int v){int parent_u=findParent(u);int parent_v=findParent(v);if(parent_u==parent_v) return;if(size[parent_u]>size[parent_v]){parent[parent_v]=parent_u;size[parent_u]+=size[parent_v];}else{parent[parent_u]=parent_v;size[parent_v]+=size[parent_u];}}
@@ -97,11 +97,20 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inint(n);
-    vi p(n);
-    for0(i,n) cin>>a[i];
-    instr(s);
-
+    inll(n); inll(m);
+    vi a(n),b(n);
+    a[0]=1;
+    for1(i,n-1) cin>>a[i];
+    for0(i,n) cin>>b[i];
+    sort(a);sort(b);
+    int prevInd=-1;
+    ll ans=0;
+    for0(i,n){
+        int ind=upper_bound(b.begin()+prevInd+1,b.end(),a[i])-b.begin();
+        if(ind==n) break;
+        ans++; prevInd=ind;
+    }
+    cout<<n-ans<<endl;
 }
 
 int32_t main() {

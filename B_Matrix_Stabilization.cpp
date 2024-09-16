@@ -97,32 +97,31 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(k);
-    inll(w);
-    vll a(w); for0(i,w) cin>>a[i];
-    sort(a);
-    reverse(all(a));
+    inll(n); inll(m);
+    vvll a(n,vll(m));
+    for0(i,n){
+        for0(j,m) cin>>a[i][j];
+    }
+    int dx[4]={-1,0,1,0};
+    int dy[4]={0,1,0,-1};
 
-    vll repi;
-    for1(i,n){
-        for1(j,m){
-            ll x1=max((ll)0,(ll)(i-k));
-            ll x2=min((ll)i-1,(ll)(n-k));
-            ll y1=max((ll)0,(ll)(j-k));
-            ll y2=min((ll)j-1,(ll)(m-k));
-            // cout<<x1<<" "<<x2<<endl;
-            // cout<<y1<<" "<<y2<<endl;
-            repi.pb((x2-x1+1)*(y2-y1+1));
+    for0(i,n){
+        for0(j,m){
+            ll maxi=-1e9;
+            for0(k,4){
+                int nr=i+dx[k];
+                int nc=j+dy[k];
+                if(nr>=0 && nr<n && nc>=0 && nc<m){
+                    maxi=max(maxi,a[nr][nc]);
+                }
+            }
+            if(maxi<a[i][j]) a[i][j]=maxi;
         }
     }
-    sort(repi); reverse(all(repi));
-    // for0(i,repi.size()) cout<<repi[i]<<" ";
-    // cout<<endl;
-    ll ans=0;
-    for0(i,w){
-        ans+=repi[i]*a[i]*1LL;
+    for0(i,n){
+        for0(j,m) cout<<a[i][j]<<" ";
+        cout<<endl;
     }
-    cout<<ans<<endl;
 }
 
 int32_t main() {

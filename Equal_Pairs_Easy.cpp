@@ -97,30 +97,28 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(k);
-    inll(w);
-    vll a(w); for0(i,w) cin>>a[i];
-    sort(a);
-    reverse(all(a));
-
-    vll repi;
-    for1(i,n){
-        for1(j,m){
-            ll x1=max((ll)0,(ll)(i-k));
-            ll x2=min((ll)i-1,(ll)(n-k));
-            ll y1=max((ll)0,(ll)(j-k));
-            ll y2=min((ll)j-1,(ll)(m-k));
-            // cout<<x1<<" "<<x2<<endl;
-            // cout<<y1<<" "<<y2<<endl;
-            repi.pb((x2-x1+1)*(y2-y1+1));
+    inll(n);
+    unordered_map<ll,ll>mp;
+    ll maxi=0;
+    int count=0;
+    int e=0;
+    vll a(n); 
+    for0(i,n) {
+        cin>>a[i];
+        if(a[i]!=0){
+            mp[a[i]]++;
+            if(maxi<mp[a[i]]){
+                maxi=mp[a[i]];
+                e=a[i];
+            }
         }
+        else count++;
     }
-    sort(repi); reverse(all(repi));
-    // for0(i,repi.size()) cout<<repi[i]<<" ";
-    // cout<<endl;
-    ll ans=0;
-    for0(i,w){
-        ans+=repi[i]*a[i]*1LL;
+    int x=maxi+count;
+    ll ans=(x*(x-1))/2;
+    mp.erase(e);
+    for(auto i:mp){
+        ans+=(i.s*(i.s-1))/2;
     }
     cout<<ans<<endl;
 }

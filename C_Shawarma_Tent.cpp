@@ -97,32 +97,25 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(k);
-    inll(w);
-    vll a(w); for0(i,w) cin>>a[i];
-    sort(a);
-    reverse(all(a));
-
-    vll repi;
-    for1(i,n){
-        for1(j,m){
-            ll x1=max((ll)0,(ll)(i-k));
-            ll x2=min((ll)i-1,(ll)(n-k));
-            ll y1=max((ll)0,(ll)(j-k));
-            ll y2=min((ll)j-1,(ll)(m-k));
-            // cout<<x1<<" "<<x2<<endl;
-            // cout<<y1<<" "<<y2<<endl;
-            repi.pb((x2-x1+1)*(y2-y1+1));
-        }
+    inll(n); inll(sx); inll(sy);
+    vector<pll> a(n);
+    for0(i,n){
+        cin>>a[i].f; cin>>a[i].s;
     }
-    sort(repi); reverse(all(repi));
-    // for0(i,repi.size()) cout<<repi[i]<<" ";
-    // cout<<endl;
-    ll ans=0;
-    for0(i,w){
-        ans+=repi[i]*a[i]*1LL;
+    int up=0,down=0,right=0,left=0;
+    for0(i,n){
+        if(a[i].f>sx) right++;
+        if(a[i].f<sx) left++;
+        if(a[i].s>sy) up++;
+        if(a[i].s<sy) down++;
     }
-    cout<<ans<<endl;
+    int maxi=max({left,right,up,down});
+    if(maxi==right) sx++;
+    else if(maxi==left) sx--;
+    else if(maxi==up) sy++;
+    else sy--;
+    cout<<maxi<<endl;
+    cout<<sx<<" "<<sy<<endl;
 }
 
 int32_t main() {
@@ -132,8 +125,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

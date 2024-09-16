@@ -95,34 +95,42 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+ll mex(vll &a){
+    set<ll> st;
+    for0(i,a.size()+1) st.insert(i);
+    for(auto i:a) st.erase(i);
+    return *(st.begin());
+}
+
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(k);
-    inll(w);
-    vll a(w); for0(i,w) cin>>a[i];
-    sort(a);
-    reverse(all(a));
-
-    vll repi;
-    for1(i,n){
-        for1(j,m){
-            ll x1=max((ll)0,(ll)(i-k));
-            ll x2=min((ll)i-1,(ll)(n-k));
-            ll y1=max((ll)0,(ll)(j-k));
-            ll y2=min((ll)j-1,(ll)(m-k));
-            // cout<<x1<<" "<<x2<<endl;
-            // cout<<y1<<" "<<y2<<endl;
-            repi.pb((x2-x1+1)*(y2-y1+1));
+    inint(n); inint(m);
+    vvll a(n,vll(m,0));
+    ll sr=0;
+    for0(i,n){
+        if(sr<m-1) sr++;
+        ll sc=sr;
+        for0(j,m){
+            a[i][sc]=j;
+            sc=(sc+1)%m;
         }
     }
-    sort(repi); reverse(all(repi));
-    // for0(i,repi.size()) cout<<repi[i]<<" ";
-    // cout<<endl;
-    ll ans=0;
-    for0(i,w){
-        ans+=repi[i]*a[i]*1LL;
+
+    vll temp;
+    for0(i,m){
+        vll c;
+        for0(j,n){
+            c.pb(a[j][i]);
+        }
+        temp.pb(mex(c));
     }
-    cout<<ans<<endl;
+    cout<<mex(temp)<<endl;
+
+    for(auto i:a){
+        for(auto j:i) cout<<j<<" ";
+        cout<<endl;
+    }
+    // cout<<endl;
 }
 
 int32_t main() {

@@ -95,34 +95,45 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
-void solve() {
-    // Your code goes here
-    inll(n); inll(m); inll(k);
-    inll(w);
-    vll a(w); for0(i,w) cin>>a[i];
-    sort(a);
-    reverse(all(a));
-
-    vll repi;
-    for1(i,n){
-        for1(j,m){
-            ll x1=max((ll)0,(ll)(i-k));
-            ll x2=min((ll)i-1,(ll)(n-k));
-            ll y1=max((ll)0,(ll)(j-k));
-            ll y2=min((ll)j-1,(ll)(m-k));
-            // cout<<x1<<" "<<x2<<endl;
-            // cout<<y1<<" "<<y2<<endl;
-            repi.pb((x2-x1+1)*(y2-y1+1));
+bool f(vll &a, ll s, ll x, int ind){
+    // ll maxi=-1e9;
+    ll sum=0;
+    for0(i,x+1) sum+=a[i];
+    if(sum<=s) return true;
+    for0(i,x+1){
+        if(sum-a[i]<=s) {
+            ind=i;
+            return true;
         }
     }
-    sort(repi); reverse(all(repi));
-    // for0(i,repi.size()) cout<<repi[i]<<" ";
-    // cout<<endl;
-    ll ans=0;
-    for0(i,w){
-        ans+=repi[i]*a[i]*1LL;
+    return false;
+}
+
+void solve() {
+    // Your code goes here
+    inll(n); inll(s);
+    vll a(n); for0(i,n) cin>>a[i];
+    // if x verses are possible, toh x-1, x-2 .. are also possible
+    // ll start=0,end=n;
+    // ll ans=0;
+    // while(start<=end){
+    //     ll mid=start+(end-start)/2;
+    //     int ind=0;
+    //     if(f(a,s,mid,ind)){
+    //         ans=ind;
+    //         start=mid+1;
+    //     }
+    //     else end=mid-1;
+    // }
+    // cout<<ans<<endl;
+    int maxInd=0;
+    for0(i,n){
+        if(a[i]>a[maxInd]) maxInd=i;
+        s-=a[i];
+        if(s<0) break;
     }
-    cout<<ans<<endl;
+    if(s>=0) cout<<0<<endl;
+    else cout<<maxInd+1<<endl;
 }
 
 int32_t main() {
@@ -140,5 +151,6 @@ int32_t main() {
 
     return 0;
 }
+
 
 
