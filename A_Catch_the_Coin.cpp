@@ -97,33 +97,17 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(k);
-    inll(w);
-    vll a(w); for0(i,w) cin>>a[i];
-    sort(a);
-    reverse(all(a));
-
-    vll repi;
+    inll(n);
+    vpii a(n);
     for0(i,n){
-        for0(j,m){
-            ll x1=max((ll)0,(ll)(i-k+1));
-            ll x2=min((ll)i,(ll)(n-k));
-            ll y1=max((ll)0,(ll)(j-k+1));
-            ll y2=min((ll)j,(ll)(m-k));
-            // cout<<x1<<" "<<x2<<endl;
-            // cout<<y1<<" "<<y2<<endl;
-            repi.pb((x2-x1+1)*(y2-y1+1));
-        }
+        cin>>a[i].f; cin>>a[i].s;
+        if(a[i].s>=-1) cout<<"YES"<<endl;
+        else cout<<"NO"<<endl;
     }
+    int dx[8]={0,1,1,1,0,-1,-1,-1};
+    int dy[8]={1,1,0,-1,-1,-1,0,1};
+
     
-    sort(repi); reverse(all(repi));
-    // for0(i,repi.size()) cout<<repi[i]<<" ";
-    // cout<<endl;
-    ll ans=0;
-    for0(i,w){
-        ans+=repi[i]*a[i]*1LL;
-    }
-    cout<<ans<<endl;
 }
 
 int32_t main() {
@@ -133,8 +117,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

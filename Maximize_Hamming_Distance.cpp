@@ -95,35 +95,52 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+ll f(string a, string b){
+    ll dist=0;
+    for0(i,a.size()){
+        if(a[i]!=b[i]) dist++;
+    }
+    return dist;
+}
+
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(k);
-    inll(w);
-    vll a(w); for0(i,w) cin>>a[i];
-    sort(a);
-    reverse(all(a));
+    inll(n); inll(m);
+    vector<string> a(m);
+    for0(i,m) cin>>a[i];
 
-    vll repi;
+    // n is the length of string
+    ll tt=0;
+    // unordered_map<int,unordered_map<char>> mp;
+    // for0(i,m){
+    //     for0(j,n){
+    //         mp[i][a[i][j]]++;
+    //     }
+    // }
+    // int maxi=0;
+    // for(auto it:mp){
+
+    // }
+
     for0(i,n){
+        ll c0=0,c1=0,cq=0;
         for0(j,m){
-            ll x1=max((ll)0,(ll)(i-k+1));
-            ll x2=min((ll)i,(ll)(n-k));
-            ll y1=max((ll)0,(ll)(j-k+1));
-            ll y2=min((ll)j,(ll)(m-k));
-            // cout<<x1<<" "<<x2<<endl;
-            // cout<<y1<<" "<<y2<<endl;
-            repi.pb((x2-x1+1)*(y2-y1+1));
+            if(a[j][i] == '0') c0++;
+            else if (a[j][i] == '1') c1++;
+            else cq++;
         }
+        ll mini=min(c0, c1);
+        ll maxi=max(c0, c1);
+        if(mini+cq<=maxi) mini=mini+cq;
+        else{
+            cq-=maxi-mini;
+            mini=maxi;
+            maxi+=cq/2;
+            mini+=(cq+1)/2;
+        }
+        tt+=(ll)mini*maxi;
     }
-    
-    sort(repi); reverse(all(repi));
-    // for0(i,repi.size()) cout<<repi[i]<<" ";
-    // cout<<endl;
-    ll ans=0;
-    for0(i,w){
-        ans+=repi[i]*a[i]*1LL;
-    }
-    cout<<ans<<endl;
+    cout<<tt<<endl;
 }
 
 int32_t main() {

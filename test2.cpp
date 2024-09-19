@@ -1,52 +1,36 @@
 #include <bits/stdc++.h>
-
 using namespace std;
 
-void f(const vector<int>& A, vector<vector<int>>& cycles) {
-    int N = A.size();
-    vector<bool> vis(N, false);
-
-    for (int i = 0; i < N; ++i) {
-        if (!vis[i]) {
-            vector<int> cycle;
-            int current = i;
-            
-            while (!vis[current]) {
-                vis[current] = true;
-                cycle.push_back(current);
-                current = A[current] - 1; 
-            }
-
-            if (cycle.size() > 1){ 
-                cycles.push_back(cycle);
-            }
-        }
+int solve(vector<int>& arr) {
+    sort(arr.begin(),arr.end());
+    int n=arr.size();
+   
+    map<int,int> mp;
+    long long sum=0;
+    mp[arr[n-2]]=1; mp[arr[n-1]]=1;
+    for(int i=0;i<n-2;i++){
+        sum+=arr[i];
+        mp[arr[i]]++;
     }
-}
-
-int solve(int N, const vector<int>& A) {
-    vector<vector<int>> cycles;
-    f(A, cycles);
-    unordered_set<int> st;
-
-    for (const auto& cycle : cycles) {
-        for (int index : cycle) {
-            st.insert(index + 1);
+    if(sum==arr[n-2]) return arr[n-1];
+    else{
+        for(int i=0;i<n-2;i++){
+            int x=sum-arr[i]+arr[n-2];
+            if(x==arr[n-1]) return arr[n-1];
         }
+        return arr[n-2];
     }
-    return N - st.size();
+    return -1;
 }
 
 int main() {
-    int N;
-    cin >> N;
-    vector<int> A(N);
-    for (int i = 0; i < N; ++i) {
-        cin >> A[i];
+    int n; cin>>n;
+    vector<int> a(n);
+    for(int i=0;i<n;i++){
+        cin>>a[i];
     }
-
-    int result = solve(N, A);
-    cout << result << endl;
+    int result=solve(a);
+    cout<<result<<endl;
 
     return 0;
 }

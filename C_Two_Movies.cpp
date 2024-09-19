@@ -97,33 +97,15 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(k);
-    inll(w);
-    vll a(w); for0(i,w) cin>>a[i];
-    sort(a);
-    reverse(all(a));
+    inll(n);
+    vll a(n);
+    for0(i,n) cin>>a[i];
+    vll b(n);
+    for0(i,n) cin>>b[i];
 
-    vll repi;
-    for0(i,n){
-        for0(j,m){
-            ll x1=max((ll)0,(ll)(i-k+1));
-            ll x2=min((ll)i,(ll)(n-k));
-            ll y1=max((ll)0,(ll)(j-k+1));
-            ll y2=min((ll)j,(ll)(m-k));
-            // cout<<x1<<" "<<x2<<endl;
-            // cout<<y1<<" "<<y2<<endl;
-            repi.pb((x2-x1+1)*(y2-y1+1));
-        }
-    }
+    umap<int,int> mp;
     
-    sort(repi); reverse(all(repi));
-    // for0(i,repi.size()) cout<<repi[i]<<" ";
-    // cout<<endl;
-    ll ans=0;
-    for0(i,w){
-        ans+=repi[i]*a[i]*1LL;
-    }
-    cout<<ans<<endl;
+    
 }
 
 int32_t main() {
@@ -141,5 +123,4 @@ int32_t main() {
 
     return 0;
 }
-
 

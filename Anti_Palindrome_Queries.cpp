@@ -97,33 +97,37 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(k);
-    inll(w);
-    vll a(w); for0(i,w) cin>>a[i];
-    sort(a);
-    reverse(all(a));
-
-    vll repi;
-    for0(i,n){
-        for0(j,m){
-            ll x1=max((ll)0,(ll)(i-k+1));
-            ll x2=min((ll)i,(ll)(n-k));
-            ll y1=max((ll)0,(ll)(j-k+1));
-            ll y2=min((ll)j,(ll)(m-k));
-            // cout<<x1<<" "<<x2<<endl;
-            // cout<<y1<<" "<<y2<<endl;
-            repi.pb((x2-x1+1)*(y2-y1+1));
+    inll(n); inll(q);
+    vll a(n);
+    for0(i,n) cin>>a[i];
+    
+    vvll pre(n+1,vll(4,0));
+    for(int i=0;i<n;i++){
+        for1(j,3) {
+            pre[i+1][j]=pre[i][j];
+        }
+        if(a[i]>=1&&a[i]<=3) {
+            pre[i+1][a[i]]++;
         }
     }
-    
-    sort(repi); reverse(all(repi));
-    // for0(i,repi.size()) cout<<repi[i]<<" ";
-    // cout<<endl;
-    ll ans=0;
-    for0(i,w){
-        ans+=repi[i]*a[i]*1LL;
+
+    while(q--){
+        inll(l); inll(r);
+        if((r-l+1)&1){
+            cout<<"No"<<endl; continue;
+        }
+        else{
+            int c1=pre[r][1]-pre[l-1][1];
+            int c2=pre[r][2]-pre[l-1][2];
+            int c3=pre[r][3]-pre[l-1][3];
+
+            int maxi=max({c1,c2,c3});
+            if(maxi==((r-l+1)/2)){
+                cout<<"Yes"<<endl; continue;
+            }
+        }
+        cout<<"No"<<endl;
     }
-    cout<<ans<<endl;
 }
 
 int32_t main() {

@@ -97,33 +97,90 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(k);
-    inll(w);
-    vll a(w); for0(i,w) cin>>a[i];
-    sort(a);
-    reverse(all(a));
-
-    vll repi;
-    for0(i,n){
-        for0(j,m){
-            ll x1=max((ll)0,(ll)(i-k+1));
-            ll x2=min((ll)i,(ll)(n-k));
-            ll y1=max((ll)0,(ll)(j-k+1));
-            ll y2=min((ll)j,(ll)(m-k));
-            // cout<<x1<<" "<<x2<<endl;
-            // cout<<y1<<" "<<y2<<endl;
-            repi.pb((x2-x1+1)*(y2-y1+1));
+    int n;
+    cin >> n;
+ 
+    vector<vector<int>> tree(n);
+ 
+    for (int i = 0; i < n - 1; i += 1)
+    {
+        int a, b;
+        cin >> a >> b;
+        a--;
+        b--;
+ 
+        tree[a].push_back(b);
+        tree[b].push_back(a);
+    }
+ 
+    string value;
+    cin >> value;
+ 
+    vector<int> roots;
+    string leaf_value;
+ 
+    int extra_unknows = 0;
+ 
+    for (int i = 1; i < n; i += 1)
+    {
+        if (tree[i].size() == 1)
+        {
+            roots.push_back(i);
+            leaf_value.push_back(value[i]);
+        }
+        else
+        {
+            extra_unknows += (value[i] == '?');
         }
     }
-    
-    sort(repi); reverse(all(repi));
-    // for0(i,repi.size()) cout<<repi[i]<<" ";
-    // cout<<endl;
-    ll ans=0;
-    for0(i,w){
-        ans+=repi[i]*a[i]*1LL;
+ 
+    char root_value = value[0];
+ 
+    int ans = 0;
+ 
+    if (root_value != '?')
+    {
+        int unknown = 0;
+        for (auto &i : leaf_value)
+        {
+            if (i == '?')
+            {
+                unknown++;
+            }
+            else
+            {
+                ans += (root_value != i);
+            }
+        }
+        ans += ((unknown + 1) / 2);
     }
-    cout<<ans<<endl;
+    else
+    {
+        int unknown = 0;
+        int ones_count = 0, zeros_count = 0;
+        for (auto &i : leaf_value)
+        {
+            if (i == '?')
+            {
+                unknown++;
+            }
+            else
+            {
+                ones_count += (i == '1');
+                zeros_count += (i == '0');
+            }
+        }
+ 
+        ans += max(ones_count, zeros_count);
+        if (ones_count == zeros_count)
+        {
+            ans += ((extra_unknows & 1) && (unknown & 1));
+        }
+ 
+        ans += (unknown / 2);
+    }
+ 
+    cout << ans << '\n';
 }
 
 int32_t main() {
