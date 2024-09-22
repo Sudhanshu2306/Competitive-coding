@@ -24,8 +24,8 @@ int main(){
             j++;
         }
     }
-    while(i<n && j<m){
-        int sum=stoi(s[i])+stoi(x[j]);
+    while(i<s.size() && j<x.size()){
+        int sum=(s[i]-'0')+(x[j]-'0');
         ans+=to_string(sum);
         i++;j++;
     }
