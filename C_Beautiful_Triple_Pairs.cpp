@@ -53,26 +53,26 @@ typedef tuple<ll, ll, ll> tll;
 
 void solve() {
     ll n;
-    cin >> n;
+    cin>>n;
     vll a(n);
-    for0(i, n) cin >> a[i];
+    for0(i,n) cin>>a[i];
 
-    ll count = 0;
-    map<pll, ll> a1, b1, c1;
-    map<tll, ll> a2, b2, c2;
+    ll count=0;
+    map<pll,ll>a1,b1,c1;
+    map<tll,ll>a2,b2,c2;
 
-    for0(i, n - 2) {
-        ll x = a[i], y = a[i + 1], z = a[i + 2];
-        a1[{x, y}]++; a2[{x, y, z}]++;
-        b1[{y, z}]++; b2[{y, z, x}]++;
-        c1[{x, z}]++; c2[{x, z, y}]++;
+    for0(i,n-2){
+        ll x=a[i], y=a[i+1], z=a[i+2];
+        a1[{x,y}]++; a2[{x,y,z}]++;
+        b1[{y,z}]++; b2[{y,z,x}]++;
+        c1[{x,z}]++; c2[{x,z,y}]++;
 
-        count += c1[{x, z}] - c2[{x, z, y}];
-        count += a1[{x, y}] - a2[{x, y, z}];
-        count += b1[{y, z}] - b2[{y, z, x}];
+        count+=c1[{x,z}]-c2[{x,z,y}];
+        count+=a1[{x,y}]-a2[{x,y,z}];
+        count+=b1[{y,z}]-b2[{y,z,x}];
     }
 
-    cout << count << endl;
+    cout<<count<<endl;
 }
 
 int32_t main() {
