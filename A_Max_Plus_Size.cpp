@@ -100,20 +100,20 @@ void solve() {
     inll(n);
     vll a(n);
     for0(i,n) cin>>a[i];
-
-    ll ans=0;start
-    for0(d,20){
-        ll temp=0;
-        for0(i,n+1){
-            if(i==n||(a[i]&(1<<d))){
-                if(temp==n) continue;
-                ans=max(ans,temp);
-                temp=0;
-            }
-            else temp++;
-        }
+    ll maxi=-1e9;
+    ll count=0;
+    for(int i=0;i<n;i+=2){
+        maxi=max(maxi,a[i]);
+        count++;
     }
-    cout<<ans+1<<endl;
+    ll count1=0;
+    ll maxi2=-1e9;
+
+    for(int i=1;i<n;i+=2){
+        maxi2=max(maxi2,a[i]);
+        count1++;
+    }
+    cout<<max(count+maxi,count1+maxi2)<<endl;
 }
 
 int32_t main() {

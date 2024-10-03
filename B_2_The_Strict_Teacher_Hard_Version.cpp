@@ -97,23 +97,25 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n);
-    vll a(n);
-    for0(i,n) cin>>a[i];
+    inll(n); inll(m); inll(q);
+    vll b(m);
+    for0(i,m) cin>>b[i];
+    sort(b);
+    // vll a(q);
+    for0(i,q) {
+        inll(a); // cell number for query i
+        // ll x=lower_bound(all(b),a)-b.begin();
+        ll y=upper_bound(all(b),a)-b.begin();
 
-    ll ans=0;start
-    for0(d,20){
-        ll temp=0;
-        for0(i,n+1){
-            if(i==n||(a[i]&(1<<d))){
-                if(temp==n) continue;
-                ans=max(ans,temp);
-                temp=0;
-            }
-            else temp++;
+        if(y==0) cout<<b[0]-1<<endl;
+        else if(y==m) cout<<n-b[m-1]<<endl;
+        else{
+            ll ans=b[y]-b[y-1]-1;
+            cout<<(ans+1)/2<<endl;
         }
     }
-    cout<<ans+1<<endl;
+
+
 }
 
 int32_t main() {

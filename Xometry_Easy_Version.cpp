@@ -109,7 +109,7 @@ void solve() {
         for(int j=i+1;j<n;j++) x[(a[i]^a[j])]++; 
  
     for0(i,x.size()) ans+=(ll)(x[i]*(x[i]-1)); 
-    cout<<ans*4<<endl; 
+    cout<<ans*4<<endl; sta
 }
 
 int32_t main() {
