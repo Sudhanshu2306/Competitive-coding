@@ -97,43 +97,18 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m);
-    vll a(n+m+1), b(n+m+1);
-    for0(i,n+m+1) cin>>a[i];
-    for0(i,n+m+1) cin>>b[i];
-
-    ll tot=0;
-    set<ll> p,t;
-    for0(i,n+m+1){
-        if(t.size()==1+m){
-            tot+=a[i];
-            p.insert(i);
+    inll(n); inll(k);
+    vll a(n);
+    for0(i,n) cin>>a[i];
+    ll x=0;
+    ll count=0;
+    for0(i,n){
+        if(x+a[i]<=k){
+            count++; x+=a[i];
         }
-        else if(p.size()==1+n){
-            tot+=b[i];
-            t.insert(i);
-        }
-        else if(a[i]>b[i]){
-            tot+=a[i];
-            p.insert(i);
-        } 
-        else {
-            tot+=b[i];
-            t.insert(i);
-        }
+        else break;
     }
-
-    for0(i,n+m+1){
-        if(p.size()==1+n){
-            if(p.find(i)!=p.end()) cout<<tot-a[i]<<" ";
-            else cout<<tot-b[i]-a[*p.rbegin()]+b[*p.rbegin()]<<" ";
-        }
-        else if(t.size()==1+m){
-            if(t.find(i)!=t.end()) cout<<tot-b[i]<<" ";
-            else cout<<tot-a[i]-b[*t.rbegin()]+a[*t.rbegin()]<<" ";
-        }
-    }
-    cout<<endl;
+    cout<<count<<endl;
 }
 
 int32_t main() {

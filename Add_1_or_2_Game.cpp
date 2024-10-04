@@ -97,43 +97,15 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m);
-    vll a(n+m+1), b(n+m+1);
-    for0(i,n+m+1) cin>>a[i];
-    for0(i,n+m+1) cin>>b[i];
-
-    ll tot=0;
-    set<ll> p,t;
-    for0(i,n+m+1){
-        if(t.size()==1+m){
-            tot+=a[i];
-            p.insert(i);
-        }
-        else if(p.size()==1+n){
-            tot+=b[i];
-            t.insert(i);
-        }
-        else if(a[i]>b[i]){
-            tot+=a[i];
-            p.insert(i);
-        } 
-        else {
-            tot+=b[i];
-            t.insert(i);
-        }
+    inll(n);
+    ll x=0;
+    if(n==1){
+        cout<<"ALICE"<<endl; return;
     }
-
-    for0(i,n+m+1){
-        if(p.size()==1+n){
-            if(p.find(i)!=p.end()) cout<<tot-a[i]<<" ";
-            else cout<<tot-b[i]-a[*p.rbegin()]+b[*p.rbegin()]<<" ";
-        }
-        else if(t.size()==1+m){
-            if(t.find(i)!=t.end()) cout<<tot-b[i]<<" ";
-            else cout<<tot-a[i]-b[*t.rbegin()]+a[*t.rbegin()]<<" ";
-        }
-    }
-    cout<<endl;
+    if(n==2){
+        cout<<"BOB"<<endl; return;
+    } 
+    cout<<"BOB"<<endl;
 }
 
 int32_t main() {

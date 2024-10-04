@@ -95,45 +95,37 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+// memoization, not working-TLE
+ll f(vll a, int i, vll &dp, int n){
+    if(i>n) return 0;
+    if(dp[i]!=-1) return dp[i];
+
+    dp[i]=1;
+    for(int j=2*i;j<=n;j+=i){
+        if(a[j]>a[i]) dp[j]=max(dp[j],f(a,i,dp,n)+1);
+    }
+    return dp[i];
+}
+
 void solve() {
     // Your code goes here
-    inll(n); inll(m);
-    vll a(n+m+1), b(n+m+1);
-    for0(i,n+m+1) cin>>a[i];
-    for0(i,n+m+1) cin>>b[i];
+    inll(n);
+    vll a(n+1);
+    for1(i,n) cin>>a[i];
 
-    ll tot=0;
-    set<ll> p,t;
-    for0(i,n+m+1){
-        if(t.size()==1+m){
-            tot+=a[i];
-            p.insert(i);
-        }
-        else if(p.size()==1+n){
-            tot+=b[i];
-            t.insert(i);
-        }
-        else if(a[i]>b[i]){
-            tot+=a[i];
-            p.insert(i);
-        } 
-        else {
-            tot+=b[i];
-            t.insert(i);
+    // map<int,int> mp;
+    // for0(i,n) mp[a[i]]=i;
+    vll dp(n+1,1);
+    for1(i,n){
+        for(int j=2*i;j<=n;j+=i){
+            if(a[j]>a[i]) dp[j]=max(dp[j],dp[i]+1);
         }
     }
 
-    for0(i,n+m+1){
-        if(p.size()==1+n){
-            if(p.find(i)!=p.end()) cout<<tot-a[i]<<" ";
-            else cout<<tot-b[i]-a[*p.rbegin()]+b[*p.rbegin()]<<" ";
-        }
-        else if(t.size()==1+m){
-            if(t.find(i)!=t.end()) cout<<tot-b[i]<<" ";
-            else cout<<tot-a[i]-b[*t.rbegin()]+a[*t.rbegin()]<<" ";
-        }
-    }
-    cout<<endl;
+    ll maxi=-1e10;
+    for1(i,n) maxi=max(maxi,dp[i]);
+
+    cout<<maxi<<endl;
 }
 
 int32_t main() {

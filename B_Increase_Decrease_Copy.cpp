@@ -102,7 +102,21 @@ void solve() {
     for0(i,n) cin>>a[i];
     for0(i,n+1) cin>>b[i];
 
-    
+    ll x=0;
+    for0(i,n){
+        x+=abs(a[i]-b[i]);
+    }
+    ll y=b[n];
+    bool f=0;
+    ll mini=1e9;
+    for0(i,n){
+        if((y>=b[i] && y<=a[i]) || (y>=a[i] && y<=b[i])){
+            f=1; break;
+        } 
+        else if((y<=b[i] && y<=a[i]) || (y>=b[i] && y>=a[i])) mini=min({mini,abs(y-a[i]),abs(y-b[i])});
+    }
+    if(f) cout<<x+1<<endl;
+    else cout<<x+mini+1<<endl;
 }
 
 int32_t main() {
