@@ -97,7 +97,28 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
+    inll(n); inll(k);
+    vll a(n); for0(i,n) cin>>a[i];
+
+    if(n==1){
+        cout<<(a[0]==k?0:1)<<endl;
+        return;
+    }
+    int count=0;
+    for0(i,n){
+        if(a[i]==k) continue;
+        count++;
+        while(i+1<n && a[i]==a[i+1]) i++;
+        int f=0;
+
+        while(i<n && gcd(a[i],k)==k){
+            i++; f=1;
+        }
+        if(i<n && f==1) count++;
+    }
     
+    if(count>=2) cout<<2<<endl;
+    else cout<<count<<endl;
 }
 
 int32_t main() {

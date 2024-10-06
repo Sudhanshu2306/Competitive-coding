@@ -95,46 +95,49 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+struct d{ 
+    int x1, y1, x2, y2; 
+    double len;
+};
+
 void solve() {
-    // Your code goes here
-    inll(n);
-    vll a(n);
-    unordered_map<ll,ll> mp;
-    for0(i,n) {
-        cin>>a[i];
-        mp[a[i]]=1;
+    inint(n);
+    double s,t;
+    cin>>s>>t;
+    vector<d> a(n);
+    for0(i,n){
+        cin>>a[i].x1>>a[i].y1>>a[i].x2>>a[i].y2;
+        double dx=a[i].x2-a[i].x1;
+        double dy=a[i].y2-a[i].y1;
+        a[i].len=sqrt(dx*dx+dy*dy);
     }
-    ll mex=0;
-    for0(i,1e6){
-        if(mp[i]==0) {
-            mex=i; break;
+    vll p(n);
+    for0(i,n) p[i]=i;
+    double mini=1e20;
+    do{
+        for0(d,(1<<n)){
+            double time=0.0,cx=0.0,cy=0.0;
+            for0(i,n){
+                int sg=p[i];
+                bool dr=(d>>i)&1;
+                double sx,sy,ex,ey;
+                if(!dr){
+                    sx=a[sg].x1; sy=a[sg].y1;
+                    ex=a[sg].x2; ey=a[sg].y2;
+                }
+                else{
+                    sx=a[sg].x2; sy=a[sg].y2;
+                    ex=a[sg].x1; ey=a[sg].y1;
+                }
+                double dist=sqrt((cx-sx)*(cx-sx)+(cy-sy)*(cy-sy));
+                time+=dist/s; time+=a[sg].len/t;
+                cx=ex; cy=ey;
+            }
+            if(time<mini) mini=time;
         }
     }
-    if(mex==0){
-        cout<<2<<endl;
-        cout<<1<< " "<<1<<endl;
-        cout<<2<<" "<<n<<endl; return;
-    }
-    // cout<<mex<<endl;
-    mp.clear();
-    ll i=0;
-    vpii ans;
-    for0(j,n){
-        if(a[j]<mex) mp[a[j]]=1;
-        if(mp.size()==mex){
-            ans.pb({i+1,j+1});
-            i=j+1;
-            mp.clear();
-        }
-    }
-    ans[ans.size()-1].s=n;
-    if(ans.size()<2) cout<<-1<<endl;
-    else{
-        cout<<ans.size()<<endl;
-        for(auto it:ans){
-            cout<<it.f<<" "<<it.s<<endl;
-        }
-    }
+    while(next_permutation(p.begin(),p.end()));
+    cout<<fixed<<setprecision(20)<<mini;
 }
 
 int32_t main() {
@@ -144,8 +147,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

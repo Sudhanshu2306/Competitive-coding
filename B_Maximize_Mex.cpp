@@ -98,43 +98,93 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 void solve() {
     // Your code goes here
     inll(n);
+    inll(x);
     vll a(n);
-    unordered_map<ll,ll> mp;
-    for0(i,n) {
+
+    bool flag=0;
+    map<int,int>mp;
+    for0(i,n){
         cin>>a[i];
-        mp[a[i]]=1;
+        if(a[i]==0) flag=1;
+        mp[a[i]]++;
     }
+    if(!flag){
+        cout<<0<<endl; return;
+    }
+    // vpii odd,even;
+    // for(auto &i:mp){
+    //     if(i.f%2==1 && i.s>1){
+    //         odd.pb({i.f,i.s-1});
+    //     }
+    //     else if(i.f%2==0 && i.s>1){
+    //         even.pb({i.f,i.s-1});
+    //     }
+    // }
+    // reverse(all(odd));
+    // reverse(all(even));
+
+    // set<int> st;
+    // for(auto i:a) st.insert(i);
+    // for(ll i=0;i<=*st.rbegin()+1e5;i++){
+    //     if(st.find(i)==st.end()){
+    //         if(i%2==0){
+    //             if(x%2==0 && even.size()>0) {
+    //                 if(even.back().f+x<=i){
+    //                     even.back().s--;
+    //                     if(even.back().s==0) even.pop_back();
+    //                 }
+    //                 else{
+    //                     cout<<i<<endl; return;
+    //                 } 
+    //             }
+    //             else if(x%2==1 && odd.size()>0) {
+    //                 if(odd.back().f+x<=i){
+    //                     odd.back().s--;
+    //                     if(odd.back().s==0) odd.pop_back();
+    //                 }
+    //                 else{
+    //                     cout<<i<<endl; return;
+    //                 } 
+    //             }
+    //             else{
+    //                 cout<<i<<endl; return;
+    //             }
+    //         }
+    //         else{
+    //             if(x%2==0 && odd.size()>0) {
+    //                 if(odd.back().f+x<=i){
+    //                     odd.back().s--;
+    //                     if(odd.back().s==0) odd.pop_back();
+    //                 }
+    //                 else{
+    //                     cout<<i<<endl; return;
+    //                 }
+    //             }
+    //             else if(x%2==1 && even.size()>0) {
+    //                 if(even.back().f+x<=i){
+    //                     even.back().s--;
+    //                     if(even.back().s==0) even.pop_back();
+    //                 }
+    //                 else{
+    //                     cout<<i<<endl; return;
+    //                 }
+    //             }
+    //             else{
+    //                 cout<<i<<endl; return;
+    //             }
+    //         }
+    //     }
+    // }
+
     ll mex=0;
     for0(i,1e6){
-        if(mp[i]==0) {
+        if(!mp[i]){
             mex=i; break;
-        }
+        } 
+        else mp[i+x]+=(mp[i]-1);
     }
-    if(mex==0){
-        cout<<2<<endl;
-        cout<<1<< " "<<1<<endl;
-        cout<<2<<" "<<n<<endl; return;
-    }
-    // cout<<mex<<endl;
-    mp.clear();
-    ll i=0;
-    vpii ans;
-    for0(j,n){
-        if(a[j]<mex) mp[a[j]]=1;
-        if(mp.size()==mex){
-            ans.pb({i+1,j+1});
-            i=j+1;
-            mp.clear();
-        }
-    }
-    ans[ans.size()-1].s=n;
-    if(ans.size()<2) cout<<-1<<endl;
-    else{
-        cout<<ans.size()<<endl;
-        for(auto it:ans){
-            cout<<it.f<<" "<<it.s<<endl;
-        }
-    }
+    cout<<mex<<endl;
+
 }
 
 int32_t main() {

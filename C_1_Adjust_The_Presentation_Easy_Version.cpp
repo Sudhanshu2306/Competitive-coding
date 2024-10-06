@@ -97,44 +97,7 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n);
-    vll a(n);
-    unordered_map<ll,ll> mp;
-    for0(i,n) {
-        cin>>a[i];
-        mp[a[i]]=1;
-    }
-    ll mex=0;
-    for0(i,1e6){
-        if(mp[i]==0) {
-            mex=i; break;
-        }
-    }
-    if(mex==0){
-        cout<<2<<endl;
-        cout<<1<< " "<<1<<endl;
-        cout<<2<<" "<<n<<endl; return;
-    }
-    // cout<<mex<<endl;
-    mp.clear();
-    ll i=0;
-    vpii ans;
-    for0(j,n){
-        if(a[j]<mex) mp[a[j]]=1;
-        if(mp.size()==mex){
-            ans.pb({i+1,j+1});
-            i=j+1;
-            mp.clear();
-        }
-    }
-    ans[ans.size()-1].s=n;
-    if(ans.size()<2) cout<<-1<<endl;
-    else{
-        cout<<ans.size()<<endl;
-        for(auto it:ans){
-            cout<<it.f<<" "<<it.s<<endl;
-        }
-    }
+    
 }
 
 int32_t main() {

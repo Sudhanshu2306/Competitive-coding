@@ -95,46 +95,52 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+// bool ff(vll& a, int sum, int ind) {
+//     if(sum==0) return true;
+//     if(a.size()==0 || ind>=a.size()) return false;
+
+//     if(a[ind]<=sum){
+//         if(ff(a,sum-a[ind],ind+1)) return true;
+//     }
+//     return ff(a,sum,ind+1);
+// }
+
 void solve() {
     // Your code goes here
     inll(n);
     vll a(n);
-    unordered_map<ll,ll> mp;
-    for0(i,n) {
-        cin>>a[i];
-        mp[a[i]]=1;
-    }
-    ll mex=0;
-    for0(i,1e6){
-        if(mp[i]==0) {
-            mex=i; break;
+    for0(i,n) cin>>a[i];
+
+    ll sum=SUM(a);
+    ll target=sum/2;
+    ll ans=1e18;
+    vll dp(target+1,0);
+    
+    // for0(i,n){
+    //     for (ll j=target;j>=a[i];j--) {
+    //         dp[j]=max(dp[j],dp[j-a[i]]+a[i]);
+    //     }
+    // }
+    
+    // ll ga=dp[target];
+    // ll gb=sum-ga;
+    // ll maxi=max(ga,gb);
+    // cout<<maxi<<endl;
+
+    ll x=1<<n;
+    for0(i,x){
+        ll m=i;
+        ll ga=0;
+        while(m){
+            ll idx=__builtin_ctz(m);
+            ll temp=m&(-m);
+            ga+=a[idx];
+            m-=temp;
         }
+        ll gb=sum-ga;
+        ans=min(ans, max(ga, gb));
     }
-    if(mex==0){
-        cout<<2<<endl;
-        cout<<1<< " "<<1<<endl;
-        cout<<2<<" "<<n<<endl; return;
-    }
-    // cout<<mex<<endl;
-    mp.clear();
-    ll i=0;
-    vpii ans;
-    for0(j,n){
-        if(a[j]<mex) mp[a[j]]=1;
-        if(mp.size()==mex){
-            ans.pb({i+1,j+1});
-            i=j+1;
-            mp.clear();
-        }
-    }
-    ans[ans.size()-1].s=n;
-    if(ans.size()<2) cout<<-1<<endl;
-    else{
-        cout<<ans.size()<<endl;
-        for(auto it:ans){
-            cout<<it.f<<" "<<it.s<<endl;
-        }
-    }
+    cout<<ans;
 }
 
 int32_t main() {
@@ -144,8 +150,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }
