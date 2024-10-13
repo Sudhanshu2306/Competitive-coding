@@ -95,36 +95,41 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
-ll ff(vll &arr, int l, int r) { 
-    int curr=-2e9, maxi = 0; 
-    for(int i=l;i<=r;i++){
-    maxi=maxi+arr[i];
-    if(curr<maxi)
-        curr=maxi; 
-        if(maxi<0) maxi=0;
-    }
-    return curr; 
-} 
- 
-void solve(){ 
-    
-    inll(n); 
-    vll a(n); 
-    for0(i,n) cin>>a[i]; 
- 
-    int prev=0; 
-    ll ans=-2e9; 
-    for1(i,n-1){ 
-        if((abs(a[i])%2) == (abs(a[i-1])%2)){ 
-            ans = max(ans, ff(a,prev,i-1)); 
-             prev = i; 
-        } 
-    } 
-    ans=max(ans,ff(a,prev,n-1)); 
-    cout<<ans<<endl; 
- 
- 
+void solve(){
+    // Your code goes here
+    inll(k); inll(b); inll(n); inll(t);
+    // if initially x bacteria is there
+    // it would be (kx+b) after 1 sec
+
+    // after 1st experiment we have z bacteria
+    // now that z=k^n+b*k^(n-1)+b*k^(n-2)+...1
+    // and what we want to acheive starting with t
+    // t*k^x + b*k^(x-1) + b*k^(x-2) +... 1
+
+    // if(k==1){
+    //     ll z=n*b;
+    //     ll x=0;
+    //     while(z>=x*b+t)x++;
+    //     cout<<x<<endl;
+    //     return;
+    // }
+    // long double mini=(((k*t-t+b)*(1.0))/((k+b-1)*(1.0)));
+    // ll x=0;
+    // ll limit=LLONG_MAX;
+    // long double curr=pow(k,n-x);
+    // while(mini<curr){
+    //     x++;
+    //     if(x>n)break;
+    //     long double logVal=(n-x)*log(k);
+    //     if(logVal>log(limit))break;
+    //     curr=pow(k,n-x);
+    // }
+    // cout<<x<<endl;
+    ll z=1;
+    while (k*z+b<=t) {z=z*k+b; n--;}
+    cout<<(n>0?n:0);
 }
+
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
@@ -133,8 +138,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

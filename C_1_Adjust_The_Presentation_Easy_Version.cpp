@@ -97,7 +97,25 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    
+    inll(n); inll(m); inll(q);
+    // q=0;
+    vll a(n),b(m);
+    for0(i,n) cin>>a[i];
+    for0(i,m) cin>>b[i];
+
+    vi vis(n+1,0);
+    vi temp;
+    for(auto it:b){
+        if(vis[it]) continue;
+        else temp.pb(it); 
+        vis[it]=1;
+    }
+    for0(i,temp.size()){
+        if(a[i]!=temp[i]){
+            cout<<"TIDAK"<<endl; return;
+        }
+    }
+    cout<<"YA"<<endl;
 }
 
 int32_t main() {

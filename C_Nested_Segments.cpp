@@ -94,36 +94,34 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
-
-ll ff(vll &arr, int l, int r) { 
-    int curr=-2e9, maxi = 0; 
-    for(int i=l;i<=r;i++){
-    maxi=maxi+arr[i];
-    if(curr<maxi)
-        curr=maxi; 
-        if(maxi<0) maxi=0;
-    }
-    return curr; 
-} 
+vll l(3e5),r(3e5);
+vector<pair<pair<int,int>,int>> order;
+int ans1,ans2;
+void solve() {
+    // Your code goes here
+    inll(n);
+	for1(i,n){
+		cin>>l[i]>>r[i];
+		order.push_back(make_pair(make_pair(l[i],-r[i]),i));
+	}
+	sort(order);
+	int rmost=-1;
+	int rmost_x=-1;
+	ans1=ans2=-1;
  
-void solve(){ 
-    
-    inll(n); 
-    vll a(n); 
-    for0(i,n) cin>>a[i]; 
+	for (int i=0;i<order.size();i++){
+		int id=order[i].second;
+		if (r[id]<=rmost_x){
+			ans2=rmost;
+			ans1=id;
+		}
+		if (r[id]>rmost_x){
+			rmost_x=r[id];
+			rmost=id;
+		}
+	}
  
-    int prev=0; 
-    ll ans=-2e9; 
-    for1(i,n-1){ 
-        if((abs(a[i])%2) == (abs(a[i-1])%2)){ 
-            ans = max(ans, ff(a,prev,i-1)); 
-             prev = i; 
-        } 
-    } 
-    ans=max(ans,ff(a,prev,n-1)); 
-    cout<<ans<<endl; 
- 
- 
+	cout<<ans1<<" "<<ans2<<endl;
 }
 
 int32_t main() {
@@ -133,8 +131,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

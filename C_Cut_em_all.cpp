@@ -94,36 +94,30 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
-
-ll ff(vll &arr, int l, int r) { 
-    int curr=-2e9, maxi = 0; 
-    for(int i=l;i<=r;i++){
-    maxi=maxi+arr[i];
-    if(curr<maxi)
-        curr=maxi; 
-        if(maxi<0) maxi=0;
+ll ans=-1;
+vvi adj(100005);
+int dfs(int node, int parent){
+    ll x=0;
+    for(auto v:adj[node]){
+        if(v!=parent) x+=dfs(v,node);
     }
-    return curr; 
-} 
- 
-void solve(){ 
-    
-    inll(n); 
-    vll a(n); 
-    for0(i,n) cin>>a[i]; 
- 
-    int prev=0; 
-    ll ans=-2e9; 
-    for1(i,n-1){ 
-        if((abs(a[i])%2) == (abs(a[i-1])%2)){ 
-            ans = max(ans, ff(a,prev,i-1)); 
-             prev = i; 
-        } 
-    } 
-    ans=max(ans,ff(a,prev,n-1)); 
-    cout<<ans<<endl; 
- 
- 
+    ans+=(x%2);
+    return x+1;
+}
+
+void solve() {
+    // Your code goes here
+    inll(n);
+    for0(i,n-1){
+        inll(u); inll(v);
+        adj[u].pb(v);
+        adj[v].pb(u);
+    }
+    if(n&1){cout<<-1<<endl; return;}
+    else{
+        dfs(1,-1);
+        cout<<ans<<endl;
+    }
 }
 
 int32_t main() {
@@ -133,8 +127,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

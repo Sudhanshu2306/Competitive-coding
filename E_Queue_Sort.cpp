@@ -95,35 +95,27 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
-ll ff(vll &arr, int l, int r) { 
-    int curr=-2e9, maxi = 0; 
-    for(int i=l;i<=r;i++){
-    maxi=maxi+arr[i];
-    if(curr<maxi)
-        curr=maxi; 
-        if(maxi<0) maxi=0;
+void solve() {
+    // Your code goes here
+    inll(n);
+    vll a(n);
+    for0(i,n) cin>>a[i];
+
+    vll x=a; sort(x);
+    if(a==x){cout<<0<<endl; return;}
+    ll mini=x[0];
+    int ind=-1;
+    for0(i,n){
+        if(a[i]==mini){
+            ind=i; break;
+        }
     }
-    return curr; 
-} 
- 
-void solve(){ 
-    
-    inll(n); 
-    vll a(n); 
-    for0(i,n) cin>>a[i]; 
- 
-    int prev=0; 
-    ll ans=-2e9; 
-    for1(i,n-1){ 
-        if((abs(a[i])%2) == (abs(a[i-1])%2)){ 
-            ans = max(ans, ff(a,prev,i-1)); 
-             prev = i; 
-        } 
-    } 
-    ans=max(ans,ff(a,prev,n-1)); 
-    cout<<ans<<endl; 
- 
- 
+    for(int i=ind+1;i<n-1;i++){
+        if(a[i]>a[i+1]){
+            cout<<-1<<endl; return;
+        }
+    }
+    cout<<ind<<endl;
 }
 
 int32_t main() {
