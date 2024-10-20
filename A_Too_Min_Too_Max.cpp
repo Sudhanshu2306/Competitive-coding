@@ -95,23 +95,18 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+int ff(int a, int b, int c, int d){
+    return abs(a-b)+abs(b-c)+abs(c-d)+abs(d-a);
+}
+
 void solve() {
     // Your code goes here
-    inll(n); inll(m);
-    vll a(n); for0(i,n) cin>>a[i];
-    sort(a); 
-    ll ans=0; int i=0,j=0;
-    ll sum=0;
-    while(j<n){
-        sum+=a[j];
-        while(sum>m || (a[j]>a[i]+1 && i<=j)){
-            sum-=a[i];
-            i++;
-        }
-        ans=max(ans,sum);
-        j++;
-    }
-    cout<<ans<<endl;
+    inll(n);
+    vll a(n);
+    for0(i,n) cin>>a[i];
+    sort(a);
+    int a1=a[0],a2=a[n-1],a3=a[1], a4=a[n-2];
+    cout<<ff(a1,a2,a3,a4)<<endl;
 }
 
 int32_t main() {

@@ -96,38 +96,49 @@ void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = fal
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
 void solve() {
-    // Your code goes here
-    inll(n); inll(m);
-    vll a(n); for0(i,n) cin>>a[i];
-    sort(a); 
-    ll ans=0; int i=0,j=0;
-    ll sum=0;
-    while(j<n){
-        sum+=a[j];
-        while(sum>m || (a[j]>a[i]+1 && i<=j)){
-            sum-=a[i];
-            i++;
-        }
-        ans=max(ans,sum);
-        j++;
+    inll(n);
+    vector<pair<pii,int>> a(n);
+    for0(i,n){
+        inll(c); inll(d);
+        a[i]={{c,d},i};
     }
-    cout<<ans<<endl;
+    
+    sort(a);
+    vi ans(n,1);
+	ans[a[0].s]=2;
+	int back=a[0].f.s;
+	bool flag=0;
+	for1(i,n-1){
+		if(a[i].f.f>back) {
+			flag=1;
+			break;
+		} 
+        else{
+			back = max(back,a[i].f.s);
+			ans[a[i].s] = 2;
+		}
+	}
+	if(!flag){
+		cout<<-1<<endl;
+	}
+    else{
+        for0(i,n) cout<<ans[i]<<" ";
+	    cout<<endl;
+    }
 }
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
-    // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
-    // NO. 1 is always an odd!
-
     int t;
-    cin>>t;
-    while(t--){
+    cin >> t;
+    while(t--) {
         solve();
     }
 
     return 0;
 }
+
 
 

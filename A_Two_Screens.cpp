@@ -97,20 +97,21 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m);
-    vll a(n); for0(i,n) cin>>a[i];
-    sort(a); 
-    ll ans=0; int i=0,j=0;
-    ll sum=0;
-    while(j<n){
-        sum+=a[j];
-        while(sum>m || (a[j]>a[i]+1 && i<=j)){
-            sum-=a[i];
-            i++;
-        }
-        ans=max(ans,sum);
-        j++;
+    instr(s);
+    instr(t);
+    int i=0; int j=0;
+    if(s.size()>t.size()){
+        swap(s,t);
     }
+    int n=s.size(); int m=t.size();
+    while(i<n && j<m){
+        if(s[i]==t[j]){i++;j++;}
+        else break;
+    }
+    if(i==0){
+        cout<<n+m<<endl; return;
+    }
+    ll ans=n+1+(m-i);
     cout<<ans<<endl;
 }
 

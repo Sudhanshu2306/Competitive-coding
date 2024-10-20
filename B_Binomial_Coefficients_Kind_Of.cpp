@@ -38,6 +38,7 @@ using namespace std;
 #define checkBit(x, i) ((x & (1LL << i)) != 0)
 #define set_bits(x) __builtin_popcountll(x)
 #define zero_bits(x) __builtin_ctzll(x)
+const int MOD = 1000000007;
 
 // Shortcuts for common data types
 typedef long long ll;
@@ -97,21 +98,19 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m);
-    vll a(n); for0(i,n) cin>>a[i];
-    sort(a); 
-    ll ans=0; int i=0,j=0;
-    ll sum=0;
-    while(j<n){
-        sum+=a[j];
-        while(sum>m || (a[j]>a[i]+1 && i<=j)){
-            sum-=a[i];
-            i++;
-        }
-        ans=max(ans,sum);
-        j++;
+    vll pow2(1e5+1,1);
+    for1(i,1e5+1){
+        ll mod=1e9+7;
+        pow2[i]=(pow2[i-1]*2)%mod;
     }
-    cout<<ans<<endl;
+    inll(t);
+    vll n(t),k(t);
+    
+    for0(i,t) cin>>n[i];
+    for0(i,t) cin>>k[i];
+
+    for0(i,t) cout<<pow2[k[i]]<<endl;
+    
 }
 
 int32_t main() {
@@ -120,9 +119,9 @@ int32_t main() {
 
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
-
-    int t;
-    cin>>t;
+    
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

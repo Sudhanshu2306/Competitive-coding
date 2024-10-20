@@ -48,6 +48,7 @@ typedef vector<vll> vvll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef vector<pii> vpii;
+typedef vector<pll> vpll;
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
 #define vvll(a, m, n, x) vector<vector<ll>> a(m, vector<ll>(n, x))
 #define umap unordered_map
@@ -97,21 +98,37 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m);
-    vll a(n); for0(i,n) cin>>a[i];
-    sort(a); 
-    ll ans=0; int i=0,j=0;
-    ll sum=0;
-    while(j<n){
-        sum+=a[j];
-        while(sum>m || (a[j]>a[i]+1 && i<=j)){
-            sum-=a[i];
+    inll(n); inll(k);
+    vll a(n);
+    map<ll,ll> mp;
+    for0(i,n) {
+        cin>>a[i];
+        mp[a[i]]++;
+    }
+    sort(a);
+    vpll temp;
+    for(auto it:mp){
+        temp.pb({it.f,it.s});
+    }
+    
+    ll i=0; ll j=1;
+    int x=0;
+    ll sum=temp[0].s; ll maxi=sum;
+    
+    while(j<temp.size()){
+        if(temp[j].f==temp[j-1].f+1) sum+=temp[j].s;
+        else{
+            sum=temp[j].s;
+            i=j;
+        }
+        while(j-i+1>k){
+            sum-=temp[i].s;
             i++;
         }
-        ans=max(ans,sum);
+        maxi=max(maxi,sum);
         j++;
     }
-    cout<<ans<<endl;
+    cout<<maxi<<endl;
 }
 
 int32_t main() {

@@ -99,6 +99,22 @@ void solve() {
     // Your code goes here
     inll(n); inll(d); inll(k);
     
+    vll x(n+2,0);
+    for0(i,k){
+        inll(l); inll(r);
+        x[max(1ll,l-d+1)]++; x[r+1]--;
+    }
+    // for1(i,1e5) x[i]+=x[i-1];
+    
+    int i=0; int j=0;
+    ll sum=0; int maxInd=1; int minInd=1;
+    for1(i,n-d+1){
+        x[i]+=x[i-1];
+        if(x[i]>x[maxInd]) maxInd=i;
+        if(x[i]<x[minInd]) minInd=i;
+    }
+    cout<<maxInd<<" "<<minInd<<endl;
+
 }
 
 int32_t main() {

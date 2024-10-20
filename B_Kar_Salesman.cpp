@@ -97,21 +97,34 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m);
-    vll a(n); for0(i,n) cin>>a[i];
-    sort(a); 
-    ll ans=0; int i=0,j=0;
-    ll sum=0;
-    while(j<n){
-        sum+=a[j];
-        while(sum>m || (a[j]>a[i]+1 && i<=j)){
-            sum-=a[i];
-            i++;
-        }
-        ans=max(ans,sum);
-        j++;
-    }
-    cout<<ans<<endl;
+    inll(n); inll(x);
+    vll a(n);
+    // priority_queue<int> pq;
+    for0(i,n) {
+        cin>>a[i];
+        // pq.push(a[i]);
+    }  
+    ll count=0; 
+    // gives TLE
+    // while(!pq.empty() && pq.size()>=x){
+    //     vll temp;
+    //     for0(i,x){
+    //         int y=pq.top();
+    //         pq.pop();
+    //         if((y-1)>0) temp.push_back(y-1);
+    //     }
+    //     count++;
+    //     for0(i,temp.size()) pq.push(temp[i]);
+    //     temp.clear();
+    // }
+    // if(!pq.empty()) cout<<count+pq.top()<<endl;
+    // else cout<<count<<endl;
+
+    ll sum=SUM(a); 
+    ll maxi=MAX(a);
+    // ya toh maximum element hoga, lekin har baar nahi! 
+    count=sum+x-1; 
+    cout<<max(maxi,count/x)<<endl;
 }
 
 int32_t main() {

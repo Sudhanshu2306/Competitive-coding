@@ -95,23 +95,44 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+// bool check(pii x, pii y, pii z, vector<string> a){
+//     return ((a[x.f][x.s]=='A')+(a[y.f][y.s]=='A')+(a[z.f][z.s]=='A')>=2);
+// }
+// map<pii,int> dp;
+// int ff(int i, int j, int n, vector<string> a, map<pii,int> dp){
+//     if(i==n && j==n) return 0;
+//     if(dp.find({i,j})!=dp.end()) return dp[{i,j}];
+
+//     int x=(max(i+2,j+2)<n ? check({0,i}, {0,i+1}, {0,i+2},a) + check({1,j}, {1,j+1}, {1,j+2},a) + ff(i+3,j+3,n,a,dp):0);
+//     int y=((i==j || i+1==j) ? check({0,i}, {1,j}, {0,i+1},a) + ff(i+2, j+1,n,a,dp) : 0);
+//     int z=((i==j || i==j+1) ? check({0,i}, {1,j}, {1,j+1},a) + ff(i+1,j+2,n,a,dp) : 0);
+
+//     return dp[{i,j}]=max({x,y,z});
+// }
+
 void solve() {
     // Your code goes here
-    inll(n); inll(m);
-    vll a(n); for0(i,n) cin>>a[i];
-    sort(a); 
-    ll ans=0; int i=0,j=0;
-    ll sum=0;
-    while(j<n){
-        sum+=a[j];
-        while(sum>m || (a[j]>a[i]+1 && i<=j)){
-            sum-=a[i];
-            i++;
-        }
-        ans=max(ans,sum);
-        j++;
-    }
-    cout<<ans<<endl;
+    inll(n);
+    vector<string> a(2);
+    for0(i,2) cin>>a[i];
+
+    map<pii,int>dp;
+ 
+    auto check=[&](pii x, pii y, pii z)->int{
+        return ((a[x.f][x.s] == 'A') + (a[y.f][y.s] == 'A') + (a[z.f][z.s] == 'A') >= 2);
+    };
+
+    function<int(int, int)>ff = [&](int i, int j) -> int {
+        if(i == n && j == n) return 0;
+        if(dp.count({i, j})) return dp[{i, j}];
+
+        int x = (max(i + 2, j + 2) < n ? check({0, i}, {0, i + 1}, {0, i + 2}) + check({1, j}, {1, j + 1}, {1, j + 2}) + ff(i + 3, j + 3) : 0);
+        int y = ((i == j || i + 1 == j) ? check({0, i}, {1, j}, {0, i + 1}) + ff(i + 2, j + 1) : 0);
+        int z = ((i == j || i == j + 1) ? check({0, i}, {1, j}, {1, j + 1}) + ff(i + 1, j + 2) : 0);
+        return dp[{i, j}] = max({x, y, z});
+    };
+
+    cout<<ff(0, 0)<<endl;
 }
 
 int32_t main() {
