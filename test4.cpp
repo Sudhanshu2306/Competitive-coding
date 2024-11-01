@@ -1,30 +1,28 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int f(int n, vector<int> a){
-    if(n==0) return 0;
-    int maxii=1,maxid=1;
-    int ci=1,cd=1;
-
-    for(int i=1;i<n;i++){
-        if(a[i]>a[i-1]) ci++;
-        else ci=1;
-        maxii=max(maxii,ci);
-        if(a[i]<a[i-1]) cd++;
-        else cd=1;
-        maxid=max(maxid,cd);
-    }
-    return max(maxii,maxid);
-}
-
-int main(){
+int main() {
     int n; cin>>n;
-    vector<int> a(n);
+    vector<int> arr(n);
+    for(int i=0;i<n;i++) cin>>arr[i];
+
+    int c1=0,c2=0,c3=0,ans=0;
+    unordered_map<int,int> mp; 
+
     for(int i=0;i<n;i++){
-        cin>>a[i];
+        if(arr[i]==1) c1++;
+        else if(arr[i]==2)c2++;
+        else c3++;
+
+        int d=c1-c3;
+
+        if(c2>0 && mp.find(d)!=mp.end()) ans+=mp[d];
+        mp[d]++;
     }
-    cout<<f(n,a)<<endl;
+    cout<<ans<<endl;
     return 0;
 }
 
-// 6 25 46 15 96 24 10
+// 1 1 2 3 3 1
+// 1 2 3 2 3 1 1 3
+// 1 2 1 3 2 3 1start
