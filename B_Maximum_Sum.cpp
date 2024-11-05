@@ -129,7 +129,7 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(k);
+    inll(n); inll(k);start
     vll a(n);
     for0(i,n) cin>>a[i];
     ll mod=1e9+7; ll maxi=0;

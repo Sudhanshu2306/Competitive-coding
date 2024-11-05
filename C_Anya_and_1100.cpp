@@ -127,30 +127,45 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+string s;
+int n;
+ll cc=0;
+bool ff(int i){
+    if(i<1|| i+3>s.size()) return 0;
+    string b="1100";
+    for0(j,4){
+        if(s[i+j]!=b[j]) return 0;
+    }
+    return 1;
+}
+
 void solve() {
     // Your code goes here
-    inll(n);
-    vll a(n);
-    for0(i,n) cin>>a[i];
-    map<int,int> mp;
-    int count=0,two=0,three=0;
-    for0(i,n){
-        mp[a[i]]++;
-        if(mp[a[i]]==2){
-            count++;
-            if(count==1) two=i;
-            if(count==2) three=i;
+    cin>>s; 
+    n=s.size();
+    // pre-computation
+    // s=" "+s;
+    inll(q);
+    // ll cc=0;
+    set<ll> st;
+    for0(i,n-3){
+        if(s.substr(i,4)=="1100") st.insert(i);
+    }
+    while(q--){
+        inll(i); char v; cin>>v;
+        i--; // 0 based
+        ll maxi=max(0ll,i-3);
+        ll mini=min((ll)(n-4),i);
+        fori(j,maxi,mini){
+            if(s.substr(j,4)=="1100") st.erase(j);
         }
+        s[i]=v;
+        fori(j,maxi,mini){
+            if(s.substr(j,4)=="1100") st.insert(j);
+        }
+        if(st.size()>0) py;
+        else pn;
     }
-    if(count<2){
-        cout<<-1<<endl; return;
-    }
-    for0(i,n){
-        if(two==i)cout<<2<<" ";
-        else if(three==i)cout<<3<<" ";
-        else cout<<1<<" ";
-    }
-    cout<<endl;
     
 }
 

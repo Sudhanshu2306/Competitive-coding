@@ -127,31 +127,18 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+bool ff(int n, int m){
+    if(n==m) return true;
+    if(n<m || n%3!=0) return false;
+ 
+    return ff(n/3,m) || ff(2*n/3,m);
+}
+
 void solve() {
     // Your code goes here
-    inll(n);
-    vll a(n);
-    for0(i,n) cin>>a[i];
-    map<int,int> mp;
-    int count=0,two=0,three=0;
-    for0(i,n){
-        mp[a[i]]++;
-        if(mp[a[i]]==2){
-            count++;
-            if(count==1) two=i;
-            if(count==2) three=i;
-        }
-    }
-    if(count<2){
-        cout<<-1<<endl; return;
-    }
-    for0(i,n){
-        if(two==i)cout<<2<<" ";
-        else if(three==i)cout<<3<<" ";
-        else cout<<1<<" ";
-    }
-    cout<<endl;
-    
+    inll(n); inll(m);
+    if(ff(n,m)) cout<<"YES"<<endl;
+    else cout<<"NO"<<endl;
 }
 
 int32_t main() {

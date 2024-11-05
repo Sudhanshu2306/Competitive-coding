@@ -127,31 +127,44 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+
 void solve() {
     // Your code goes here
-    inll(n);
-    vll a(n);
-    for0(i,n) cin>>a[i];
-    map<int,int> mp;
-    int count=0,two=0,three=0;
-    for0(i,n){
-        mp[a[i]]++;
-        if(mp[a[i]]==2){
-            count++;
-            if(count==1) two=i;
-            if(count==2) three=i;
+    inll(n); inll(m);
+    vector<string> g(n);
+    for(auto& s:g){
+        cin >> s;
+    }
+    string B="1543";
+    int ans = 0;
+    for (int l = 0; l < min(n, m) / 2; ++l) {
+        string layer;
+        for (int j = l; j < m - l; ++j) {
+            layer += g[l][j];
+        }
+        for (int i = l + 1; i < n - l; ++i) {
+            layer += g[i][m - 1 - l];
+        }
+        for (int j = m - 2 - l; j >= l; --j) {
+            layer += g[n - 1 - l][j];
+        }
+        for (int i = n - 2 - l; i > l; --i) {
+            layer += g[i][l];
+        }
+
+        for (int i = 0; i <layer.size(); ++i) {
+            bool ok = true;
+            for (int j = 0; j < 4; ++j) {
+                if (layer[(i + j) %layer.size()] != B[j]) {
+                    ok = false;
+                }
+            }
+
+            ans += ok;
         }
     }
-    if(count<2){
-        cout<<-1<<endl; return;
-    }
-    for0(i,n){
-        if(two==i)cout<<2<<" ";
-        else if(three==i)cout<<3<<" ";
-        else cout<<1<<" ";
-    }
-    cout<<endl;
-    
+
+    cout<<ans<<endl;
 }
 
 int32_t main() {

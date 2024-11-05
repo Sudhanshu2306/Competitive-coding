@@ -130,28 +130,31 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 void solve() {
     // Your code goes here
     inll(n);
-    vll a(n);
-    for0(i,n) cin>>a[i];
-    map<int,int> mp;
-    int count=0,two=0,three=0;
-    for0(i,n){
-        mp[a[i]]++;
-        if(mp[a[i]]==2){
-            count++;
-            if(count==1) two=i;
-            if(count==2) three=i;
+    instr(s);
+    if(n%2==1){cout<<-1<<endl; return;}
+    int i=0, j=n-1;
+    map<char,ll> mp;
+    ll maxi=0;
+    while(i<=j){
+        mp[s[i]]++; mp[s[j]]++;
+        maxi=max({maxi,mp[s[i]],mp[s[j]]});
+        i++;j--;
+    }
+
+    if(maxi*2>n) cout<<-1<<endl;
+    else{
+        map<char,ll> mapa;
+        ll count=1;
+        ll nn=0;
+        for0(i,n/2){
+            if(s[i]==s[n-i-1]){
+                mapa[s[i]]++; count++;
+                nn=max(nn,mapa[s[i]]);
+            }
         }
+        nn=max(count/2,nn);
+        cout<<nn<<endl;
     }
-    if(count<2){
-        cout<<-1<<endl; return;
-    }
-    for0(i,n){
-        if(two==i)cout<<2<<" ";
-        else if(three==i)cout<<3<<" ";
-        else cout<<1<<" ";
-    }
-    cout<<endl;
-    
 }
 
 int32_t main() {

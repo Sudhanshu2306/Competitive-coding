@@ -132,25 +132,6 @@ void solve() {
     inll(n);
     vll a(n);
     for0(i,n) cin>>a[i];
-    map<int,int> mp;
-    int count=0,two=0,three=0;
-    for0(i,n){
-        mp[a[i]]++;
-        if(mp[a[i]]==2){
-            count++;
-            if(count==1) two=i;
-            if(count==2) three=i;
-        }
-    }
-    if(count<2){
-        cout<<-1<<endl; return;
-    }
-    for0(i,n){
-        if(two==i)cout<<2<<" ";
-        else if(three==i)cout<<3<<" ";
-        else cout<<1<<" ";
-    }
-    cout<<endl;
     
 }
 

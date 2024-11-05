@@ -129,29 +129,46 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n);
-    vll a(n);
-    for0(i,n) cin>>a[i];
-    map<int,int> mp;
-    int count=0,two=0,three=0;
-    for0(i,n){
-        mp[a[i]]++;
-        if(mp[a[i]]==2){
-            count++;
-            if(count==1) two=i;
-            if(count==2) three=i;
+    inint(n); inint(k);
+    vvll a(k+1,vll (1));
+  
+    for1(i,n){
+        for1(j,k){
+            inint(x);
+            x=x|a[j].back();
+            a[j].push_back(x);
         }
     }
-    if(count<2){
-        cout<<-1<<endl; return;
-    }
-    for0(i,n){
-        if(two==i)cout<<2<<" ";
-        else if(three==i)cout<<3<<" ";
-        else cout<<1<<" ";
-    }
-    cout<<endl;
     
+    inll(q);
+    while(q--){
+        inll(m);
+        vpii x,y;
+        while(m--){
+            char ch; cin>>ch;
+            inint(r); inint(c);
+            if(ch=='<') x.pb({r,c});
+            else y.pb({r,c});
+        }
+        int temp=1;
+
+        for(auto it:y){
+          auto z=upper_bound(a[it.f].begin(), a[it.f].end(),it.s);
+          int pos=z-a[it.f].begin();
+          temp=max(temp, pos);
+        }
+        if (temp>n){
+          cout<<-1<<endl; continue;
+        }
+
+        bool flag=0;
+
+        for(auto it:x)
+          if(a[it.f][temp]>=it.s) flag=1;
+
+        if(flag) cout<<-1<<endl;
+        else cout<<temp<<endl;
+    }
 }
 
 int32_t main() {
@@ -161,8 +178,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }
