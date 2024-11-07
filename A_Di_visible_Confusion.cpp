@@ -131,18 +131,22 @@ void solve() {
     // Your code goes here
     inll(n);
     vll a(n);
-    map<int,int> mp;
-    for0(i,n){
-        cin>>a[i];
-        mp[a[i]]++;
-    } 
-    ll one=0,many=0;
-    for(auto it:mp){
-        if(it.s==1) one++;
-        else many++;
+    for0(i,n) cin>>a[i];
+    if(n==1){
+        if(a[0]%2==0) cout<<"NO"<<endl;
+        else cout<<"YES"<<endl;
+        return;
     }
-    if(one&1) cout<<many+one/2+1<<endl;
-    else cout<<many+one/2<<endl;
+    int x=n;
+    while(x>0){
+        int ind=x-1;
+        while(ind>=0 && a[ind]%(ind+2)==0) ind--;
+        if(ind<0) break;
+        a.erase(a.begin()+ind);
+        x--;
+    }
+    if(x==0) cout<<"YES"<<endl;
+    else cout<<"NO"<<endl;
 }
 
 int32_t main() {

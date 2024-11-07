@@ -127,22 +127,30 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+vll spf(1e6+1);
+void ff(){
+    for(int i=1;i<1e6+1;i++) spf[i]=i;
+
+    for(int i=2;i*i<=1e6;i++){
+        if(spf[i]==i){
+            for(int j=i*i;j<=1e6;j+=i){
+                if(spf[j]==j) spf[j]=i; 
+            }
+        }
+    }
+}
+
 void solve() {
     // Your code goes here
-    inll(n);
-    vll a(n);
-    map<int,int> mp;
-    for0(i,n){
-        cin>>a[i];
-        mp[a[i]]++;
-    } 
-    ll one=0,many=0;
-    for(auto it:mp){
-        if(it.s==1) one++;
-        else many++;
+    inll(h); inll(k);
+    ll x=log2(k);
+    
+    ll count=0;
+    while(h!=1){
+        count++;
+        h/=spf[h];
     }
-    if(one&1) cout<<many+one/2+1<<endl;
-    else cout<<many+one/2<<endl;
+    cout<<(count+x)<<endl;
 }
 
 int32_t main() {
@@ -151,7 +159,7 @@ int32_t main() {
 
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
-
+    ff();
     int t;
     cin>>t;
     while(t--){

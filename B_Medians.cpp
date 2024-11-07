@@ -130,19 +130,18 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 void solve() {
     // Your code goes here
     inll(n);
-    vll a(n);
-    map<int,int> mp;
-    for0(i,n){
-        cin>>a[i];
-        mp[a[i]]++;
-    } 
-    ll one=0,many=0;
-    for(auto it:mp){
-        if(it.s==1) one++;
-        else many++;
+    inll(k);
+    if(n==1){cout<<1<<endl<<1<<endl; return;}
+    if(k>=n){ cout<<-1<<endl; return;}
+    if(k==1 && n!=1){cout<<-1<<endl; return;}
+    if((n-k)%2==0){
+        cout<<5<<endl;
+        cout<<1<<" "<<2<<" "<<k<<" "<<k+1<<" "<<k+2<<endl;
     }
-    if(one&1) cout<<many+one/2+1<<endl;
-    else cout<<many+one/2<<endl;
+    else{
+        cout<<3<<endl;
+        cout<<1<<" "<<k<<" "<<k+1<<endl;
+    }
 }
 
 int32_t main() {

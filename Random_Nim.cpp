@@ -115,7 +115,7 @@ vector <bool> is_prime;
 // most used function
 ll moduloMultiplication(ll a,ll b,ll mod){ll res = 0;a %= mod;while (b){if (b & 1)res = (res + a) % mod;b >>= 1;}return res;}
 ll powermod(ll x, ll y, ll p){ll res = 1;x = x % p;if (x == 0) return 0;while (y > 0){if (y & 1)res = (res*x) % p;y = y>>1;x = (x*x) % p;}return res;}
-ll modinv(ll p,ll q){ll ex;ex=M-2;while (ex) {if (ex & 1) {p = (p * q) % M;}q = (q * q) % M;ex>>= 1;}return p;}
+ll modinv(ll a, ll b) {ll ans = 1;ll temp = a;ll exp = b - 2;while (exp > 0) {if (exp % 2 == 1) {ans = (1LL * ans * temp) % b;}temp = (1LL * temp*temp) % b;exp /= 2;}return ans;}
 #define gcd __gcd
 #define lcm(a, b) ((a)/gcd(a,b)*(b))
 string decToBinary(int n){string s="";int i = 0;while (n > 0) {s =to_string(n % 2)+s;n = n / 2;i++;}return s;}
@@ -127,22 +127,24 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+ll ff(ll x, ll d, vll &a){
+    ll m,n,sum=0;
+    for(auto it:a) sum^=it;
+
+    if(sum==0) m=d-1,n=2*d;
+    else m=d+1, n=2*d;
+    ll invn=modinv(n, M);
+
+    ll ans=(1LL*m*invn)%M;
+    return ans;
+}
 void solve() {
     // Your code goes here
-    inll(n);
+    inll(n); inll(d);
     vll a(n);
-    map<int,int> mp;
-    for0(i,n){
-        cin>>a[i];
-        mp[a[i]]++;
-    } 
-    ll one=0,many=0;
-    for(auto it:mp){
-        if(it.s==1) one++;
-        else many++;
-    }
-    if(one&1) cout<<many+one/2+1<<endl;
-    else cout<<many+one/2<<endl;
+    for0(i,n) cin>>a[i];
+    
+    cout<<ff(n,d,a)<<endl;
 }
 
 int32_t main() {
@@ -151,7 +153,7 @@ int32_t main() {
 
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
-
+    
     int t;
     cin>>t;
     while(t--){

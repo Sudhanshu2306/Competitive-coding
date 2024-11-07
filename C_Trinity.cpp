@@ -131,18 +131,15 @@ void solve() {
     // Your code goes here
     inll(n);
     vll a(n);
-    map<int,int> mp;
-    for0(i,n){
-        cin>>a[i];
-        mp[a[i]]++;
-    } 
-    ll one=0,many=0;
-    for(auto it:mp){
-        if(it.s==1) one++;
-        else many++;
+    for0(i,n) cin>>a[i];
+    sort(a);
+    ll maxi=n;
+    // int x=a[0]+a[1];
+    for0(i,n-2){
+        ll count=n-(lower_bound(all(a),a[i]+a[i+1])-a.begin());
+        maxi=min(maxi,count+i);
     }
-    if(one&1) cout<<many+one/2+1<<endl;
-    else cout<<many+one/2<<endl;
+    cout<<maxi<<endl;
 }
 
 int32_t main() {
