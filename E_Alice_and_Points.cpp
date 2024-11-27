@@ -130,17 +130,21 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 void solve() {
     // Your code goes here
     inll(n);
-    vll a(n);
-    for0(i,n) cin>>a[i];
-    ll sum=0;
-    ll mini=M; ll negative=0;
+    vpii a(n);
+    for0(i,n) cin>>a[i].f>>a[i].s;
+    
+    map<ll,ll> mpy,mpx;
     for0(i,n){
-        sum+=abs(a[i]);
-        mini=min(mini,abs(a[i]));
-        if(a[i]<0) negative++;
+        mpy[a[i].s]++;
+        mpx[a[i].f]++;
     }
-    if(negative&1) cout<<sum-mini*2<<endl;
-    else cout<<sum<<endl;
+    ll ans=0;
+    for(auto it:a){
+        ll x=it.f; ll y=it.s;
+        ll temp=(mpx[x]-1)*(mpy[y]-1);
+        ans+=temp;
+    }
+    cout<<ans<<endl;
 }
 
 int32_t main() {
@@ -150,8 +154,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

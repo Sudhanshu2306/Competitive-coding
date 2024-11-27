@@ -130,17 +130,11 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 void solve() {
     // Your code goes here
     inll(n);
-    vll a(n);
-    for0(i,n) cin>>a[i];
-    ll sum=0;
-    ll mini=M; ll negative=0;
-    for0(i,n){
-        sum+=abs(a[i]);
-        mini=min(mini,abs(a[i]));
-        if(a[i]<0) negative++;
+    for1(i,n){
+        cout<<i+(i-1)<<" ";
     }
-    if(negative&1) cout<<sum-mini*2<<endl;
-    else cout<<sum<<endl;
+    cout<<endl;
+    
 }
 
 int32_t main() {

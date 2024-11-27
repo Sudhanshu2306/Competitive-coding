@@ -1,0 +1,1 @@
+{"name":"Local: icpc1","url":"c:\\Users\\sudha\\OneDrive\\Desktop\\Competitive-coding\\icpc1.cpp","tests":[{"id":1731760773251,"input":"2\n3 2 3\n4 2 3\n","output":"-1\n1 2\n1 3\n1 4"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\sudha\\OneDrive\\Desktop\\Competitive-coding\\icpc1.cpp","group":"local","local":true}

@@ -60,6 +60,7 @@ class DisjointSet{
     int findParent(int node){if(node==parent[node]) return node;return parent[node]=findParent(parent[node]);}
     void unionBySize(int u, int v){int parent_u=findParent(u);int parent_v=findParent(v);if(parent_u==parent_v) return;if(size[parent_u]>size[parent_v]){parent[parent_v]=parent_u;size[parent_u]+=size[parent_v];}else{parent[parent_u]=parent_v;size[parent_v]+=size[parent_u];}}
 };
+
 ll bi_expo (ll a,ll b){
     ll ans=1;
     while(b){
@@ -129,18 +130,23 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n);
-    vll a(n);
-    for0(i,n) cin>>a[i];
-    ll sum=0;
-    ll mini=M; ll negative=0;
-    for0(i,n){
-        sum+=abs(a[i]);
-        mini=min(mini,abs(a[i]));
-        if(a[i]<0) negative++;
+    inll(nodes);
+    inll(edges);
+    vll cf(edges), ct(edges);
+    for0(i,edges) cin>>cf[i];
+    for0(i,edges) cin>>ct[i];
+    
+    DisjointSet dsu(nodes+1);
+    for0(i,edges){
+        dsu.unionBySize(cf[i],ct[i]);
     }
-    if(negative&1) cout<<sum-mini*2<<endl;
-    else cout<<sum<<endl;
+    inll(m);
+    vll q(m);
+    for0(i,m){
+        cin>>q[i];
+        int xp=dsu.parent[q[i]];
+        cout<<dsu.size[xp]<<" ";
+    }
 }
 
 int32_t main() {
@@ -150,8 +156,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

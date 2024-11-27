@@ -19,7 +19,7 @@ using namespace std;
 #define inint(x) int x; cin>>x;
 #define inll(x) long long int x; cin>>x;
 #define instr(x) string x; cin>>x;
-#define sort(v) sort(v.begin(),v.end());
+// #define sort(v) sort(v.begin(),v.end());
 #define all(x) x.begin(), x.end()
 #define MAX(x) *max_element(all(x))
 #define MIN(x) *min_element(all(x))
@@ -55,9 +55,20 @@ typedef vector<pii> vpii;
 
 class DisjointSet{
     public:
-    vector<int> parent,size;
-    DisjointSet(int n){parent.resize(n+1,1);size.resize(n+1,1);for(int i=0;i<=n;i++){parent[i]=i;}}
+    vector<int> parent,size,rank;
+    DisjointSet(int n){rank.resize(n+1,0); parent.resize(n+1,1);size.resize(n+1,1);for(int i=0;i<=n;i++){parent[i]=i;}}
     int findParent(int node){if(node==parent[node]) return node;return parent[node]=findParent(parent[node]);}
+    bool unite(int u,int v){
+        int rootU=findParent(u), rootV=findParent(v);
+        if(rootU==rootV) return false;
+
+        if(rank[rootU]>rank[rootV]) parent[rootV] = rootU;
+        else if(rank[rootU]<rank[rootV]) parent[rootU] = rootV;
+        else{
+            parent[rootV]=rootU;
+            rank[rootU]++;
+        } return true;
+    }
     void unionBySize(int u, int v){int parent_u=findParent(u);int parent_v=findParent(v);if(parent_u==parent_v) return;if(size[parent_u]>size[parent_v]){parent[parent_v]=parent_u;size[parent_u]+=size[parent_v];}else{parent[parent_u]=parent_v;size[parent_v]+=size[parent_u];}}
 };
 ll bi_expo (ll a,ll b){
@@ -127,20 +138,51 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+struct Edge{
+    int u; int v;  
+    ll cost; 
+    Edge(int u, int v, ll cost): u(u),v(v),cost(cost){}
+};
+
+
+bool comp(const Edge& p1, const Edge& p2) {
+    return p1.cost<p2.cost;
+}
+
+ll ff(int n, vll& pos, vll& cost) {
+    vector<Edge> edges;
+    
+    for0(i,n){
+        for(int j=i+1;j<n;j++){
+            ll dist=abs(pos[i]-pos[j]);
+            ll edgeCost=min(cost[i],cost[j])*dist;
+            edges.emplace_back(i,j,edgeCost);
+        }
+    }
+    
+    // Sort by position
+    sort(all(edges),comp);
+    
+    DisjointSet dsu(n);
+    ll tot=0; ll edgeUsed=0;
+    for(Edge &edge:edges){
+        if(dsu.unite(edge.u,edge.v)){
+            tot+=edge.cost; edgeUsed++;
+            if(edgeUsed==(n-1)) break;
+        }
+    }
+    return tot;
+}
+
 void solve() {
     // Your code goes here
     inll(n);
-    vll a(n);
-    for0(i,n) cin>>a[i];
-    ll sum=0;
-    ll mini=M; ll negative=0;
-    for0(i,n){
-        sum+=abs(a[i]);
-        mini=min(mini,abs(a[i]));
-        if(a[i]<0) negative++;
-    }
-    if(negative&1) cout<<sum-mini*2<<endl;
-    else cout<<sum<<endl;
+    vll pos(n);
+    for0(i,n) cin>>pos[i];
+    vll cost(n);
+    for0(i,n) cin>>cost[i];
+
+    cout<<ff(n,pos,cost)<<endl;
 }
 
 int32_t main() {

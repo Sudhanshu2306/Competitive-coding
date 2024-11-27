@@ -48,6 +48,7 @@ typedef vector<vll> vvll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef vector<pii> vpii;
+typedef vector<pll> vpll;
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
 #define vvll(a, m, n, x) vector<vector<ll>> a(m, vector<ll>(n, x))
 #define umap unordered_map
@@ -129,18 +130,25 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n);
-    vll a(n);
-    for0(i,n) cin>>a[i];
-    ll sum=0;
-    ll mini=M; ll negative=0;
+    inll(n); inll(eta);
+    vpll a(n);
+    for0(i,n) cin>>a[i].f>>a[i].s;
+
+    sort(a);
+    ll maxi=0;
+    priority_queue<pair<ll,ll>> pq;
+    ll j=0;
     for0(i,n){
-        sum+=abs(a[i]);
-        mini=min(mini,abs(a[i]));
-        if(a[i]<0) negative++;
+        ll t1=a[i].f, s1=a[i].s;
+        while(!pq.empty() && (t1-pq.top().s)>eta) pq.pop();
+        if (!pq.empty()) {
+            ll s2=pq.top().f;
+            ll x=s1+s2+t1;
+            maxi=max(maxi,x);
+        }
+        pq.push({s1-t1,t1});
     }
-    if(negative&1) cout<<sum-mini*2<<endl;
-    else cout<<sum<<endl;
+    cout<<maxi<<endl;
 }
 
 int32_t main() {
@@ -150,8 +158,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

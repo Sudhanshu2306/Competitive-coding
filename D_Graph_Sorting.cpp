@@ -29,7 +29,7 @@ using namespace std;
 #define pm cout<<"-1"<<endl
 #define ps(x,y) fixed<<setprecision(y)<<x
 #define PI (3.141592653589)
-#define M 1000000007
+#define MOD 1000000007
 
 // Bit manipulation macros
 #define setBit(x, i) (x |= (1LL << i))
@@ -115,7 +115,7 @@ vector <bool> is_prime;
 // most used function
 ll moduloMultiplication(ll a,ll b,ll mod){ll res = 0;a %= mod;while (b){if (b & 1)res = (res + a) % mod;b >>= 1;}return res;}
 ll powermod(ll x, ll y, ll p){ll res = 1;x = x % p;if (x == 0) return 0;while (y > 0){if (y & 1)res = (res*x) % p;y = y>>1;x = (x*x) % p;}return res;}
-ll modinv(ll p,ll q){ll ex;ex=M-2;while (ex) {if (ex & 1) {p = (p * q) % M;}q = (q * q) % M;ex>>= 1;}return p;}
+
 #define gcd __gcd
 #define lcm(a, b) ((a)/gcd(a,b)*(b))
 string decToBinary(int n){string s="";int i = 0;while (n > 0) {s =to_string(n % 2)+s;n = n / 2;i++;}return s;}
@@ -127,20 +127,71 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+const int MAXN = 100000;
+ll N, M;
+vi p, comp;
+vector<pair<int, pii>> edges;
+vector<vector<pii>> adj;
+
+void dfs(int u, int compId, int weight) {
+    comp[u] = compId;
+    for (auto &e : adj[u]) {
+        int v = e.first, w = e.second;
+        if (w >= weight && comp[v] == -1) {
+            dfs(v, compId, weight);
+        }
+    }
+}
+
+bool canSortWithWeight(int weight) {
+    fill(comp.begin(), comp.end(), -1);
+    int compId = 0;
+    for (int i = 1; i <= N; ++i) {
+        if (comp[i] == -1) {
+            dfs(i, compId++, weight);
+        }
+    }
+    for (int i = 1; i <= N; ++i) {
+        if (comp[i] != comp[p[i - 1]]) {
+            return false;
+        }
+    }
+    return true;
+}
+
 void solve() {
     // Your code goes here
-    inll(n);
-    vll a(n);
-    for0(i,n) cin>>a[i];
-    ll sum=0;
-    ll mini=M; ll negative=0;
-    for0(i,n){
-        sum+=abs(a[i]);
-        mini=min(mini,abs(a[i]));
-        if(a[i]<0) negative++;
+    cin >> N >> M;
+    p.resize(N);
+    adj.resize(N + 1);
+    comp.resize(N + 1);
+
+    for (int i = 0; i < N; ++i) {
+        cin >> p[i];
     }
-    if(negative&1) cout<<sum-mini*2<<endl;
-    else cout<<sum<<endl;
+
+    for (int i = 0; i < M; ++i) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        adj[u].push_back({v, w});
+        adj[v].push_back({u, w});
+        edges.push_back({w, {u, v}});
+    }
+
+    int left = 0, right = 1e9, ans = -1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (canSortWithWeight(mid)) {
+            ans = mid;
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    if(ans<1e9)cout << ans << endl;
+    else cout<<-1<<endl;
+    
 }
 
 int32_t main() {
@@ -150,13 +201,12 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }
 
     return 0;
 }
-
 

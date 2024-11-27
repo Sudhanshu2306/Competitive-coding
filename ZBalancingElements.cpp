@@ -131,16 +131,29 @@ void solve() {
     // Your code goes here
     inll(n);
     vll a(n);
-    for0(i,n) cin>>a[i];
-    ll sum=0;
-    ll mini=M; ll negative=0;
+    ll odd=0,even=0;
     for0(i,n){
-        sum+=abs(a[i]);
-        mini=min(mini,abs(a[i]));
-        if(a[i]<0) negative++;
+        cin>>a[i];
+        if(i%2==0) even+=a[i];
+        else odd+=a[i];
     }
-    if(negative&1) cout<<sum-mini*2<<endl;
-    else cout<<sum<<endl;
+    ll leftodd=0,lefteven=0;
+    ll count=0;
+    for0(i,n){
+        ll neven,nodd;
+        if(i%2==0){
+            neven=lefteven+odd-leftodd;
+            nodd=leftodd+even-lefteven-a[i];
+        }
+        else{
+            neven=lefteven+odd-leftodd-a[i];
+            nodd=leftodd+even-lefteven;
+        }
+        if(neven==nodd) count++;
+        if(i%2==0) lefteven+=a[i];
+        else leftodd+=a[i];
+    }
+    cout<<count<<endl;
 }
 
 int32_t main() {
@@ -150,13 +163,11 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }
 
     return 0;
 }
-
-

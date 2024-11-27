@@ -132,15 +132,10 @@ void solve() {
     inll(n);
     vll a(n);
     for0(i,n) cin>>a[i];
-    ll sum=0;
-    ll mini=M; ll negative=0;
-    for0(i,n){
-        sum+=abs(a[i]);
-        mini=min(mini,abs(a[i]));
-        if(a[i]<0) negative++;
-    }
-    if(negative&1) cout<<sum-mini*2<<endl;
-    else cout<<sum<<endl;
+    ll x=0;
+    for0(i,n-i-1) x=gcd(x, abs(a[i]-a[n-1-i]));
+    cout<<x<<endl;
+
 }
 
 int32_t main() {

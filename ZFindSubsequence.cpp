@@ -132,15 +132,38 @@ void solve() {
     inll(n);
     vll a(n);
     for0(i,n) cin>>a[i];
-    ll sum=0;
-    ll mini=M; ll negative=0;
-    for0(i,n){
-        sum+=abs(a[i]);
-        mini=min(mini,abs(a[i]));
-        if(a[i]<0) negative++;
+
+    vector<int> x;
+
+    for(int i = 0; i < n; i++){
+        vector<int> subsequence;
+        unordered_set<int> seen;
+        bool valid = true;
+
+        for(int j=i;j<n;j++){
+            if(subsequence.empty() || a[j]>subsequence.back()){
+                subsequence.push_back(a[j]);
+                
+                seen.clear();
+                bool isUnique = true;
+                
+                for(int k=0;k<n;k++){
+                    if(find(subsequence.begin(),subsequence.end(),a[k])==subsequence.end()){
+                        if(seen.find(a[k])!=seen.end()){
+                            isUnique=false;
+                            break;
+                        }
+                        seen.insert(a[k]);
+                    }
+                }
+                if (isUnique) {
+                    if(x.empty() || subsequence.size()<x.size()) x=subsequence;
+                }
+            }
+        }
     }
-    if(negative&1) cout<<sum-mini*2<<endl;
-    else cout<<sum<<endl;
+    if(x.empty()) cout<<-1;
+    for(auto it:x) cout<<it<<" ";
 }
 
 int32_t main() {
@@ -150,8 +173,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }
