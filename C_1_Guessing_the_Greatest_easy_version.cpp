@@ -127,27 +127,36 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
+int query(int s, int e){
+    if(s==e){
+        return -1;
+    }
+    cout<<"? "<<s<<" "<<e<<endl;
+    fflush(stdout);
+    inll(x);
+    return x;
+}
+
 void solve() {
     // Your code goes here
-    inll(n); inll(k);
-    vll a(n); for0(i,n) cin>>a[i];
+    inll(n);
+    int s=1; int e=n+1;
+    while(s+1<e){
+        int mid=s+(e-s)/2;
+        int ind=query(s,e-1);
 
-    int f1=0,f2=0;
-    for0(i,n){
-        if(a[i]==a[0]) f1++;
-        if(a[i]==a[n-1]) f2++;
+        if(ind<mid){
+            int y=query(s,mid-1);
+            if(y==ind) e=mid;
+            else s=mid;
+        }
+        else{
+            int y=query(mid,e-1);
+            if(y==ind) s=mid;
+            else e=mid;
+        }
     }
-    bool f=0;
-    if(a[0]==a[n-1]) if(f1>=sk) f=1;
-
-    int cr=0;
-    for0(i,n){
-        if(a[i]==a[0]) cr++;
-        if(a[i]==a[n-1]) f2--;
-        if(cr>=k && f2>=k) f=1;
-    }
-    if(f) py;
-    else pn;
+    cout<<"! "<<e-1<<endl;
 }
 
 int32_t main() {
@@ -157,8 +166,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

@@ -128,26 +128,21 @@ void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = fal
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
 void solve() {
-    // Your code goes here
-    inll(n); inll(k);
-    vll a(n); for0(i,n) cin>>a[i];
-
-    int f1=0,f2=0;
+    // Your code (goes here
+    inll(n); inll(d);
+    instr(x);
+    string s="";
+    int ind=-1;
     for0(i,n){
-        if(a[i]==a[0]) f1++;
-        if(a[i]==a[n-1]) f2++;
+        if((x[i]-'0')>=d) s+=x[i];
+        else{
+            ind=i;
+            break;
+        }
     }
-    bool f=0;
-    if(a[0]==a[n-1]) if(f1>=sk) f=1;
-
-    int cr=0;
-    for0(i,n){
-        if(a[i]==a[0]) cr++;
-        if(a[i]==a[n-1]) f2--;
-        if(cr>=k && f2>=k) f=1;
-    }
-    if(f) py;
-    else pn;
+    s+=to_string(d);
+    if(ind!=-1) fori(i,ind,n-1) s+=x[i];
+    cout<<s<<endl;
 }
 
 int32_t main() {

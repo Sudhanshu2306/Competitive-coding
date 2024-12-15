@@ -127,28 +127,36 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
-void solve() {
-    // Your code goes here
-    inll(n); inll(k);
-    vll a(n); for0(i,n) cin>>a[i];
-
-    int f1=0,f2=0;
-    for0(i,n){
-        if(a[i]==a[0]) f1++;
-        if(a[i]==a[n-1]) f2++;
-    }
-    bool f=0;
-    if(a[0]==a[n-1]) if(f1>=sk) f=1;
-
-    int cr=0;
-    for0(i,n){
-        if(a[i]==a[0]) cr++;
-        if(a[i]==a[n-1]) f2--;
-        if(cr>=k && f2>=k) f=1;
-    }
-    if(f) py;
-    else pn;
+ll query(ll l, ll r, ll n){
+    cout<<"? "<<n<<" ";
+    fori(i,l,r) cout<<i<<" ";
+    cout<<endl;
+    cout.flush();
+    inll(x);
+    return x;st
 }
+
+void solve() {
+    inll(n);
+    vector<ll> a(n+1);
+    for1(i,n) cin>>a[i];
+
+    vll pre(n+1, 0);
+    for1(i,n) pre[i]=pre[i-1]+a[i];
+
+    ll l=1,r=n;
+    ll ans=l;
+    while(l<=r){
+        ll mid=l+(r-l)/2;
+        ll temp=query(l,mid,mid-l+1);
+        ll sum=pre[mid]-pre[l-1];
+
+        if (sum != temp) r=mid-1;
+        else l=mid+1;
+    }
+    cout<<"! "<<l<<endl;
+}
+
 
 int32_t main() {
     ios_base::sync_with_stdio(false);

@@ -129,26 +129,55 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(k);
-    vll a(n); for0(i,n) cin>>a[i];
-
-    int f1=0,f2=0;
-    for0(i,n){
-        if(a[i]==a[0]) f1++;
-        if(a[i]==a[n-1]) f2++;
+    vll arr(6);
+    vll x={4,8,15,16,23,42};
+    map<int,pii> mp;
+    for0(i,6){
+        fori(j,i+1,6){
+            mp[x[i]*x[j]]={x[i],x[j]};
+        }
     }
-    bool f=0;
-    if(a[0]==a[n-1]) if(f1>=sk) f=1;
+    cout<<"? 1 2"<<endl;
+    fflush(stdout);
+    inll(onetwo);
 
-    int cr=0;
-    for0(i,n){
-        if(a[i]==a[0]) cr++;
-        if(a[i]==a[n-1]) f2--;
-        if(cr>=k && f2>=k) f=1;
+    cout<<"? 2 3"<<endl;
+    fflush(stdout);
+    inll(twothree);
+
+    cout<<"? 4 5"<<endl;
+    fflush(stdout);
+    inll(fourfive);
+
+    cout<<"? 5 6"<<endl;
+    fflush(stdout);
+    inll(fivesix);
+
+    pii one=mp[onetwo];
+    pii two=mp[twothree];
+
+    if(one.f==two.s || one.f==two.f) arr[1]=one.f;
+    else if(one.s==two.f || one.s==two.s) arr[1]=one.s;
+
+    arr[0]=onetwo/arr[1];
+    arr[2]=twothree/arr[1];
+
+    pii three=mp[fourfive];
+    pii four=mp[fivesix];
+
+    if(three.f==four.s || three.f==four.f) arr[4]=three.f;
+    else if(three.s==four.f || three.s==four.s) arr[4]=three.s;
+
+    arr[3]=fourfive/arr[4];
+    arr[5]=fivesix/arr[4];
+
+    cout<<"! ";
+    for0(i,6){
+        cout<<arr[i]<<" ";
     }
-    if(f) py;
-    else pn;
+    cout<<endl;
 }
+
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
@@ -157,8 +186,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

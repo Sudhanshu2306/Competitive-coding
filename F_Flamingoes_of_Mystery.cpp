@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <cstdio>
 using namespace std;
 
 // Commonly used loops
@@ -126,29 +127,28 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
-
+int arr[1005];
 void solve() {
-    // Your code goes here
-    inll(n); inll(k);
-    vll a(n); for0(i,n) cin>>a[i];
-
-    int f1=0,f2=0;
-    for0(i,n){
-        if(a[i]==a[0]) f1++;
-        if(a[i]==a[n-1]) f2++;
+    inll(n);
+    cout << "? 1 2" << endl;
+    inll(a);
+    cout << "? 2 3" << endl;
+    inll(b);
+    cout << "? 1 3" << endl;
+    inll(c);
+    arr[2] = a + b - c;
+    arr[1] = a - arr[2];
+    arr[3] = b - arr[2];
+    for(int i = 4; i <= n; i++) {
+        cout<<"? "<<i-1<<" "<<i<<endl;
+        cin>>a;
+        arr[i]=a-arr[i-1];
     }
-    bool f=0;
-    if(a[0]==a[n-1]) if(f1>=sk) f=1;
-
-    int cr=0;
-    for0(i,n){
-        if(a[i]==a[0]) cr++;
-        if(a[i]==a[n-1]) f2--;
-        if(cr>=k && f2>=k) f=1;
-    }
-    if(f) py;
-    else pn;
+    cout<<"!";
+    for (int i = 1; i <= n; i++) cout << " " << arr[i];
+    cout << endl;
 }
+
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
@@ -157,8 +157,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }
