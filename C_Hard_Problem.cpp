@@ -129,20 +129,17 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n);
-    instr(s);
-    
-    ll tot=n*(n+1)/2;
-    int i=0; int j=n-1;
+    inll(m); inll(a); inll(b); inll(c);
+    ll row1=min(m, a);
+    ll row2=min(m, b);
 
-    while(i<j){
-        if(s[j]=='1'){
-            tot-=(j+1); i++;
-        }
-        else if(i>0) i--;
-        j--;
-    }
-    cout<<tot<<endl;
+    ll rem1 = m-row1;
+    ll rem2 = m-row2;
+
+    ll extra=min(c, rem1+rem2);
+    ll ans=row1+row2+extra;
+
+    cout<<ans<<endl;
 }
 
 int32_t main() {
