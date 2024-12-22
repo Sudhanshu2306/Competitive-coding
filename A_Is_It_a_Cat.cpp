@@ -150,13 +150,23 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(q);
-    vll a(n); vll b(m);
+    inll(n);
+    instr(s);
 
-    for0(i,n) cin>>a[i];
-    for0(i,m) cin>>b[i];
-    
-    s
+    int i=0; int j=0;
+    string x="meow";
+    while(i<n && j<4){
+        if(s[i]==x[j] || s[i]==toupper(x[j])){
+            while(s[i]==x[j] || s[i]==toupper(x[j])) i++;
+            j++;
+        }
+        else{cout<<"NO"<<endl; return;} 
+    }
+    if(i<n || j<4){pn; return;}
+    if(s[n-1]=='w' || s[n-1]=='W'){
+        py; return;
+    }
+    cout<<"NO"<<endl;
 }
 
 int32_t main() {

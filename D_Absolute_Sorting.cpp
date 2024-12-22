@@ -19,7 +19,7 @@ using namespace std;
 #define inint(x) int x; cin>>x;
 #define inll(x) long long int x; cin>>x;
 #define instr(x) string x; cin>>x;
-#define sort(v) sort(v.begin(),v.end());
+// #define sort(v) sort(v.begin(),v.end());
 #define all(x) x.begin(), x.end()
 #define MAX(x) *max_element(all(x))
 #define MIN(x) *min_element(all(x))
@@ -150,13 +150,19 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(q);
-    vll a(n); vll b(m);
-
+    inll(n); vll a(n);
     for0(i,n) cin>>a[i];
-    for0(i,m) cin>>b[i];
+
+    vll x=a; sort(all(x));
+    if(x==a){cout<<0<<endl; return;}
     
-    s
+    ll mini=1e9, maxi=0;
+    for1(i,n-1){
+        if(a[i]>a[i-1]) mini=min(mini,(a[i-1]+a[i])/2);
+        if(a[i]<a[i-1]) maxi=max(maxi,(a[i-1]+a[i]+1)/2);
+    }
+    if(maxi>mini){cout<<-1<<endl; return;}
+    else cout<<maxi<<endl;
 }
 
 int32_t main() {

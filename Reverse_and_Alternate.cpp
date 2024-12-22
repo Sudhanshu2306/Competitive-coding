@@ -148,15 +148,34 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
 
+bool ff(string s,char ch){
+    int n=s.size();
+    string x;
+    for0(i,n) {
+        if(i&1){
+            if(ch=='0') x+='1';
+            else x+='0';
+        }
+        else x+=ch;
+    }
+    vll temp;
+    for0(i,n) {
+        if(s[i]!=x[i]) temp.pb(i);
+    }
+    if(temp.empty()) return true;
+    ll l=temp.front(), r=temp.back();
+
+    reverse(s.begin()+l,s.begin()+r+1);
+    return s==x;
+}
+
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(q);
-    vll a(n); vll b(m);
+    inll(n); instr(s);
+    if(ff(s,'0') || ff(s,'1')) py;
+    else pn;
 
-    for0(i,n) cin>>a[i];
-    for0(i,m) cin>>b[i];
     
-    s
 }
 
 int32_t main() {

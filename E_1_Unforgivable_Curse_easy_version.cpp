@@ -150,13 +150,28 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(q);
-    vll a(n); vll b(m);
+    inll(n); inll(k);
+    instr(s); instr(t);
+    // k=3 here
 
-    for0(i,n) cin>>a[i];
-    for0(i,m) cin>>b[i];
-    
-    s
+    DisjointSet dsu(n+1);
+    for0(i,n){
+        if(i+k<n) dsu.unionBySize(i,i+k);
+        if(i+k+1<n) dsu.unionBySize(i,i+k+1);
+    }
+    if(s==t){py; return;} 
+    map<char,int> mp1,mp2;
+    for(auto it:s) mp1[it]++;
+    for(auto it:t) mp2[it]++;
+
+    for(auto it:mp1){
+        if(mp2[it.f]!=it.s){pn; return;}
+    }
+
+    if(n>=6){py; return;}
+    else if(n==5 && s[2]==t[2]){py; return;}
+    else if(n==4 && s[1]==t[1] && s[2]==t[2]){py; return;}
+    else pn;
 }
 
 int32_t main() {

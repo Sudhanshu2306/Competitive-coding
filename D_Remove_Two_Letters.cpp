@@ -150,13 +150,17 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(q);
-    vll a(n); vll b(m);
-
-    for0(i,n) cin>>a[i];
-    for0(i,m) cin>>b[i];
-    
-    s
+    inll(n); instr(s);
+    set<string> st;
+    int tot=n-1;
+    for0(i,n-2){
+        // string left=s.substr(0,i);
+        // string right=s.substr(i+2,n-(i+2));
+        // string ans=""; ans+=left; ans+=right;
+        // st.insert(ans);
+        if(s[i]==s[i+2]) tot-=1;
+    }
+    cout<<tot<<endl;
 }
 
 int32_t main() {

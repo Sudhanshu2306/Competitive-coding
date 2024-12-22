@@ -150,13 +150,10 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(q);
-    vll a(n); vll b(m);
-
-    for0(i,n) cin>>a[i];
-    for0(i,m) cin>>b[i];
+    inll(x);
+    if(x%33==0){py;}
+    else pn;
     
-    s
 }
 
 int32_t main() {

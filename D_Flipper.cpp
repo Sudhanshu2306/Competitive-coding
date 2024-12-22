@@ -150,13 +150,27 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(q);
-    vll a(n); vll b(m);
+    inll(n); // n is of range 2000
+    vll a(n); for0(i,n) cin>>a[i];
 
-    for0(i,n) cin>>a[i];
-    for0(i,m) cin>>b[i];
+    ll maxi=max_element(a.begin()+1,a.end())-a.begin();
+    if(maxi!=(n-1)) maxi--;
+
+    vll ans;
+    fori(i,maxi+1,n-1){
+        ans.pb(a[i]);
+    }
+    ans.pb(a[maxi]);
+    for(int i=maxi-1;i>=0;i--){
+        if(a[i]>a[0]) ans.pb(a[i]);
+        else{
+            for0(j,i+1) ans.pb(a[j]);
+            break;
+        }
+    }
+    for0(i,ans.size()) cout<<ans[i]<<" ";
+    cout<<endl;
     
-    s
 }
 
 int32_t main() {

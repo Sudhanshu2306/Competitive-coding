@@ -129,9 +129,7 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n);
-    inll(m);
-    inll(k);
+    inll(n); inll(m); inll(k);
     instr(s);
     
 }

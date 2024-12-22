@@ -150,13 +150,18 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(q);
-    vll a(n); vll b(m);
-
-    for0(i,n) cin>>a[i];
-    for0(i,m) cin>>b[i];
-    
-    s
+    inll(n);
+    vll a(n); for0(i,n) cin>>a[i];
+    priority_queue<ll> pq;
+    ll ans=0;
+    for0(i,n){
+        if(a[i]==0 && !pq.empty()){
+            auto x=pq.top(); pq.pop();
+            ans+=x;
+        }
+        else pq.push(a[i]);
+    }
+    cout<<ans<<endl;
 }
 
 int32_t main() {
