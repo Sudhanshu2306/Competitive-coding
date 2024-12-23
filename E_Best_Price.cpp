@@ -85,7 +85,7 @@ void updateRange(ll node, ll start, ll end, ll l, ll r, ll val) {
     if(lazy[node]!=0){tree[node]+=(end-start+1)*lazy[node];if(start!=end){lazy[2*node]+=lazy[node]; lazy[2*node+1]+=lazy[node];}lazy[node] = 0;}
     if(start>end || start>r || end<l) return;
     if (start>=l && end<=r){tree[node]+=(end-start+1)*val; if(start!=end) {lazy[2*node]+=val; lazy[2*node+1]+=val;} return;}
-    ll mid=(start+endst)/2;
+    ll mid=(start+end)/2;
     updateRange(2*node,start,mid,l,r,val);
     updateRange(2*node+1,mid+1,end,l,r,val);
     tree[node]=tree[2*node]+tree[2*node+1];
@@ -150,27 +150,34 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); // n is of range 2000
-    vll a(n); for0(i,n) cin>>a[i];
+    inll(n); inll(k);
+    vll a(n), b(n);
+    for0(i,n) cin>>a[i];
+    for0(i,n) cin>>b[i];
+    ll maxi=0;
+    vector<pll> x; // {a,b}
+    for0(i,n) x.pb({a[i],b[i]});
+    priority_queue<ll,vll,greater<ll>> pq; // double sorting karni h
+    // b bhi sort aur {a,b} bhi
+    // b sort hoga pq se
+    sort(x); sort(b);
+    ll count=0;
+    set<ll> st;
 
-    ll maxi=max_element(a.begin()+1,a.end())-a.begin();
-    if(maxi!=(n-1)) maxi--;
-
-    vll ans;
-    fori(i,maxi+1,n-1){
-        ans.pb(a[i]);
-    }
-    ans.pb(a[maxi]);
-    for(int i=maxi-1;i>=0;i--){
-        if(a[i]>a[0]) ans.pb(a[i]);
-        else{
-            for0(j,i+1) ans.pb(a[j]);
-            break;
+    for0(i,k+1){
+        while(!pq.empty() && pq.top()<x[i].f){
+            pq.pop(); count++; // agar positive > negative
         }
+        maxi=max(maxi,(n-count)*x[i].f);
+        pq.push(x[i].s);
     }
-    for0(i,ans.size()) cout<<ans[i]<<" ";
-    cout<<endl;
-    
+    ll i=n-1;
+    while(i>=(n-k)){
+        // top (n-k) kyuki max to max k negative ho sakta h
+        maxi=max(maxi,(n-i)*b[i]);
+        i--;
+    }
+    cout<<maxi<<endl;
 }
 
 int32_t main() {

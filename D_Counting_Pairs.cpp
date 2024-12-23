@@ -85,7 +85,7 @@ void updateRange(ll node, ll start, ll end, ll l, ll r, ll val) {
     if(lazy[node]!=0){tree[node]+=(end-start+1)*lazy[node];if(start!=end){lazy[2*node]+=lazy[node]; lazy[2*node+1]+=lazy[node];}lazy[node] = 0;}
     if(start>end || start>r || end<l) return;
     if (start>=l && end<=r){tree[node]+=(end-start+1)*val; if(start!=end) {lazy[2*node]+=val; lazy[2*node+1]+=val;} return;}
-    ll mid=(start+endst)/2;
+    ll mid=(start+end)/2;
     updateRange(2*node,start,mid,l,r,val);
     updateRange(2*node+1,mid+1,end,l,r,val);
     tree[node]=tree[2*node]+tree[2*node+1];
@@ -150,27 +150,26 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); // n is of range 2000
-    vll a(n); for0(i,n) cin>>a[i];
+    inll(n); inll(a); inll(b);
 
-    ll maxi=max_element(a.begin()+1,a.end())-a.begin();
-    if(maxi!=(n-1)) maxi--;
+    ll ans=0;
+    vll arr(n); for0(i,n) cin>>arr[i];
+    ll sum=SUM(arr);
+    sort(arr);
 
-    vll ans;
-    fori(i,maxi+1,n-1){
-        ans.pb(a[i]);
+    for0(i,n){
+        ll x=sum-arr[i];
+        if(x<a) continue;
+        ll y=x-a; ll z=0;
+        if(x>b) z=x-b;
+        ll right=upper_bound(all(arr), y)-arr.begin(); right--;
+        ll left=upper_bound(all(arr), z-1)-arr.begin();
+       
+        if(right<left) continue;
+        if(i>=left && i<=right) ans--;
+        ans+=(right-left+1);
     }
-    ans.pb(a[maxi]);
-    for(int i=maxi-1;i>=0;i--){
-        if(a[i]>a[0]) ans.pb(a[i]);
-        else{
-            for0(j,i+1) ans.pb(a[j]);
-            break;
-        }
-    }
-    for0(i,ans.size()) cout<<ans[i]<<" ";
-    cout<<endl;
-    
+    cout<<ans/2<<endl;
 }
 
 int32_t main() {

@@ -85,7 +85,7 @@ void updateRange(ll node, ll start, ll end, ll l, ll r, ll val) {
     if(lazy[node]!=0){tree[node]+=(end-start+1)*lazy[node];if(start!=end){lazy[2*node]+=lazy[node]; lazy[2*node+1]+=lazy[node];}lazy[node] = 0;}
     if(start>end || start>r || end<l) return;
     if (start>=l && end<=r){tree[node]+=(end-start+1)*val; if(start!=end) {lazy[2*node]+=val; lazy[2*node+1]+=val;} return;}
-    ll mid=(start+endst)/2;
+    ll mid=(start+end)/2;
     updateRange(2*node,start,mid,l,r,val);
     updateRange(2*node+1,mid+1,end,l,r,val);
     tree[node]=tree[2*node]+tree[2*node+1];
@@ -148,28 +148,36 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
 
-void solve() {
-    // Your code goes here
-    inll(n); // n is of range 2000
-    vll a(n); for0(i,n) cin>>a[i];
-
-    ll maxi=max_element(a.begin()+1,a.end())-a.begin();
-    if(maxi!=(n-1)) maxi--;
-
-    vll ans;
-    fori(i,maxi+1,n-1){
-        ans.pb(a[i]);
-    }
-    ans.pb(a[maxi]);
-    for(int i=maxi-1;i>=0;i--){
-        if(a[i]>a[0]) ans.pb(a[i]);
-        else{
-            for0(j,i+1) ans.pb(a[j]);
-            break;
+bool ff(int x, vll &a){
+    int count=0;
+    ll y=1e9;
+    for0(i,a.size()){
+        if(abs(a[i]-y)>x){
+            y=a[i]+x; count++;
         }
     }
-    for0(i,ans.size()) cout<<ans[i]<<" ";
-    cout<<endl;
+    return count<=3;
+}
+
+void solve() {
+    // Your code goes here
+    inll(n); vll a(n); for0(i,n) cin>>a[i];
+    sort(a);
+
+    // BS on answers, toh monotonic function aaise banega ki let's say ki x
+    // ab x agar maximum difference h toh satify karega, toh x+1,x+2,x+3 ye sab bhi karenge toh humein piche move karna h
+
+    ll s=0; ll e=1e9+1;
+    ll ans=e;
+    while(s<=e){
+        ll mid=s+(e-s)/2;
+        if(ff(mid,a)){
+            e=mid-1;
+            ans=mid;
+        }
+        else s=mid+1;
+    }
+    cout<<ans<<endl;
     
 }
 
