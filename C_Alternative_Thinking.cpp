@@ -150,18 +150,14 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(k);
-    vll a(n); for0(i,n) cin>>a[i];
-    sort(a);
-    
-    ll sum=0;
-    vll pre(n+1,0);
-    for0(i,n) pre[i+1]=pre[i]+a[i];
-    for0(i,k+1){
-        sum=max(sum,pre[n-(k-i)]-pre[2*i]);
+    inll(n);
+    instr(s);
+    ll count=0;
+    for1(i,n-1){
+        if(s[i]!=s[i-1]) count++;
     }
-    cout<<sum<<endl;
-    
+    if(n<count+3) cout<<n<<endl;
+    else cout<<count+3<<endl;
 }
 
 int32_t main() {
@@ -171,8 +167,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }
@@ -180,4 +176,4 @@ int32_t main() {
     return 0;
 }
 
- 
+

@@ -19,7 +19,7 @@ using namespace std;
 #define inint(x) int x; cin>>x;
 #define inll(x) long long int x; cin>>x;
 #define instr(x) string x; cin>>x;
-#define sort(v) sort(v.begin(),v.end());
+// #define sort(v) sort(v.begin(),v.end());
 #define all(x) x.begin(), x.end()
 #define MAX(x) *max_element(all(x))
 #define MIN(x) *min_element(all(x))
@@ -150,17 +150,39 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(k);
-    vll a(n); for0(i,n) cin>>a[i];
-    sort(a);
-    
-    ll sum=0;
-    vll pre(n+1,0);
-    for0(i,n) pre[i+1]=pre[i]+a[i];
-    for0(i,k+1){
-        sum=max(sum,pre[n-(k-i)]-pre[2*i]);
+    inll(n); inll(k); inll(q);
+    // vector<pll> a(n);
+    vll a(2e5+5); vll s(2e5+5);
+    for0(i,n){
+        // cin>>a[i].f>>a[i].s;
+        inll(x); inll(y);
+        a[x]++; a[y+1]--;
     }
-    cout<<sum<<endl;
+
+    for1(i,2e5+4){
+        a[i]+=a[i-1];
+        s[i]+=s[i-1]+(a[i]>=k);
+    }
+
+    // line-sweep
+
+    // vector<pll> x;
+    // for0(i,n){
+    //     x.pb(a[i].f,1); x.pb(a[i].s,-1);
+    // }
+    // sort(all(x),[](pll &a, pll &b){
+    //     return a.f<b.f;
+    // });
+    // int ans=0;
+    // for0(i,x.size()){
+    //     if(x[i].s==1) ans++;
+    //     else ans--;
+    //     if(ans==k) mp[x[i].f]++;
+    // }
+    while(q--){
+        inll(x); inll(y);
+        cout<<s[y]-s[x-1]<<endl;
+    }
     
 }
 
@@ -171,8 +193,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }
@@ -180,4 +202,4 @@ int32_t main() {
     return 0;
 }
 
- 
+

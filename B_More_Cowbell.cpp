@@ -147,21 +147,37 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     14. decimal waale questions mein setprecesion aur fixed use karo hamesha
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
+bool ff(ll mid, vll &a, ll k){
+    int n=a.size();
+    int count=0; int y=0;
+    int tot=n;
+    int i=0; int j=n-1;
+    while(i<j){
+        while(j>i && a[j]+a[i]>mid) j--;
+        if(j<=i) break;
+        tot-=2; count++;
+        i++; j--;
+    }
+    return count+tot<=k;
+}
 
 void solve() {
     // Your code goes here
     inll(n); inll(k);
     vll a(n); for0(i,n) cin>>a[i];
     sort(a);
-    
-    ll sum=0;
-    vll pre(n+1,0);
-    for0(i,n) pre[i+1]=pre[i]+a[i];
-    for0(i,k+1){
-        sum=max(sum,pre[n-(k-i)]-pre[2*i]);
+    // bs on the size of box
+    ll s=a[n-1]; ll e=1e7;
+    ll ans=e;
+    while(s<=e){
+        ll mid=s+(e-s)/2;
+        if(ff(mid,a,k)){
+            e=mid-1;
+            ans=mid;
+        }
+        else s=mid+1;
     }
-    cout<<sum<<endl;
-    
+    cout<<ans<<endl;
 }
 
 int32_t main() {
@@ -171,8 +187,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }
@@ -180,4 +196,4 @@ int32_t main() {
     return 0;
 }
 
- 
+
