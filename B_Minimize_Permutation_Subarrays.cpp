@@ -151,21 +151,17 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 void solve() {
     // Your code goes here
     inll(n);
-    vector<pll> a(n);
-    vll cnt(2*n);
-    vll pre(2*n+1);
+    vll a(n); for0(i,n) cin>>a[i];
+    int x=n;
+    int i1;
+    for0(i,n) if(a[i]==x) {i1=i+1; break;}
+    int y,z;
     for0(i,n){
-        cin>>a[i].f>>a[i].s;
-        a[i].f--;
-        if(a[i].f+1==a[i].s) cnt[a[i].f]++;
+        if(a[i]==1) y=i+1;
+        if(a[i]==2) z=i+1;
     }
-    for0(i,2*n) pre[i+1]=pre[i]+(cnt[i]==0);
-    
-    for0(i,n){
-        if(a[i].f+1<a[i].s) cout<<(pre[a[i].f]!=pre[a[i].s]); 
-        else cout<<(cnt[a[i].f]==1);
-    }
-    cout<<endl;
+    vll m={z,y,i1}; sort(m);
+    cout<<i1<<" "<<m[1]<<endl;
 }
 
 int32_t main() {

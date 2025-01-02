@@ -150,22 +150,34 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n);
-    vector<pll> a(n);
-    vll cnt(2*n);
-    vll pre(2*n+1);
+    inll(n); inll(k);
+    instr(s); instr(t);
+    // k=3 here
+
+    DisjointSet dsu(n+1);
     for0(i,n){
-        cin>>a[i].f>>a[i].s;
-        a[i].f--;
-        if(a[i].f+1==a[i].s) cnt[a[i].f]++;
+        if(i+k<n) dsu.unionBySize(i,i+k);
+        if(i+k+1<n) dsu.unionBySize(i,i+k+1);
     }
-    for0(i,2*n) pre[i+1]=pre[i]+(cnt[i]==0);
-    
+    if(s==t){py; return;} 
+
+    map<char,int> mp1,mp2;
+    for(auto it:s) mp1[it]++;
+    for(auto it:t) mp2[it]++;
+
+    for(auto it:mp1){
+        if(mp2[it.f]!=it.s){pn; return;}
+    }
+    vll x; bool flag=false; 
+
     for0(i,n){
-        if(a[i].f+1<a[i].s) cout<<(pre[a[i].f]!=pre[a[i].s]); 
-        else cout<<(cnt[a[i].f]==1);
+        if(s[i]!=t[i]) x.pb(i);
     }
-    cout<<endl;
+    for0(i,x.size()){
+        if(x[i]-k<0 && x[i]+k>=n) flag=true;
+    }
+    if(!flag){py; return;}
+    else{pn; return;}  
 }
 
 int32_t main() {
