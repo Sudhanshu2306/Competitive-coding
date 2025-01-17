@@ -150,33 +150,47 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(k);
+    inll(n); inll(k);
+    vll a(n); for0(i,n) cin>>a[i];
 
-    vll a(m); for0(i,m) cin>>a[i];
-    vll q(k); for0(i,k) cin>>q[i];
-    if(k==n){
-        for0(i,m) cout<<1;
-        cout<<endl;
-    }
-    else if(k==n-1){
-        ll y=1;
-        sort(q);
-        for(int it:q){
-            if(it==y) y++;
-            else break;
+    map<int,int> mp;
+    for(auto it:a) mp[it]++;
+
+    int x=mp[k];
+    bool flag=true;
+    for(auto it:mp){
+        if(it.f!=k && it.s>x){
+            flag=false; break;
         }
-        if(y>n) y=n;
-        string s;
-        s.reserve(m);
+    }
+    if(flag){cout<<0<<endl; return;}
 
-        for0(i,m) s+=(a[i]==y)?'1':'0';
-        cout<<s<<endl;
+    int count=0; int y=0;
+    map<int,int> g;
+    int maxi=0;
+    for(auto it:a){
+        if(it!=k) {
+            g[it]++; maxi=max(maxi,g[it]);
+        }
+        else y++;
+        if(y>=maxi){
+            cout<<1<<endl; return;
+        }
     }
-    else{
-        for0(in,m) cout<<0;
-        cout<<endl;
+    int z=0;
+    reverse(all(a));
+    map<int,int> f;
+    maxi=0;
+    for(auto it:a){
+        if(it!=k) {
+            f[it]++; maxi=max(maxi,f[it]);
+        }
+        else z++;
+        if(z>=maxi){
+            cout<<1<<endl; return;
+        }
     }
-    
+    cout<<2<<endl;
 }
 
 int32_t main() {

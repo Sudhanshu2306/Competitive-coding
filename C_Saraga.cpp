@@ -150,33 +150,25 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(k);
-
-    vll a(m); for0(i,m) cin>>a[i];
-    vll q(k); for0(i,k) cin>>q[i];
-    if(k==n){
-        for0(i,m) cout<<1;
-        cout<<endl;
-    }
-    else if(k==n-1){
-        ll y=1;
-        sort(q);
-        for(int it:q){
-            if(it==y) y++;
-            else break;
+    instr(s); instr(t);
+    string ans;
+    int n=s.size(), m=t.size();
+    int mini=1e9;
+    map<char,vector<int>> mp;
+    rfor0(i,m-1) mp[t[i]].push_back(i);
+    for(int i=1;i<n;i++){
+        if(mp.find(s[i])!=mp.end()){
+            int len=i+1+(m-mp[s[i]][0]);
+            if(mini>len){
+                mini=len;
+                ans="";
+                ans+=s.substr(0,i);
+                ans+=t.substr(mp[s[i]][0]);
+            }
         }
-        if(y>n) y=n;
-        string s;
-        s.reserve(m);
-
-        for0(i,m) s+=(a[i]==y)?'1':'0';
-        cout<<s<<endl;
     }
-    else{
-        for0(in,m) cout<<0;
-        cout<<endl;
-    }
-    
+    if(ans!="") cout<<ans<<endl;
+    else cout<<-1<<endl;
 }
 
 int32_t main() {
@@ -186,8 +178,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

@@ -150,33 +150,22 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(k);
-
+    inll(m);
     vll a(m); for0(i,m) cin>>a[i];
-    vll q(k); for0(i,k) cin>>q[i];
-    if(k==n){
-        for0(i,m) cout<<1;
-        cout<<endl;
-    }
-    else if(k==n-1){
-        ll y=1;
-        sort(q);
-        for(int it:q){
-            if(it==y) y++;
-            else break;
-        }
-        if(y>n) y=n;
-        string s;
-        s.reserve(m);
 
-        for0(i,m) s+=(a[i]==y)?'1':'0';
-        cout<<s<<endl;
+    ll count=0;
+    bool flag=0;
+    for(int i=1;i<m;i*=2){
+        for(int j=0;j<m;j+=2*i){
+            if(abs(a[j]-a[j+i])!=i){flag=1;break;}
+            if(a[j]>a[j+i]){
+                swap(a[j],a[j+i]); 
+                count++;
+            }
+        }
     }
-    else{
-        for0(in,m) cout<<0;
-        cout<<endl;
-    }
-    
+    if(flag){cout<<-1<<endl; return;}
+    cout<<count<<endl;
 }
 
 int32_t main() {

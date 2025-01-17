@@ -147,34 +147,40 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     14. decimal waale questions mein setprecesion aur fixed use karo hamesha
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
+const int N = 2e5 + 1;
+int b[N];
+vi adj[N];
+
+void dfs(int node, int parent){
+    int count=0;
+    for(auto it:adj[node]){
+        if(it!=parent){
+            dfs(it,node);
+            b[node]+=b[it];
+            count++;
+        }
+    }
+    if(count==0) b[node]=1;
+}
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(k);
-
-    vll a(m); for0(i,m) cin>>a[i];
-    vll q(k); for0(i,k) cin>>q[i];
-    if(k==n){
-        for0(i,m) cout<<1;
-        cout<<endl;
+    inll(n);
+    for1(i,n){
+        adj[i].clear();
+        b[i]=0;
     }
-    else if(k==n-1){
-        ll y=1;
-        sort(q);
-        for(int it:q){
-            if(it==y) y++;
-            else break;
-        }
-        if(y>n) y=n;
-        string s;
-        s.reserve(m);
-
-        for0(i,m) s+=(a[i]==y)?'1':'0';
-        cout<<s<<endl;
+    for0(i,n-1){
+        inll(x); inll(y);
+        adj[x].pb(y);
+        adj[y].pb(x);
     }
-    else{
-        for0(in,m) cout<<0;
-        cout<<endl;
+    dfs(1,1);
+    inll(q);
+    for0(i,q){
+        inll(x); inll(y);
+        ll z=b[x]*b[y];
+        cout<<z<<endl;
     }
     
 }

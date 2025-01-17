@@ -150,33 +150,17 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(k);
-
-    vll a(m); for0(i,m) cin>>a[i];
-    vll q(k); for0(i,k) cin>>q[i];
-    if(k==n){
-        for0(i,m) cout<<1;
-        cout<<endl;
-    }
-    else if(k==n-1){
-        ll y=1;
-        sort(q);
-        for(int it:q){
-            if(it==y) y++;
-            else break;
-        }
-        if(y>n) y=n;
-        string s;
-        s.reserve(m);
-
-        for0(i,m) s+=(a[i]==y)?'1':'0';
-        cout<<s<<endl;
-    }
-    else{
-        for0(in,m) cout<<0;
-        cout<<endl;
-    }
+    inll(n); vll a(n),b(n);
+    for0(i,n) cin>>a[i];
+    for0(i,n) cin>>b[i];
     
+    vll x;
+    for0(i,n){
+        x.pb(a[i]-b[i]);
+    }
+    sort(x);
+    if(x[0]+x[1]>=0) py;
+    else pn;
 }
 
 int32_t main() {

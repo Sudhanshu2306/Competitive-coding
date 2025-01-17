@@ -130,16 +130,16 @@ void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = fal
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
 /*Common things to remember : 
-    0. sabse pehle brute force socho, agar constraints upar jaa raha toh usme optimization socho, LC aur CC 2 baar aaisa hua h
-    1. unordered_map kabhi nahi use karna h, hamesha map use karo, CF yaad h na!
-    2. hamesha check karo interactive problem mein, t=1 karna mat bhulna, idleness aayega warna. 4 baar WA aaya tha
-    3. interactive problem most of the time BS se hota h bas monotonicity establish karo
-    4. BS mein lower bound aur upperbound ka dhyan rakho, dimag mein hi nahi aata h jabtak koi samne se naa bole, BS on answers bhi try karo sochne ka
-    5. prefix/suffix sum + optimization, hamesha galti karta h isme
-    6. dp ki state hamesha socho, phir usme exception dhundho, aur phir recurrence likho
-    7. ranged query bhi prefix suffix jaisa lagta, itna muskil nahi hota h segment trees
-    8. bfs and dijkstra jab max/min ho (n*logn)
-    9. dfs tab jab path jaisa ho, single run mein, aur constraints chote ho
+    00. sabse pehle brute force socho, agar constraints upar jaa raha toh usme optimization socho, LC aur CC 2 baar aaisa hua h
+    01. unordered_map kabhi nahi use karna h, hamesha map use karo, CF yaad h na!
+    02. hamesha check karo interactive problem mein, t=1 karna mat bhulna, idleness aayega warna. 4 baar WA aaya tha
+    03. interactive problem most of the time BS se hota h bas monotonicity establish karo
+    04. BS mein lower bound aur upperbound ka dhyan rakho, dimag mein hi nahi aata h jabtak koi samne se naa bole, BS on answers bhi try karo sochne ka
+    05. prefix/suffix sum + optimization, hamesha galti karta h isme
+    06. dp ki state hamesha socho, phir usme exception dhundho, aur phir recurrence likho
+    07. ranged query bhi prefix suffix jaisa lagta, itna muskil nahi hota h segment trees
+    08. bfs and dijkstra jab max/min ho (n*logn)
+    09. dfs tab jab path jaisa ho, single run mein, aur constraints chote ho
     10. dp aur dfs mein difference ye h ki dfs chote constraints par lagta h, jab memoisation ki jaroorat nahi hoti h
     11. DSU sidhe sidhe nahi dikhta h, thoda socho connect karne ka, jab cycle jaisa kuch ban raha ho
     12. priority_queue + sorting, bahut baar double sorting ke questions is se hi ban jaate h
@@ -150,33 +150,37 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(k);
-
-    vll a(m); for0(i,m) cin>>a[i];
-    vll q(k); for0(i,k) cin>>q[i];
-    if(k==n){
-        for0(i,m) cout<<1;
-        cout<<endl;
-    }
-    else if(k==n-1){
-        ll y=1;
-        sort(q);
-        for(int it:q){
-            if(it==y) y++;
+    inll(n);
+    string x="";
+    int i=0;
+    int z;
+    for(i=0;i<n;i++){
+        string y=x+"0";
+        cout<<"? "<<y<<endl;
+        cin>>z;
+        if(z) x+="0";
+        else{
+            string a=x+"1";
+            cout<<"? "<<a<<endl;
+            cin>>z;
+            if(z) x+="1";
             else break;
         }
-        if(y>n) y=n;
-        string s;
-        s.reserve(m);
-
-        for0(i,m) s+=(a[i]==y)?'1':'0';
-        cout<<s<<endl;
     }
-    else{
-        for0(in,m) cout<<0;
-        cout<<endl;
+    for(;i<n;i++){
+        string y="0"+x;
+        cout<<"? "<<y<<endl;
+        cin>>z;
+        if(z) x="0"+x;
+        else{
+            string a="1"+x;
+            cout<<"? "<<a<<endl;
+            cin>>z;
+            if(z) x="1"+x;
+            else break;
+        }
     }
-    
+    cout<<"! "<<x<<endl;
 }
 
 int32_t main() {
@@ -186,7 +190,7 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
+    int t=1;
     cin>>t;
     while(t--){
         solve();

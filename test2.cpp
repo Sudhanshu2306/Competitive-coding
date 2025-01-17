@@ -1,36 +1,31 @@
-#include <bits/stdc++.h>
+#include <bits/stdc++.h> 
 using namespace std;
 
-int solve(vector<int>& arr) {
-    sort(arr.begin(),arr.end());
-    int n=arr.size();
-   
-    map<int,int> mp;
-    long long sum=0;
-    mp[arr[n-2]]=1; mp[arr[n-1]]=1;
-    for(int i=0;i<n-2;i++){
-        sum+=arr[i];
-        mp[arr[i]]++;
-    }
-    if(sum==arr[n-2]) return arr[n-1];
-    else{
-        for(int i=0;i<n-2;i++){
-            int x=sum-arr[i]+arr[n-2];
-            if(x==arr[n-1]) return arr[n-1];
+int f(vector<int> weight, vector<int> value, int n, int maxWeight) {
+    vector<vector<int>> dp(n + 1, vector<int>(maxWeight + 1, 0));
+    for (int i = 1; i <= n; i++) {
+        for (int w = 0; w <= maxWeight; w++) {
+            if (weight[i - 1] <= w) {
+                dp[i][w] = max(dp[i - 1][w], value[i - 1] + dp[i - 1][w - weight[i - 1]]);
+            } 
+            else dp[i][w] = dp[i - 1][w];
         }
-        return arr[n-2];
+
     }
-    return -1;
+    return dp[n][maxWeight];
+
 }
 
-int main() {
+int main(){
     int n; cin>>n;
-    vector<int> a(n);
-    for(int i=0;i<n;i++){
-        cin>>a[i];
-    }
-    int result=solve(a);
-    cout<<result<<endl;
+    vector<int> w(n);
+    for(int i=0;i<n;i++) cin>>w[i];
 
+    vector<int> v(n);
+    for(int i=0;i<n;i++) cin>>v[i];
+
+    int cap; cin>>cap;
+    int ans=f(w,v,n,cap);
+    cout<<ans<<endl;
     return 0;
 }

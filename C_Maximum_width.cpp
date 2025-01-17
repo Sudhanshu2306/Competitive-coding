@@ -150,33 +150,31 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(k);
-
-    vll a(m); for0(i,m) cin>>a[i];
-    vll q(k); for0(i,k) cin>>q[i];
-    if(k==n){
-        for0(i,m) cout<<1;
-        cout<<endl;
+    inll(n); inll(m);
+    instr(s); instr(t);
+    ll i=0;
+    vll first_occ(m), last_occ(m);
+    for0(j,m){
+        while(i<n && s[i]!=t[j]) i++;
+        // if(i<n){
+            first_occ[j]=i;
+            i++;
+        // }
     }
-    else if(k==n-1){
-        ll y=1;
-        sort(q);
-        for(int it:q){
-            if(it==y) y++;
-            else break;
-        }
-        if(y>n) y=n;
-        string s;
-        s.reserve(m);
-
-        for0(i,m) s+=(a[i]==y)?'1':'0';
-        cout<<s<<endl;
+    i=n-1;
+    rfor0(j,m){
+        while(i>=0 && s[i]!=t[j]) i--;
+        // if(i<=0){
+            last_occ[j]=i;
+            i--;
+        // }
     }
-    else{
-        for0(in,m) cout<<0;
-        cout<<endl;
+    ll maxi=1;
+    for0(i,m-1){
+        if(last_occ[i+1]-first_occ[i]>0)
+        maxi=max(maxi,last_occ[i+1]-first_occ[i]);
     }
-    
+    cout<<maxi<<endl;
 }
 
 int32_t main() {
@@ -186,8 +184,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

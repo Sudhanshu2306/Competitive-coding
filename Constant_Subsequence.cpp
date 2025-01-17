@@ -148,35 +148,50 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
 
+bool ff(vll &x, vll &y, ll mid){
+    ll maxSum=0;
+    ll n=x.size(), m=y.size();
+    ll i=0, j=0;
+    while(i<n || j<m){
+        if(i<n && maxSum+x[i]<=mid){
+            maxSum+=x[i];
+            i++;
+        } 
+        else if(j<m){
+            maxSum+=y[j];
+            if(maxSum<0) maxSum=0;
+            j++;
+        } 
+        else return false;
+    }
+    return true;
+}
+
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(k);
-
-    vll a(m); for0(i,m) cin>>a[i];
-    vll q(k); for0(i,k) cin>>q[i];
-    if(k==n){
-        for0(i,m) cout<<1;
-        cout<<endl;
+    inll(n); vll a(n); 
+    for0(i,n) cin>>a[i];
+    vll x,y;
+    for(auto it:a){
+        if(it>=0) x.pb(it);
+        else y.pb(it);
     }
-    else if(k==n-1){
-        ll y=1;
-        sort(q);
-        for(int it:q){
-            if(it==y) y++;
-            else break;
+    ll s=0,e=0;
+    for(auto it:x) s=max(s,it);
+    for(auto it:x) e+=it; 
+    ll ans=e;
+
+    if(x.size()==0){
+        cout<<0<<endl; return;
+    }
+    while(s<=e){
+        ll mid=s+(e-s)/2;
+        if(ff(x,y,mid)){
+            e=mid-1; ans=mid;
         }
-        if(y>n) y=n;
-        string s;
-        s.reserve(m);
-
-        for0(i,m) s+=(a[i]==y)?'1':'0';
-        cout<<s<<endl;
+        else s=mid+1;
     }
-    else{
-        for0(in,m) cout<<0;
-        cout<<endl;
-    }
-    
+    cout<<ans<<endl;
 }
 
 int32_t main() {
@@ -191,7 +206,6 @@ int32_t main() {
     while(t--){
         solve();
     }
-
     return 0;
 }
 
