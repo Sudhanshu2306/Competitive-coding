@@ -19,7 +19,7 @@ using namespace std;
 #define inint(x) int x; cin>>x;
 #define inll(x) long long int x; cin>>x;
 #define instr(x) string x; cin>>x;
-#define sort(v) sort(v.begin(),v.end());
+// #define sort(v) sort(v.begin(),v.end());
 #define all(x) x.begin(), x.end()
 #define MAX(x) *max_element(all(x))
 #define MIN(x) *min_element(all(x))
@@ -150,31 +150,18 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); vll a(n+1);
-    for1(i,n) cin>>a[i];
-    stack<ll> st;
-    for(auto it:a) st.push(it);
-    ll x=n;
-    vll pre(n+1);
-    // while(!st.empty()){
-    //     vll y;
-    //     while(!st.empty() && st.top()!=x){
-    //         y.pb(st.top()); st.pop();
-    //     }
-    //     if(!st.empty() && st.top()==x){
-    //         y.pb(st.top());
-    //         st.pop(); x--;
-    //     }
-    //     reverse(all(y));
-    //     ans.pb(y);
-    // }
-    for1(i,n) pre[i]=max(pre[i-1],a[i]);
-    rfor1(i,n){
-        if(a[i]==pre[i]){
-            fori(j,i,x) cout<<a[j]<<" ";
-            x=i-1;
-        }s
-    }
+    inll(n);
+    vector<string> a(n);
+
+    for0(i,n) cin>>a[i];
+    vll x(n);
+    iota(x.begin(),x.end(),0);
+
+    sort(x.begin(), x.end(), [&](int u, int v){
+        if(u<v) return a[u][v]=='1';
+        return a[v][u]=='0';
+    });
+    for0(i,n) cout<<x[i]+1<<" ";
     cout<<endl;
 }
 
