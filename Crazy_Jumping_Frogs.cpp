@@ -152,10 +152,17 @@ void solve() {
     // Your code goes here
     inll(n);
     vll a(n);
-    cout<<1<<" "<<1<<" ";
-    fori(i,2,n-2) cout<<i<<" ";
-    cout<<1<<endl;
-    
+    for0(i,n) cin>>a[i];
+
+    vll even(2*n+1,0), odd(2*n+1,0);
+    for0(i,n){
+        if(a[i]%2==0) even[a[i]]++;
+        else odd[a[i]]++;
+    }
+    ll max1=SUM(even);
+    ll max2=SUM(odd);
+
+    cout<<max(max1,max2)<<endl;
 }
 
 int32_t main() {

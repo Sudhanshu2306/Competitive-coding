@@ -150,11 +150,12 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n);
-    vll a(n);
-    cout<<1<<" "<<1<<" ";
-    fori(i,2,n-2) cout<<i<<" ";
-    cout<<1<<endl;
+    inll(l); inll(r);
+    if(l==1 && r==1){
+        cout<<1<<endl;
+        return;
+    }
+    cout<<r-l<<endl;
     
 }
 

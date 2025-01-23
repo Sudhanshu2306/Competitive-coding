@@ -151,11 +151,35 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 void solve() {
     // Your code goes here
     inll(n);
-    vll a(n);
-    cout<<1<<" "<<1<<" ";
-    fori(i,2,n-2) cout<<i<<" ";
-    cout<<1<<endl;
-    
+    vll arr(n); for0(i,n) cin>>arr[i];
+
+    vll x,y;
+    for0(i,n){
+        if(arr[i]==1){
+            x.pb(1);
+        }
+        else{
+            if(!is_prime[arr[i]]){
+                x.pb(arr[i]);
+            }
+            else y.pb(arr[i]);
+        }
+    }
+    sort(x); sort(y);
+    int a=x.size(), b=y.size();
+    if(abs(a-b)<=1){cout<<0<<endl; return;}
+    else if(a>b){
+        ll sum=0;
+        int z=a-b-1;
+        for0(i,z) sum+=x[i];
+        cout<<sum<<endl;
+    }
+    else if(b>a){
+        ll sum=0;
+        int z=b-a-1;
+        for0(i,z) sum+=y[i];
+        cout<<sum<<endl;
+    }
 }
 
 int32_t main() {
@@ -167,6 +191,8 @@ int32_t main() {
 
     int t;
     cin>>t;
+    Sieve(1e4+1);
+    get_primes(1e4+1);
     while(t--){
         solve();
     }

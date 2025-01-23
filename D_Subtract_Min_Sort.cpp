@@ -152,9 +152,19 @@ void solve() {
     // Your code goes here
     inll(n);
     vll a(n);
-    cout<<1<<" "<<1<<" ";
-    fori(i,2,n-2) cout<<i<<" ";
-    cout<<1<<endl;
+    for0(i,n) cin>>a[i];
+
+    ll mini=1e18;
+    for1(i,n-1){
+        mini=min(a[i],a[i-1]);
+        a[i]-=mini; a[i-1]-=mini;
+    }
+    for0(i,n-1){
+        if(a[i]>a[i+1]){
+            cout<<"NO"<<endl; return;
+        }
+    }
+    cout<<"YES"<<endl;
     
 }
 

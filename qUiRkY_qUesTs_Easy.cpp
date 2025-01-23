@@ -148,13 +148,46 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
 
+ll mex(vll &arr){
+    for (int i = 0; i < arr.size(); i++) {
+        if (arr[i] == 0) return i;
+    }
+    return arr.size();
+}
+
 void solve() {
     // Your code goes here
     inll(n);
-    vll a(n);
-    cout<<1<<" "<<1<<" ";
-    fori(i,2,n-2) cout<<i<<" ";
-    cout<<1<<endl;
+    vll a(n); 
+    for0(i,n) cin>>a[i]; 
+    sort(a); 
+
+    ll maxi=-1e12; 
+    vll suf(n+1,0), pre(n,0);
+    pre[0]=a[0];
+    for1(i,n-1) pre[i]=pre[i-1]+a[i];
+    rfor0(i,n-1){
+        suf[i]=(suf[i+1]+a[i]);
+    }
+    ll sum=SUM(a); 
+    ll x=0;
+    for0(i,n+1){ 
+        ll ind=upper_bound(a.begin(),a.end(),i)-a.begin();
+        ll curr=(ind)*i+suf[ind];
+        maxi=max(maxi,curr);
+    } 
+    maxi=max(maxi,sum); 
+    cout<<maxi<<endl; 
+
+    // ll mex=0;
+    // ll count=0;
+    // for0(i,n){
+    //     if(a[i]==mex) mex++;
+    //     else{
+    //         if(count<n) mex++;
+    //         else break;
+    //     } 
+    // }
     
 }
 

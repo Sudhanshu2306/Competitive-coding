@@ -147,15 +147,29 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     14. decimal waale questions mein setprecesion aur fixed use karo hamesha
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
+ll ff(ll a, ll b, ll k){
+    ll count=0;
+    count+=(k-1);
+    count+=(a/k);
+    count+=(b/k);
+
+    if(a%k) count++;
+    if(b%k) count++;
+
+    return count;
+}
 
 void solve() {
     // Your code goes here
-    inll(n);
-    vll a(n);
-    cout<<1<<" "<<1<<" ";
-    fori(i,2,n-2) cout<<i<<" ";
-    cout<<1<<endl;
-    
+    inll(a); inll(b);
+    ll k=1;
+    // ll count=0;
+    ll maxi=a+b;
+    for1(i,min(max(a,b),(ll)45000)){
+        ll x=ff(a,b,i);
+        if(x<=maxi) maxi=x;
+    }
+    cout<<maxi<<endl;
 }
 
 int32_t main() {

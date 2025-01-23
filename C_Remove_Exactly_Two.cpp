@@ -151,10 +151,9 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 void solve() {
     // Your code goes here
     inll(n);
-    vll a(n);
-    cout<<1<<" "<<1<<" ";
-    fori(i,2,n-2) cout<<i<<" ";
-    cout<<1<<endl;
+    vector<pll> edges(n-1);
+    for0(i,n) cin>>edges[i].f>>edges[i].s;
+
     
 }
 

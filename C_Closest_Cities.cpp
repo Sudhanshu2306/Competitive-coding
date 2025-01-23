@@ -151,11 +151,24 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 void solve() {
     // Your code goes here
     inll(n);
-    vll a(n);
-    cout<<1<<" "<<1<<" ";
-    fori(i,2,n-2) cout<<i<<" ";
-    cout<<1<<endl;
-    
+    vll a(n); for0(i,n) cin>>a[i];
+    vll sum1(n),sum2(n+1);
+    for0(i,n-1){
+        int d=1;
+        if(i-1>=0&&a[i]-a[i-1]<a[i+1]-a[i]) d=a[i+1]-a[i];
+        sum1[i+1]=sum1[i]+d;
+    }
+    rfor0(i,n-1){
+        int d=1;
+        if(i+2<n&&a[i+2]-a[i+1]<a[i+1]-a[i]) d=a[i+1]-a[i];
+        sum2[i]=sum2[i+1]+d;
+    }
+    int q; cin >> q;
+    while(q--){
+        inll(x); inll(y); x--,y--;
+        if(x<y) cout<<(sum1[y]-sum1[x])<<endl;
+        else cout<<(sum2[y]-sum2[x])<<endl;
+    }
 }
 
 int32_t main() {
