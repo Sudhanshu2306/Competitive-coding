@@ -19,7 +19,7 @@ using namespace std;
 #define inint(x) int x; cin>>x;
 #define inll(x) long long int x; cin>>x;
 #define instr(x) string x; cin>>x;
-#define sort(v) sort(v.begin(),v.end());
+// #define sort(v) sort(v.begin(),v.end());
 #define all(x) x.begin(), x.end()
 #define MAX(x) *max_element(all(x))
 #define MIN(x) *min_element(all(x))
@@ -150,13 +150,31 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(m); inll(k);
-
-    if(k==1){cout<<1<<endl;}
-    else if(k==2){cout<<min(m,m/n-1+n)<<endl;}
-    else if(k==3){cout<<max(0ll,m-m/n-n+1)<<endl;}
-    else cout<<0<<endl;
+    inll(n); inll(p);
+    vll a(n),b(n);
+    for0(i,n) cin>>a[i];
+    for0(i,n) cin>>b[i];
     
+    vector<pll> x;
+    for0(i,n) x.pb({b[i],a[i]});
+    sort(all(x), [](pll &a, pll &b){
+        if(a.f==b.f){
+            return a.s>b.s;
+        }
+        else return a.f<b.f;
+    });
+    ll count=1;
+    ll cost=p;
+    for0(i,n){
+        if(x[i].f<p){
+            // count++;
+            cost+=x[i].f*min(x[i].s,n-count);
+            count+=min(x[i].s,n-count);
+        }
+        else break;
+    }
+    cost+=(n-count)*p;
+    cout<<cost<<endl;
 }
 
 int32_t main() {
