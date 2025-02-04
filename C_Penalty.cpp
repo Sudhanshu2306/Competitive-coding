@@ -150,23 +150,25 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(q);
-    vll a(n);
-    for0(i,n) cin>>a[i];
-
-    vll pre(n); pre[0]=a[0];
-    for1(i,n-1) pre[i]=pre[i-1]+a[i];
-
-    ll sum=0;
-    for0(i,q){
-        inll(x);
-        sum+=x;
-        ll y=upper_bound(pre.begin(),pre.end(),sum)-pre.begin();
-        if(y==n){
-            sum=0; y=0;
+    instr(s);
+    ll ta=0,tb=0;
+    ll x=0,y=0;
+    ll ans=0;
+    for0(i,10){
+        if(s[i]=='1'){
+            if(i%2==0) ta++;
+            else tb++;
         }
-        cout<<n-y<<endl;
+        else if(s[i]=='?'){
+            if(i%2==0) x++;
+            else y++;
+        }
+        if(ta+x>tb+(10-i)/2 || tb+y>ta+(9-i)/2){
+            ans=i+1; break;
+        }
+        ans++;
     }
+    cout<<ans<<endl;
 }
 
 int32_t main() {
@@ -176,11 +178,13 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t=1;
-    // cin>>t;
+    int t;
+    cin>>t;
     while(t--){
         solve();
     }
 
     return 0;
 }
+
+

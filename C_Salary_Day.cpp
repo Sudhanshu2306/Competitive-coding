@@ -148,25 +148,37 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
 
+// int findULP(int node, vll &keep){
+//     while(keep[node]!=-1) node=keep[node];
+//     return node;
+// }
+
 void solve() {
     // Your code goes here
-    inll(n); inll(q);
-    vll a(n);
-    for0(i,n) cin>>a[i];
+    inll(n); inll(k);
+    vll a(n); for0(i,n) cin>>a[i];
+    vll b(k); for0(i,k) cin>>b[i];
 
-    vll pre(n); pre[0]=a[0];
-    for1(i,n-1) pre[i]=pre[i-1]+a[i];
+    set<ll> st;
+    
+    vll ans;
+    // st.insert(-1);
+    for(auto &it:b){
+        int y=it;
+        int z=it;
+        while(st.find(y)==st.end()){
+            z=y;
+            y=a[y];
+        } 
+        if(y!=-1) ans.pb(z);
+        else ans.pb(0);
+        if(y!=-1) st.insert(z);
+        else st.insert(0);
 
-    ll sum=0;
-    for0(i,q){
-        inll(x);
-        sum+=x;
-        ll y=upper_bound(pre.begin(),pre.end(),sum)-pre.begin();
-        if(y==n){
-            sum=0; y=0;
-        }
-        cout<<n-y<<endl;
+        // ans.pb(z); st.insert(z);
     }
+    for(auto it:ans) cout<<it<<" ";
+    cout<<endl;
 }
 
 int32_t main() {
@@ -176,11 +188,13 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t=1;
-    // cin>>t;
+    int t;
+    cin>>t;
     while(t--){
         solve();
     }
 
     return 0;
 }
+
+

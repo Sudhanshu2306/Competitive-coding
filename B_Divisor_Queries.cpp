@@ -69,37 +69,97 @@ ll bi_expo (ll a,ll b){
     }return ans;
 }
 // Segment Tree for SUM in a range
-const int x=100000; // Adjust based on problem constraints
-ll tree[4*x], lazy[4*x];
-
-void build(const vll& arr, ll node, ll start, ll end) {
-    if(start==end) tree[node]=arr[start];
-    else{ll mid=(start+end)/2; build(arr,2*node,start,mid); build(arr,2*node+1,mid+1,end); tree[node]=tree[2*node]+tree[2*node+1];}
-}
-void updatePoint(ll node, ll start, ll end, ll idx, ll val) {
-    if (start==end) tree[node]=val;
-    else{ll mid=(start+end)/2; if(idx<=mid) updatePoint(2*node,start,mid,idx,val); else updatePoint(2*node+1,mid+1,end,idx,val); tree[node]=tree[2*node]+tree[2*node+1];}
-}
-
-void updateRange(ll node, ll start, ll end, ll l, ll r, ll val) {
-    if(lazy[node]!=0){tree[node]+=(end-start+1)*lazy[node];if(start!=end){lazy[2*node]+=lazy[node]; lazy[2*node+1]+=lazy[node];}lazy[node] = 0;}
-    if(start>end || start>r || end<l) return;
-    if (start>=l && end<=r){tree[node]+=(end-start+1)*val; if(start!=end) {lazy[2*node]+=val; lazy[2*node+1]+=val;} return;}
-    ll mid=(start+end)/2;
-    updateRange(2*node,start,mid,l,r,val);
-    updateRange(2*node+1,mid+1,end,l,r,val);
-    tree[node]=tree[2*node]+tree[2*node+1];
+constexpr int N = 3e5 + 5;
+ll a[N];
+ll tr[4 * N];
+ll n;
+void make_tree(ll p, ll l, ll r) {
+    if (l == r) {
+        tr[p] = a[l];
+        return;
+    }
+    ll m = (l + r) / 2;
+    make_tree(2 * p, l, m);
+    make_tree(2 * p + 1, m + 1, r);
+    tr[p] = tr[2 * p] + tr[2 * p + 1];
 }
 
-ll queryRange(ll node, ll start, ll end, ll l, ll r){
-    if(start>end || start>r || end<l) return 0;
-    if(lazy[node]!=0){tree[node]+=(end-start+1)*lazy[node]; if(start!=end) {lazy[2*node]+=lazy[node]; lazy[2*node+1]+=lazy[node];} lazy[node]=0;}
-    if(start>=l && end<=r) return tree[node];
-    ll mid=(start+end)/2;
-    ll leftSum=queryRange(2*node,start,mid,l,r);
-    ll rightSum=queryRange(2*node+1,mid+1,end,l,r);
-    return leftSum+rightSum;
+vll compute_primes(ll max_val) {
+    vll spf(max_val + 1); 
+    for (ll i = 1; i <= max_val; i++) spf[i] = i;
+    for (ll i = 2; i * i <= max_val; i++) {
+        if (spf[i] == i) {
+            for (ll j = i * i; j <= max_val; j += i) {
+                if (spf[j] == j) spf[j] = i;
+            }
+        }
+    }
+    return spf;
 }
+
+void range_modify(ll p, ll l, ll r, ll x, ll y, const vll& spf) {
+    if (l == r) {
+        ll d = spf[tr[p]];
+        tr[p] /= d;
+        return;
+    }
+    if (l == x && r == y && tr[p] == (r - l + 1)) {
+        return;
+    }
+    ll m = (l + r) / 2;
+    if (y <= m) {
+        range_modify(2 * p, l, m, x, y, spf);
+    } else if (x > m) {
+        range_modify(2 * p + 1, m + 1, r, x, y, spf);
+    } else {
+        range_modify(2 * p, l, m, x, m, spf);
+        range_modify(2 * p + 1, m + 1, r, m + 1, y, spf);
+    }
+    tr[p] = tr[2 * p] + tr[2 * p + 1];
+}
+
+void range_modify(ll x, ll y, vll& spf) {
+    range_modify(1, 0, n - 1, x, y, spf);
+}
+
+void modify(ll p, ll l, ll r, ll x, ll v) {
+    if (l == r) {
+        tr[p] = v;
+        return;
+    }
+    ll m = (l + r) / 2;
+    if (x <= m) {
+        modify(2 * p, l, m, x, v);
+    } else {
+        modify(2 * p + 1, m + 1, r, x, v);
+    }
+    tr[p] = tr[2 * p] + tr[2 * p + 1];
+}
+
+void modify(ll x, ll v) {
+    modify(1, 0, n - 1, x, v);
+}
+ll range_query(ll p, ll l, ll r, ll x, ll y) {
+    if (l == x && r == y) {
+        return tr[p];
+    }
+    ll m = (l + r) / 2;
+    ll res = 0;
+    if (y <= m) {
+        res += range_query(2 * p, l, m, x, y);
+    } else if (x > m) {
+        res += range_query(2 * p + 1, m + 1, r, x, y);
+    } else {
+        res += range_query(2 * p, l, m, x, m);
+        res += range_query(2 * p + 1, m + 1, r, m + 1, y);
+    }
+    return res;
+}
+
+ll range_query(ll x, ll y) {
+    return range_query(1, 0, n - 1, x, y);
+}
+
 
 // dfs - make changes here
 void dfs(int node, vector<int> adj[], vector<bool>& visited) {
@@ -126,7 +186,7 @@ bool isPrime(ll n){if(n<=1)return false;if(n<=3)return true;if(n%2==0||n%3==0)re
 bool isPowerOfTwo(int n){if(n==0)return false;return (ceil(log2(n)) == floor(log2(n)));}
 bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}return false;}
 
-void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
+// void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
 /*Common things to remember : 
@@ -148,26 +208,34 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
 
-void solve() {
-    // Your code goes here
-    inll(n); inll(q);
-    vll a(n);
-    for0(i,n) cin>>a[i];
+// void solve() {
+//     // Your code goes here
+//     inll(n); inll(q);
+//     vll a(n+1); for1(i,n) cin>>a[i];
 
-    vll pre(n); pre[0]=a[0];
-    for1(i,n-1) pre[i]=pre[i-1]+a[i];
+//     make_tree(1, 0, n - 1);
 
-    ll sum=0;
-    for0(i,q){
-        inll(x);
-        sum+=x;
-        ll y=upper_bound(pre.begin(),pre.end(),sum)-pre.begin();
-        if(y==n){
-            sum=0; y=0;
-        }
-        cout<<n-y<<endl;
-    }
-}
+//     while (q--){
+//         int op;
+//         cin >> op;
+//         if (op == 1) {
+//             int l, r;
+//             cin >> l >> r;
+//             l--, r--;
+//             range_modify(l, r, spf);
+//         } else if (op == 2) {
+//             inll(l); inll(r);
+//             l--, r--;
+//             cout << range_query(l, r) << endl;
+//         } 
+//         else if (op == 3) {
+//             inll(x); inll(v);
+//             x--;
+//             modify(x, v);
+//         } 
+//         else assert(false);
+//     }   
+// }
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
@@ -175,12 +243,39 @@ int32_t main() {
 
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
-
-    int t=1;
-    // cin>>t;
+    int MAX_VAL =1e6;
+    vll spf=compute_primes(MAX_VAL); 
+    int t;
+    cin>>t;
     while(t--){
-        solve();
+        cin>>n; inll(q);
+        for0(i,n) cin>>a[i];
+
+        make_tree(1, 0, n - 1);
+
+        while (q--){
+            int op;
+            cin >> op;
+            if (op == 1) {
+                int l, r;
+                cin >> l >> r;
+                l--, r--;
+                range_modify(l, r, spf);
+            } else if (op == 2) {
+                inll(l); inll(r);
+                l--, r--;
+                cout << range_query(l, r) << endl;
+            } 
+            else if (op == 3) {
+                inll(x); inll(v);
+                x--;
+                modify(x, v);
+            } 
+            else assert(false);
+        }   
     }
 
     return 0;
 }
+
+

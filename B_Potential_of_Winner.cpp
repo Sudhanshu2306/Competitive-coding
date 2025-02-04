@@ -150,23 +150,56 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(q);
+    inll(n);
     vll a(n);
     for0(i,n) cin>>a[i];
+    inll(k);
 
-    vll pre(n); pre[0]=a[0];
-    for1(i,n-1) pre[i]=pre[i-1]+a[i];
+    for0(i,n) a.pb(a[i]);
+    k=min(k,2*n);
 
-    ll sum=0;
-    for0(i,q){
-        inll(x);
-        sum+=x;
-        ll y=upper_bound(pre.begin(),pre.end(),sum)-pre.begin();
-        if(y==n){
-            sum=0; y=0;
+    // vll pre(2*n);
+    // pre[0]=a[0];
+    // for1(i,2*n-1) pre[i]=max(pre[i-1],a[i]);
+
+    // if(a[k]<=a[0]){cout<<a[0]<<endl; return;}
+    
+    // for1(i,n){
+    //     if(pre[i-1]<a[i]){
+    //         if(pre[k-1]<=a[i]){cout<<a[i]<<endl; return;}
+    //     }
+    // }
+
+    deque<ll> q;
+    for0(i,n) q.push_back(a[i]);
+ 
+    int points=-1;
+    int count=0;
+    while(count<k){
+        int x=q.front(); q.pop_front();
+        int y=q.front(); q.pop_front();
+        if(x>y){
+            if(points==x) count++;
+            else{
+                points=x;
+                count=1;
+            }
+            q.push_front(x);
+            q.push_back(y);
+        } 
+        else{
+            if(points==y) count++;
+            else {
+                points=y;
+                count=1;
+            }
+            q.push_front(y);
+            q.push_back(x);
         }
-        cout<<n-y<<endl;
     }
+    cout<<points<<endl;
+
+    // cout<<endl;
 }
 
 int32_t main() {
@@ -176,11 +209,13 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t=1;
-    // cin>>t;
+    int t;
+    cin>>t;
     while(t--){
         solve();
     }
 
     return 0;
 }
+
+

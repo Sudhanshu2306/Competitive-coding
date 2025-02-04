@@ -69,42 +69,66 @@ ll bi_expo (ll a,ll b){
     }return ans;
 }
 // Segment Tree for SUM in a range
-const int x=100000; // Adjust based on problem constraints
-ll tree[4*x], lazy[4*x];
+const int x=2e5+5; // Adjust based on problem constraints
+vector<pll> tree(4*x); // {mini, minInd}
 
-void build(const vll& arr, ll node, ll start, ll end) {
-    if(start==end) tree[node]=arr[start];
-    else{ll mid=(start+end)/2; build(arr,2*node,start,mid); build(arr,2*node+1,mid+1,end); tree[node]=tree[2*node]+tree[2*node+1];}
+void build(vll& arr, ll node, ll start, ll end) {
+    if(start==end){
+        tree[node].first=arr[start];
+        tree[node].second=start; return;
+    } 
+    else{
+        ll mid=(start+end)/2; 
+        build(arr,2*node,start,mid); 
+        build(arr,2*node+1,mid+1,end); 
+        if(tree[2*node].first<=tree[2*node+1].first){
+            tree[node].first=tree[2*node].first;
+            tree[node].second=tree[2*node].second;
+        }
+        else{
+            tree[node].first=tree[2*node+1].first;
+            tree[node].second=tree[2*node+1].second;
+        }
+    }
 }
-void updatePoint(ll node, ll start, ll end, ll idx, ll val) {
-    if (start==end) tree[node]=val;
-    else{ll mid=(start+end)/2; if(idx<=mid) updatePoint(2*node,start,mid,idx,val); else updatePoint(2*node+1,mid+1,end,idx,val); tree[node]=tree[2*node]+tree[2*node+1];}
+void updatePoint(vll &arr, ll node, ll start, ll end, ll idx, ll val) {
+    if(start==end){
+        arr[idx]=val;
+        tree[node].first=val; return;
+    } 
+    else{
+        ll mid=(start+end)/2; 
+        if(idx<=mid) updatePoint(arr,2*node,start,mid,idx,val); 
+        else updatePoint(arr,2*node+1,mid+1,end,idx,val); 
+        
+        if(tree[2*node].first<=tree[2*node+1].first){
+            tree[node].first=tree[2*node].first;
+            tree[node].second=tree[2*node].second;
+        }
+        else{
+            tree[node].first=tree[2*node+1].first;
+            tree[node].second=tree[2*node+1].second;
+        }
+    }
 }
 
-void updateRange(ll node, ll start, ll end, ll l, ll r, ll val) {
-    if(lazy[node]!=0){tree[node]+=(end-start+1)*lazy[node];if(start!=end){lazy[2*node]+=lazy[node]; lazy[2*node+1]+=lazy[node];}lazy[node] = 0;}
-    if(start>end || start>r || end<l) return;
-    if (start>=l && end<=r){tree[node]+=(end-start+1)*val; if(start!=end) {lazy[2*node]+=val; lazy[2*node+1]+=val;} return;}
-    ll mid=(start+end)/2;
-    updateRange(2*node,start,mid,l,r,val);
-    updateRange(2*node+1,mid+1,end,l,r,val);
-    tree[node]=tree[2*node]+tree[2*node+1];
-}
+int query(ll node, ll start, ll end, ll l, ll r, ll val){
+    if(tree[node].f>val) return -1;
+    if(start==end) return start;
 
-ll queryRange(ll node, ll start, ll end, ll l, ll r){
-    if(start>end || start>r || end<l) return 0;
-    if(lazy[node]!=0){tree[node]+=(end-start+1)*lazy[node]; if(start!=end) {lazy[2*node]+=lazy[node]; lazy[2*node+1]+=lazy[node];} lazy[node]=0;}
-    if(start>=l && end<=r) return tree[node];
-    ll mid=(start+end)/2;
-    ll leftSum=queryRange(2*node,start,mid,l,r);
-    ll rightSum=queryRange(2*node+1,mid+1,end,l,r);
-    return leftSum+rightSum;
+    ll mid=start+(end-start)/2;
+    ll left=-1;
+    if(l<=mid) left=query(2*node,start,mid,l,min(r,mid),val);
+    if(left!=-1) return left;
+    if(r>mid) return query(2*node+1,mid+1,end,max(mid+1,l),r,val);
+
+    return -1;
 }
 
 // dfs - make changes here
 void dfs(int node, vector<int> adj[], vector<bool>& visited) {
-    visited[node] = true;
-    for (int neighbor : adj[node]) {if (!visited[neighbor]) dfs(neighbor, adj, visited);}
+    visited[node]=true;
+    for (int it:adj[node]) {if (!visited[it]) dfs(it, adj, visited);}
 }
 
 // Debugging macro
@@ -150,22 +174,21 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); inll(q);
-    vll a(n);
-    for0(i,n) cin>>a[i];
+    inll(n); vll a(n+1);
+    for1(i,n) cin>>a[i];
+    build(a,1,1,n);
 
-    vll pre(n); pre[0]=a[0];
-    for1(i,n-1) pre[i]=pre[i-1]+a[i];
-
-    ll sum=0;
-    for0(i,q){
-        inll(x);
-        sum+=x;
-        ll y=upper_bound(pre.begin(),pre.end(),sum)-pre.begin();
-        if(y==n){
-            sum=0; y=0;
+    inll(q);
+    while(q--){
+        inll(z);
+        if(z==1){
+            inll(l); inll(x);
+            updatePoint(a,1,1,n,l,x);
         }
-        cout<<n-y<<endl;
+        else{
+            inll(l); inll(r); inll(x);
+            cout<<query(1,1,n,l,r,x)<<endl;
+        }
     }
 }
 
@@ -176,11 +199,13 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t=1;
-    // cin>>t;
+    int t;
+    cin>>t;
     while(t--){
         solve();
     }
 
     return 0;
 }
+
+

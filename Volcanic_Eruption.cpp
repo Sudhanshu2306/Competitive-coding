@@ -148,25 +148,92 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
 
+bool ff(ll mid, vll &a, ll p, int ind, ll n){
+    vll x(n,0);
+    for0(i,n){
+        if(a[i]==0) x[i]=(ll)mid*p;
+    }
+    for0(i,n){
+        if(a[i]==0){
+            ll left=i-1;
+            while(left>=0 && a[left]<=x[i]){
+                x[left]=max(x[left],x[i]); left--;
+            }
+            ll right=i+1;
+            while(right<n && a[right]<=x[i]){
+                x[right]=max(x[right],x[i]); right++;
+            }
+        }
+    }
+    return a[ind]<=x[ind];
+}
+
+vll dir={-1, 1};
+
 void solve() {
     // Your code goes here
-    inll(n); inll(q);
-    vll a(n);
-    for0(i,n) cin>>a[i];
+    inll(n); inll(p);
+    vll a(n); for0(i,n) cin>>a[i];
 
-    vll pre(n); pre[0]=a[0];
-    for1(i,n-1) pre[i]=pre[i-1]+a[i];
+    vll ans(n,0);
+    // bs on answers, so if for time t, it is possible, for t+1, t+2, ... also possible, so we move left i.e e moves, as to find minimum time, else smoves right to increase time;
 
-    ll sum=0;
-    for0(i,q){
-        inll(x);
-        sum+=x;
-        ll y=upper_bound(pre.begin(),pre.end(),sum)-pre.begin();
-        if(y==n){
-            sum=0; y=0;
+    // nah TLE aa raha h
+
+    // for0(i,n){
+    //     if(a[i]==0) continue;
+    //     ll s=0,e=1e18;
+    //     ll x=e;
+
+    //     while(s<=e){
+    //         ll mid=s+(e-s)/2;
+    //         if(ff(mid,a,p,i,n)){
+    //             x=mid;
+    //             e=mid-1;
+    //         }
+    //         else s=mid+1;
+    //     }
+    //     ans[i]=x;
+    // }
+
+    vll time(n, 1e18);
+    priority_queue<pll, vector<pll>, greater<pll>> pq;
+    
+    for0(i,n){
+        if(a[i]==0){
+            time[i]=0;
+            pq.emplace(0, i);
         }
-        cout<<n-y<<endl;
     }
+    
+    
+    while(!pq.empty()) {
+        auto x=pq.top(); pq.pop();
+        
+        ll curr=x.f;
+        int u=x.s;
+        if(curr>time[u]) continue;
+        
+        for(auto it:dir){
+            int v=u+it;
+            if(v<0 || v>=n) continue;
+            
+            ll y=(a[v]==0)?0:(a[v]+p-1)/p;
+            ll t=max(curr, y);
+            
+            if(t<time[v]){
+                time[v]=t;
+                pq.emplace(t,v);
+            }
+        }
+    }
+    
+    for0(i,n){
+        if(a[i]==0) cout<<0<<" ";
+        else cout<<time[i]<<" ";
+    }
+    cout<<endl;
+    
 }
 
 int32_t main() {
@@ -176,11 +243,13 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t=1;
-    // cin>>t;
+    int t;
+    cin>>t;
     while(t--){
         solve();
     }
 
     return 0;
 }
+
+
