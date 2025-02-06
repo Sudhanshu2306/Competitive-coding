@@ -148,38 +148,6 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
 
-void solve() {
-    // Your code goes here
-    inll(n); vector<pll> a(n-1);
-    for0(i,n-1) cin>>a[i].f>>a[i].s;
-
-    set<pll> st;
-    vll deg(n+1,0);
-    for(auto it:a){
-        st.insert({it.f,it.s});
-        st.insert({it.s,it.f});
-        deg[it.f]++; deg[it.s]++;
-    }
-    ll maxi=0;
-    for(auto it:st){
-        maxi=max(maxi,deg[it.f]+deg[it.s]-2);
-    }
-    vector<pll> b;
-    for0(i,n){
-        b.pb({deg[i+1],i+1});
-    }
-    sort(b); reverse(all(b));
-    for0(i,n){
-        fori(j,i+1,n-1){
-            if(st.find({b[i].s,b[j].s})==st.end()){
-                maxi=max(maxi,b[i].f+b[j].f-1); break;
-            }
-        }
-    }
-    cout<<maxi<<endl;
-
-}
-
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
@@ -190,7 +158,31 @@ int32_t main() {
     int t;
     cin>>t;
     while(t--){
-        solve();
+        instr(s); instr(t);
+        int n=s.size(), m=t.size(); 
+ 
+        int i=0, j=0; 
+        while(i<n && j<m){ 
+            if(s[i]==t[j]) j++;
+            i++; 
+        } 
+ 
+        if(j!=m){ 
+            cout<<-1<<endl; 
+            continue; 
+        } 
+ 
+        ll tot=0; 
+        int curri=n; 
+ 
+        rfor0(i,m){ 
+            while(curri>=1 && s[curri-1]!=t[i]) curri--;
+            tot+=curri; curri--; 
+        } 
+ 
+        ll z=(ll)m*n+n-m-((ll)m*(m-1))/2; 
+ 
+        cout<<z-tot<<endl;  
     }
 
     return 0;

@@ -150,34 +150,25 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); vector<pll> a(n-1);
-    for0(i,n-1) cin>>a[i].f>>a[i].s;
-
-    set<pll> st;
-    vll deg(n+1,0);
-    for(auto it:a){
-        st.insert({it.f,it.s});
-        st.insert({it.s,it.f});
-        deg[it.f]++; deg[it.s]++;
-    }
-    ll maxi=0;
-    for(auto it:st){
-        maxi=max(maxi,deg[it.f]+deg[it.s]-2);
-    }
-    vector<pll> b;
-    for0(i,n){
-        b.pb({deg[i+1],i+1});
-    }
-    sort(b); reverse(all(b));
-    for0(i,n){
-        fori(j,i+1,n-1){
-            if(st.find({b[i].s,b[j].s})==st.end()){
-                maxi=max(maxi,b[i].f+b[j].f-1); break;
-            }
+    vll a;
+    inll(q);
+    ll front=0;
+    a.pb(0);
+    while(q--){
+        inll(x);
+        if(x==1){
+            inll(l);
+            a.pb(a.back()+l);
+        }
+        else if(x==2){
+            front++;
+        }
+        else{
+            inll(k);
+            cout<<a[k+front-1]-a[front]<<endl;
         }
     }
-    cout<<maxi<<endl;
-
+    
 }
 
 int32_t main() {
@@ -187,8 +178,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

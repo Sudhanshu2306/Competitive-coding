@@ -148,36 +148,64 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
 
+ll mod=998244353;
+ll fact[200005];
+ll inv[200005];
+ll binexp(ll x, ll y, ll mod){
+    ll ans=1;
+    while(y){
+        if(y&1) ans=(ans*x)%mod;
+        x=(x*x)%mod;
+        y>>=1;
+    }
+    return ans;
+}
+void ff(){
+    fact[0]=1;
+    inv[0]=1;
+    for1(i,2*1e5+4) fact[i]=(fact[i-1]*i)%mod;
+    inv[200004]=binexp(fact[200004],mod-2,mod);
+
+    rfor1(i,200003){
+        inv[i]=(inv[i+1]*(i+1))%mod;
+    }
+}
+
 void solve() {
     // Your code goes here
-    inll(n); vector<pll> a(n-1);
-    for0(i,n-1) cin>>a[i].f>>a[i].s;
+    inll(n); vll a(n);
+    for0(i,n) cin>>a[i];
 
-    set<pll> st;
-    vll deg(n+1,0);
-    for(auto it:a){
-        st.insert({it.f,it.s});
-        st.insert({it.s,it.f});
-        deg[it.f]++; deg[it.s]++;
-    }
-    ll maxi=0;
-    for(auto it:st){
-        maxi=max(maxi,deg[it.f]+deg[it.s]-2);
-    }
-    vector<pll> b;
-    for0(i,n){
-        b.pb({deg[i+1],i+1});
-    }
-    sort(b); reverse(all(b));
-    for0(i,n){
-        fori(j,i+1,n-1){
-            if(st.find({b[i].s,b[j].s})==st.end()){
-                maxi=max(maxi,b[i].f+b[j].f-1); break;
-            }
-        }
-    }
-    cout<<maxi<<endl;
+    ll maxi=MAX(a);
+    map<int,int> mp;
 
+    for0(i,n) mp[a[i]]++;  
+    int ss=maxi-1;
+    if(mp[maxi]>1){
+        ll ans=fact[n]%mod;
+        cout<<ans<<endl;
+        return;
+    }  
+    if(mp.size()==1){cout<<fact[n]<<endl; return;}
+    // if(n==2){
+    //     if(mp.find(maxi-1)!=mp.end()){cout<<1<<endl; return;}
+    // }
+    if(mp.find(ss)==mp.end()){cout<<0<<endl; return;}
+    
+    ll ans=(fact[n])%mod;
+    ll x=n-1;
+    ll y=n-1-mp[maxi-1];
+    // for1(i,n-mp[maxi-1]-2){
+    //     ll z=(y*fact[x-i])%mod;
+    //     ans=(ans-z+mod)%mod;
+    // }
+    // ans=(ans-fact[n-1]+mod)%mod;
+    // ll d=(fact[y]*fact[n-y-1])%mod;
+    // ans=(ans-d+mod)%mod;
+
+    ans=(ans*binexp(mp[maxi-1]+1,mod-2,mod))%mod;
+    ans=(ans*mp[maxi-1])%mod;
+    cout<<ans<<endl;
 }
 
 int32_t main() {
@@ -186,7 +214,7 @@ int32_t main() {
 
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
-
+    ff();
     int t;
     cin>>t;
     while(t--){

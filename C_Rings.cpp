@@ -150,34 +150,20 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); vector<pll> a(n-1);
-    for0(i,n-1) cin>>a[i].f>>a[i].s;
-
-    set<pll> st;
-    vll deg(n+1,0);
-    for(auto it:a){
-        st.insert({it.f,it.s});
-        st.insert({it.s,it.f});
-        deg[it.f]++; deg[it.s]++;
-    }
-    ll maxi=0;
-    for(auto it:st){
-        maxi=max(maxi,deg[it.f]+deg[it.s]-2);
-    }
-    vector<pll> b;
+    inll(n); instr(s);
+    int ind=-1;
     for0(i,n){
-        b.pb({deg[i+1],i+1});
+        if(s[i]=='0')sta{
+            ind=i+1; break;
+        } 
     }
-    sort(b); reverse(all(b));
-    for0(i,n){
-        fori(j,i+1,n-1){
-            if(st.find({b[i].s,b[j].s})==st.end()){
-                maxi=max(maxi,b[i].f+b[j].f-1); break;
-            }
-        }
+    if(ind!=-1){
+      if((ind-1)>=(n/2)) cout<<1<<" "<<ind<<" "<<1<<" "<<ind-1<<endl;
+      else cout<<ind<<" "<<n<<" "<<ind+1<<" "<<n<<endl;
     }
-    cout<<maxi<<endl;
-
+    else{
+        cout<<1<<" "<<n-1<<" "<<2<<" "<<n<<endl;
+    }
 }
 
 int32_t main() {
