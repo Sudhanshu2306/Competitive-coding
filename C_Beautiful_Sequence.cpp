@@ -148,27 +148,24 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
 
-bool contains7(ll n){
-    while(n){
-        if(n%10==7) return true;
-        n/=10;sta
-    }
-    return false;
-}
-
 void solve() {
     // Your code goes here
-    inll(n);
-    ll ans=1e18;
-    vll nine={9,99,999,9999,99999,999999,9999999,99999999,999999999,9999999999};
-    for(auto it:nine){
-        ll x=n,y=0;
-        while(y<11 && x<1e18){
-            if(contains7(x)) ans=min(ans,y);
-            y++; x+=it;
-        }
-    }
+    inll(n); vll a(n);
+    for0(i,n) cin>>a[i];
 
+    vll pre(n,0);
+    pre[0]=(a[0]==2?1:0);
+    for1(i,n-1){
+        if(a[i]==2) pre[i]=1+pre[i-1];
+        else pre[i]=pre[i-1];
+    }
+    ll mod=998244353;
+    ll ans=0; ll one=0; ll x=0;
+    for0(i,n){
+        if(a[i]==1) one++;
+        else if(a[i]==2) x=(x*2+one)%mod;
+        else ans=(ans+x)%mod;
+    }
     cout<<ans<<endl;
 }
 
@@ -187,5 +184,6 @@ int32_t main() {
 
     return 0;
 }
+
 
 
