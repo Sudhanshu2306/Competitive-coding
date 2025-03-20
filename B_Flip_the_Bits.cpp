@@ -148,23 +148,20 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
 
-void solve(){
+void solve() {
     // Your code goes here
-    inll(n); inll(p);
-    vpii a(n+1);
-    for1(i,n) cin>>a[i].s;
-	for1(i,n) cin>>a[i].f;
-    a[0]={0,0};
-	sort(a);
-	ll ans=p;
-	for(int i=2,j=1;i<=n;i++){
-		if(a[j].s==0) ++j;
-		if(a[j].f<p) --a[j].s,ans+=a[j].f;
-		else ans+=p;
-	}
-    cout<<ans<<endl;
+    inll(n); instr(a); instr(b);
+    a.pb('0'); b.pb('0');
+    ll count=0;
+    for0(i,n){
+        if(a[i]=='1') count++;
+        else count--;
+        if(((a[i]==b[i]) && (a[i+1]!=b[i+1]) || (a[i]!=b[i]) && (a[i+1]==b[i+1])) && count!=0){
+            pn; return;
+        }
+    }
+    py;
 }
-
 
 int32_t main() {
     ios_base::sync_with_stdio(false);

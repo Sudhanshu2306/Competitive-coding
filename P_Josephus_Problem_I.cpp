@@ -148,23 +148,36 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
 
-void solve(){
+void solve() {
     // Your code goes here
-    inll(n); inll(p);
-    vpii a(n+1);
-    for1(i,n) cin>>a[i].s;
-	for1(i,n) cin>>a[i].f;
-    a[0]={0,0};
-	sort(a);
-	ll ans=p;
-	for(int i=2,j=1;i<=n;i++){
-		if(a[j].s==0) ++j;
-		if(a[j].f<p) --a[j].s,ans+=a[j].f;
-		else ans+=p;
-	}
-    cout<<ans<<endl;
+    vll ans;
+    inll(n);
+    set<ll> st;
+    for1(i,n) st.insert(i);
+    ll count=0;
+    for1(i,n){
+        if(i%2==0){
+            st.erase(i);
+            ans.pb(i);
+        }
+    }
+    int i=0;
+    while(!st.empty()){
+        int x=(n>>i)&1;
+        vll temp;
+        for(auto &it:st){
+            if(((it>>(i+1))&1)==(x==0)){
+                ans.pb(it);
+                temp.pb(it);
+            } 
+        }
+        
+        for(auto it:temp) st.erase(it);
+        i++;
+    }
+    for(auto it:ans) cout<<it<<" ";
+    cout<<endl;
 }
-
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
@@ -173,8 +186,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

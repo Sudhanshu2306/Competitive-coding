@@ -147,24 +147,19 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     14. decimal waale questions mein setprecesion aur fixed use karo hamesha
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
-
-void solve(){
+ll powx(ll n, ll k){
+    if(k==0) return 1;
+    ll x=powx(n,k/2);
+    x=(x*x)%M;
+    if(k%2==0) return x;
+    else return (x*n)%M;
+}
+void solve() {
     // Your code goes here
-    inll(n); inll(p);
-    vpii a(n+1);
-    for1(i,n) cin>>a[i].s;
-	for1(i,n) cin>>a[i].f;
-    a[0]={0,0};
-	sort(a);
-	ll ans=p;
-	for(int i=2,j=1;i<=n;i++){
-		if(a[j].s==0) ++j;
-		if(a[j].f<p) --a[j].s,ans+=a[j].f;
-		else ans+=p;
-	}
+    inll(n); inll(k);
+    ll ans=powx(n,k);
     cout<<ans<<endl;
 }
-
 
 int32_t main() {
     ios_base::sync_with_stdio(false);

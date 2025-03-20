@@ -147,24 +147,28 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     14. decimal waale questions mein setprecesion aur fixed use karo hamesha
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
-
-void solve(){
-    // Your code goes here
-    inll(n); inll(p);
-    vpii a(n+1);
-    for1(i,n) cin>>a[i].s;
-	for1(i,n) cin>>a[i].f;
-    a[0]={0,0};
-	sort(a);
-	ll ans=p;
-	for(int i=2,j=1;i<=n;i++){
-		if(a[j].s==0) ++j;
-		if(a[j].f<p) --a[j].s,ans+=a[j].f;
-		else ans+=p;
-	}
-    cout<<ans<<endl;
+ll ff(ll n, ll k){
+    if(n==1) return 1; 
+    return (ff(n-1,k)+k-1)%n+1;
 }
+void solve() {
+    // Your code goes here
+    vll ans;
+    inll(n); inll(k);
+    vll circle(n);
+    for1(i,n) circle[i-1]=i;
 
+    int ind=0;
+    vll temp;
+
+    rfor1(i,n){
+        ind=(ind+(k)%i)%i;
+        temp.pb(circle[ind]);
+        circle.erase(circle.begin()+ind);
+    }
+    for(ll it:temp) cout<<it<<" ";
+    cout<<endl;
+}
 
 int32_t main() {
     ios_base::sync_with_stdio(false);
@@ -173,8 +177,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }
