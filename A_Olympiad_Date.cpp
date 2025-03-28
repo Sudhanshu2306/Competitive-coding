@@ -148,39 +148,39 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
 
+ll ff(vll &a){
+    string x="01032025";
+    ll i=0;
+    for(auto it:a){
+        if(it==(x[i]-'0')){
+            i++;
+            if(i==x.size()) return true;
+        }
+    }
+    return false;
+}
+
 void solve() {
     // Your code goes here
-    inll(n); vll a(n);
-    for0(i,n) cin>>a[i];
+    inll(n); 
+    // for0(i,n) cin>>a[i];
+    map<ll,ll> mp;
+    mp[0]=3; mp[1]=1; mp[2]=2; mp[3]=3; mp[5]=1;
+    vll x(10,0);
+    ll ans=-1;
+    for1(i,n){
+        inll(a);
 
-    ll x=-1, y=-1;
-    for0(i,n){
-        if(a[i]==0){x=i+1; break;}
-    } 
-    rfor0(i,n){
-        if(a[i]==0){y=i+1; break;}
+        x[a]++;
+        bool f=true;
+        for0(d,10){
+            if(x[d]<mp[d]){
+                f=false; break;
+            } 
+        }
+        if(f && ans==-1) ans=i;
     }
-
-    if(x==-1){
-        cout<<1<<endl;
-        cout<<1<<" "<<n<<endl;
-    }
-    else if(x==1 && y==n){
-        cout<<3<<endl;
-        cout<<3<<" "<<n<<endl;
-        cout<<1<<" "<<2<<endl;
-        cout<<1<<" "<<2<<endl;
-    }
-    else if(y!=n){s
-        cout<<2<<endl;
-        cout<<1<<" "<<n-1<<endl;
-        cout<<1<<" "<<2<<endl;
-    } 
-    else if(x!=1){
-        cout<<2<<endl;
-        cout<<2<<" "<<n<<endl;
-        cout<<1<<" "<<2<<endl;
-    }
+    cout<<ans<<endl;
 }
 
 int32_t main() {

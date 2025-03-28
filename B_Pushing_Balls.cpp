@@ -150,37 +150,38 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    inll(n); vll a(n);
-    for0(i,n) cin>>a[i];
-
-    ll x=-1, y=-1;
+    inll(n); inll(m);
+    vvll a(n,vll(m));
     for0(i,n){
-        if(a[i]==0){x=i+1; break;}
+        instr(s);
+        for0(j,m){
+            a[i][j]=s[j]-'0';
+        }
     } 
-    rfor0(i,n){
-        if(a[i]==0){y=i+1; break;}
-    }
 
-    if(x==-1){
-        cout<<1<<endl;
-        cout<<1<<" "<<n<<endl;
+    vector<vector<bool>> ans(n,vector<bool>(m,false));
+    for0(i,n){
+        // bool zero=false;
+        for0(j,m){
+            if(a[i][j]==0) break;
+            ans[i][j]=true;
+        }
     }
-    else if(x==1 && y==n){
-        cout<<3<<endl;
-        cout<<3<<" "<<n<<endl;
-        cout<<1<<" "<<2<<endl;
-        cout<<1<<" "<<2<<endl;
+    for0(j,m){
+        // bool zero=false;
+        for0(i,n){
+            if(a[i][j]==0) break;
+            ans[i][j]=true;
+        }
     }
-    else if(y!=n){s
-        cout<<2<<endl;
-        cout<<1<<" "<<n-1<<endl;
-        cout<<1<<" "<<2<<endl;
-    } 
-    else if(x!=1){
-        cout<<2<<endl;
-        cout<<2<<" "<<n<<endl;
-        cout<<1<<" "<<2<<endl;
+    bool flag=true;
+    for0(i,n){
+        for0(j,m){
+            if(!ans[i][j] && a[i][j]==1){flag=false; break;}
+        }
     }
+    if(flag) py;
+    else pn;
 }
 
 int32_t main() {
