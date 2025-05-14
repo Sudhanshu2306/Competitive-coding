@@ -1,9 +1,5 @@
 #include <bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
-
 using namespace std;
-using namespace __gnu_pbds;
 
 // Commonly used loops
 #define for0(i, n) for (int i = 0; i < (n); ++i)
@@ -52,9 +48,8 @@ typedef vector<vll> vvll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef vector<pii> vpii;
-typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update > pbds;  // find_by_order, order_of_key
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
-#define vvll(a, m, n, x) vector<vector<ll>> a(m, vector<ll>(n, x))
+// #define vvll(a, m, n, x) vector<vector<ll>> a(m, vector<ll>(n, x))
 #define umap unordered_map
 #define umset unordered_set
 
@@ -75,31 +70,31 @@ ll bi_expo (ll a,ll b){
 }
 // Segment Tree for SUM in a range
 const int x=100000; // Adjust based on problem constraints
-ll tr[4*x], lazy[4*x];
+ll tree[4*x], lazy[4*x];
 
 void build(const vll& arr, ll node, ll start, ll end) {
-    if(start==end) tr[node]=arr[start];
-    else{ll mid=(start+end)/2; build(arr,2*node,start,mid); build(arr,2*node+1,mid+1,end); tr[node]=tr[2*node]+tr[2*node+1];}
+    if(start==end) tree[node]=arr[start];
+    else{ll mid=(start+end)/2; build(arr,2*node,start,mid); build(arr,2*node+1,mid+1,end); tree[node]=tree[2*node]+tree[2*node+1];}
 }
 void updatePoint(ll node, ll start, ll end, ll idx, ll val) {
-    if (start==end) tr[node]=val;
-    else{ll mid=(start+end)/2; if(idx<=mid) updatePoint(2*node,start,mid,idx,val); else updatePoint(2*node+1,mid+1,end,idx,val); tr[node]=tr[2*node]+tr[2*node+1];}
+    if (start==end) tree[node]=val;
+    else{ll mid=(start+end)/2; if(idx<=mid) updatePoint(2*node,start,mid,idx,val); else updatePoint(2*node+1,mid+1,end,idx,val); tree[node]=tree[2*node]+tree[2*node+1];}
 }
 
 void updateRange(ll node, ll start, ll end, ll l, ll r, ll val) {
-    if(lazy[node]!=0){tr[node]+=(end-start+1)*lazy[node];if(start!=end){lazy[2*node]+=lazy[node]; lazy[2*node+1]+=lazy[node];}lazy[node] = 0;}
+    if(lazy[node]!=0){tree[node]+=(end-start+1)*lazy[node];if(start!=end){lazy[2*node]+=lazy[node]; lazy[2*node+1]+=lazy[node];}lazy[node] = 0;}
     if(start>end || start>r || end<l) return;
-    if (start>=l && end<=r){tr[node]+=(end-start+1)*val; if(start!=end) {lazy[2*node]+=val; lazy[2*node+1]+=val;} return;}
+    if (start>=l && end<=r){tree[node]+=(end-start+1)*val; if(start!=end) {lazy[2*node]+=val; lazy[2*node+1]+=val;} return;}
     ll mid=(start+end)/2;
     updateRange(2*node,start,mid,l,r,val);
     updateRange(2*node+1,mid+1,end,l,r,val);
-    tr[node]=tr[2*node]+tr[2*node+1];
+    tree[node]=tree[2*node]+tree[2*node+1];
 }
 
 ll queryRange(ll node, ll start, ll end, ll l, ll r){
     if(start>end || start>r || end<l) return 0;
-    if(lazy[node]!=0){tr[node]+=(end-start+1)*lazy[node]; if(start!=end) {lazy[2*node]+=lazy[node]; lazy[2*node+1]+=lazy[node];} lazy[node]=0;}
-    if(start>=l && end<=r) return tr[node];
+    if(lazy[node]!=0){tree[node]+=(end-start+1)*lazy[node]; if(start!=end) {lazy[2*node]+=lazy[node]; lazy[2*node+1]+=lazy[node];} lazy[node]=0;}
+    if(start>=l && end<=r) return tree[node];
     ll mid=(start+end)/2;
     ll leftSum=queryRange(2*node,start,mid,l,r);
     ll rightSum=queryRange(2*node+1,mid+1,end,l,r);
@@ -152,11 +147,25 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     14. decimal waale questions mein setprecesion aur fixed use karo hamesha
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
+ll f(vll &a, int i, int b, int g, ll curr){
+    if(i==a.size()) return 0;
+
+    if(curr>a[i]) return f(a,i+1,b,g,curr+(a[i]/2))+1;
+    int use_green=0,use_blue=0;
+    if(b>0) use_blue=f(a,i,b-1,g,curr*3);
+    if(g>0) use_green=f(a,i,b,g-1,curr*2);
+
+    return max(use_green, use_blue);
+}
 
 void solve() {
     // Your code goes here
-    
-    
+    inll(n); inll(h);
+    vll a(n); for0(i,n) cin>>a[i];
+
+    sort(a);
+    ll ans=f(a,0,1,2,h);
+    cout<<ans<<endl;
 }
 
 int32_t main() {

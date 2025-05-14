@@ -52,7 +52,7 @@ typedef vector<vll> vvll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef vector<pii> vpii;
-typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update > pbds;  // find_by_order, order_of_key
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update > pbds; // // find_by_order, order_of_key
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
 #define vvll(a, m, n, x) vector<vector<ll>> a(m, vector<ll>(n, x))
 #define umap unordered_map
@@ -155,8 +155,19 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    
-    
+    inll(n); vll a(n);
+    for0(i,n) cin>>a[i];
+    ll x=MAX(a);
+    if(x<0){cout<<x<<endl; return;}
+    ll sum=0,maxi=-1e18;
+    for0(i,n){
+        sum+=a[i];
+        if(sum<0){
+            sum=0;
+        }
+        maxi=max(maxi,sum);
+    }
+    cout<<maxi<<endl;
 }
 
 int32_t main() {
@@ -166,8 +177,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

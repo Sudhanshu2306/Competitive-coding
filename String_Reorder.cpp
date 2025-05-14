@@ -52,7 +52,7 @@ typedef vector<vll> vvll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef vector<pii> vpii;
-typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update > pbds;  // find_by_order, order_of_key
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update > pbds; // // find_by_order, order_of_key
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
 #define vvll(a, m, n, x) vector<vector<ll>> a(m, vector<ll>(n, x))
 #define umap unordered_map
@@ -155,8 +155,37 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    
-    
+    instr(s);
+    vll cnt(26,0);
+    int n=s.size();
+    for(auto it:s) cnt[it-'A']++;
+    ll maxi=MAX(cnt);
+    if(maxi>(n+1)/2){cout<<-1<<endl; return;}
+    string ans="";
+    char prev='!';
+    for0(i,n){
+        bool flag=false;
+        int rem=n-i-1;
+        for0(c,26){
+            if(cnt[c]==0) continue;
+            if(prev!='!' && char('A'+c)==prev) continue;
+
+            cnt[c]--;
+            ll curr=0;
+            for0(d,26) curr=max(curr,cnt[d]);
+
+            if(curr<=(rem+1)/2){
+                ans.pb(char('A'+c));
+                prev=char('A'+c);
+                flag=true; break;
+            }
+            cnt[c]++;
+        }
+        if(!flag){
+            cout<<-1<<endl; return;
+        }
+    }
+    cout<<ans<<endl;
 }
 
 int32_t main() {
@@ -166,8 +195,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

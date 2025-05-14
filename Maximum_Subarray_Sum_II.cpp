@@ -52,7 +52,7 @@ typedef vector<vll> vvll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef vector<pii> vpii;
-typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update > pbds;  // find_by_order, order_of_key
+typedef tree<int, null_type, less_equal<int>, rb_tree_tag, tree_order_statistics_node_update > pbds; // // find_by_order, order_of_key
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
 #define vvll(a, m, n, x) vector<vector<ll>> a(m, vector<ll>(n, x))
 #define umap unordered_map
@@ -155,8 +155,22 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    
-    
+    inll(n); inll(a); inll(b);
+    vll x(n+1); for1(i,n) cin>>x[i];
+
+    for1(i,n){
+        x[i]+=x[i-1];
+    }
+    set<pll> st;
+    for(int i=a;i<=b;i++) st.insert({x[i],i});
+    ll maxi=-1e18;
+
+    for1(i,n-a+1){
+        maxi=max(maxi,(ll)(st.rbegin()->first-x[i-1]));
+        st.erase({x[i+a-1],i+a-1});
+        if(i+b<=n) st.insert({x[i+b],i+b});
+    }
+    cout<<maxi<<endl;
 }
 
 int32_t main() {
@@ -166,8 +180,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

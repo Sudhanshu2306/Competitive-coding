@@ -52,7 +52,7 @@ typedef vector<vll> vvll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef vector<pii> vpii;
-typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update > pbds;  // find_by_order, order_of_key
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update > pbds;
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
 #define vvll(a, m, n, x) vector<vector<ll>> a(m, vector<ll>(n, x))
 #define umap unordered_map
@@ -155,7 +155,22 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    
+    inll(n);
+    instr(s);
+    int a=0,b=0;
+    for(auto it:s){
+        if(it=='A') a++;
+        else b++;
+    }
+    if(n==2){
+        if(s[0]=='A'){cout<<"Alice"<<endl;}
+        else cout<<"Bob"<<endl;
+        return;
+    }
+    else{
+        if(s[n-1]=='B' && b>1 || s[n-2]=='B' && s[0]=='B'){cout<<"Bob"<<endl; return;}
+        cout<<"Alice"<<endl;
+    }
     
 }
 

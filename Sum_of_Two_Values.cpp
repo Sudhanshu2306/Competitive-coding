@@ -23,7 +23,7 @@ using namespace __gnu_pbds;
 #define inint(x) int x; cin>>x;
 #define inll(x) long long int x; cin>>x;
 #define instr(x) string x; cin>>x;
-#define sort(v) sort(v.begin(),v.end());
+// #define sort(v) sort(v.begin(),v.end());
 #define all(x) x.begin(), x.end()
 #define MAX(x) *max_element(all(x))
 #define MIN(x) *min_element(all(x))
@@ -52,7 +52,7 @@ typedef vector<vll> vvll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef vector<pii> vpii;
-typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update > pbds;  // find_by_order, order_of_key
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update > pbds; // // find_by_order, order_of_key
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
 #define vvll(a, m, n, x) vector<vector<ll>> a(m, vector<ll>(n, x))
 #define umap unordered_map
@@ -155,8 +155,28 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
 
 void solve() {
     // Your code goes here
-    
-    
+    inll(n); inll(x);
+    vector<pll> a(n+1);
+    for1(i,n){
+        inll(x);
+        a[i]={x,i};
+    }
+    a[0]={-1,0};
+    sort(all(a),[](pll &x, pll &y){
+        return x.f<y.f;
+    });
+    int i=1,j=n;
+
+    vll y(2);
+    while(i<j){
+        ll sum=a[i].f+a[j].f;
+        if(sum<x) i++;
+        else if(sum>x) j--;
+        else {
+            cout<<a[i].s<<" "<<a[j].s<<endl; return;
+        }
+    }
+    cout<<"IMPOSSIBLE"<<endl;
 }
 
 int32_t main() {
@@ -166,8 +186,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

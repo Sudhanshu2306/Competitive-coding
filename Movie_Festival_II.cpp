@@ -23,7 +23,7 @@ using namespace __gnu_pbds;
 #define inint(x) int x; cin>>x;
 #define inll(x) long long int x; cin>>x;
 #define instr(x) string x; cin>>x;
-#define sort(v) sort(v.begin(),v.end());
+// #define sort(v) sort(v.begin(),v.end());
 #define all(x) x.begin(), x.end()
 #define MAX(x) *max_element(all(x))
 #define MIN(x) *min_element(all(x))
@@ -52,7 +52,7 @@ typedef vector<vll> vvll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef vector<pii> vpii;
-typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update > pbds;  // find_by_order, order_of_key
+typedef tree<int, null_type, less_equal<int>, rb_tree_tag, tree_order_statistics_node_update > pbds; // // find_by_order, order_of_key
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
 #define vvll(a, m, n, x) vector<vector<ll>> a(m, vector<ll>(n, x))
 #define umap unordered_map
@@ -152,11 +152,31 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     14. decimal waale questions mein setprecesion aur fixed use karo hamesha
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
-
+bool comp(pll a, pll b){
+    return a.s<b.s;
+}
 void solve() {
     // Your code goes here
-    
-    
+    inll(n); inll(k);
+    vector<pll> a(n);
+    for0(i,n) cin>>a[i].f>>a[i].s;
+
+    sort(all(a),comp);
+    // for(auto it:a) cout<<it.f<<" "<<it.s<<endl;
+    pbds st;
+
+    for0(i,k) st.insert(0);
+    ll maxi=0;
+
+    for(auto it:a){
+        ll start=it.f, end=it.s;
+        auto x=st.lower_bound(start); // points to a member s.t. start is greater than end
+        if(x==st.begin()) continue;
+        x--;
+        st.erase(x); st.insert(end);
+        maxi++;
+    }
+    cout<<maxi<<endl;
 }
 
 int32_t main() {
@@ -166,8 +186,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }

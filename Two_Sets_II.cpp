@@ -52,7 +52,7 @@ typedef vector<vll> vvll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef vector<pii> vpii;
-typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update > pbds;  // find_by_order, order_of_key
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update > pbds; // // find_by_order, order_of_key
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
 #define vvll(a, m, n, x) vector<vector<ll>> a(m, vector<ll>(n, x))
 #define umap unordered_map
@@ -152,11 +152,35 @@ void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.pus
     14. decimal waale questions mein setprecesion aur fixed use karo hamesha
     15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
 */
+ll f(ll i, const ll &sum, vll &dp){
+    if(sum==0) return 1;
+    if(i<1 || sum<0) return 0;
 
+    if(dp[i]!=-1) return dp[i];
+
+    ll take=0;
+    if(sum>=i) take=f(i-1,(sum-i),dp);
+    ll notake=f(i-1,sum,dp);
+    return dp[i]=(take+notake)%M;
+}
 void solve() {
     // Your code goes here
-    
-    
+    inll(n);
+    ll sum=((1LL*n*(n+1))/2);
+    if(sum&1){
+        cout<<0<<endl; return;
+    }
+    sum=(sum/2LL);
+    vll dp(sum+1,0);
+    // ll ans=f(n,sum,dp);
+    dp[0]=1;
+    for1(i,n){
+        for(int j=sum;j>=i;j--){
+           dp[j]=(dp[j]+dp[j-i])%M;
+        }
+    }
+
+    cout<<(dp[sum]*bi_expo(2,M-2))%M<<endl;
 }
 
 int32_t main() {
@@ -166,8 +190,8 @@ int32_t main() {
     // Shiv sama rahe mujh mein, aur main suniye ho raha hoon
     // NO. 1 is always an odd!
 
-    int t;
-    cin>>t;
+    int t=1;
+    // cin>>t;
     while(t--){
         solve();
     }
