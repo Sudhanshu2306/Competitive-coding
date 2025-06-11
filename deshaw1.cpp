@@ -1,69 +1,47 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-using ll = long long;
 
-static const int H = 31;  // up to 2^31 > 1e9
+int f(int node, int parent, int h, vector<vector<int>> &adj, 
+    vector<int> &a, int k, vector<vector<int>> &dp){
+    if(h>31) return 0;
+    if(dp[node][h]!=-1) return dp[node][h];
+
+    int val=a[node];
+
+    int type1=val-k;
+    for(auto it:adj[node]){
+        if(it!=parent) type1+=f(it,node,h,adj,a,k,dp);
+    }
+    int type2=val/2;
+    for(auto it:adj[node]){
+        if(it!=parent) type2+f(it,node,h+1,adj,a,k,dp);
+    }
+
+    return dp[node][h]=max(type1,type2);
+}
 
 int main(){
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n, m;
-    cin >> n >> m;
-    vector<vector<int>> adj(n);
+    int n; cin>>n;
+    int m; cin>>m;
     vector<int> from(m), to(m);
-    for(int i = 0; i < m; i++){
-        cin >> from[i] >> to[i];
-        adj[from[i]].push_back(to[i]);
-        adj[to[i]].push_back(from[i]);
-    }
-    vector<ll> A(n);
-    for(auto &x: A) cin >> x;
-    ll K;
-    cin >> K;
+    for(int i=0;i<m;i++) cin>>from[i];
+    for(int i=0;i<m;i++) cin>>to[i];
 
-    // Build a rooted tree at 0:
-    vector<int> parent(n, -1), order;
-    order.reserve(n);
-    queue<int> q;
-    q.push(0);
-    parent[0] = 0;
-    while(!q.empty()){
-        int u = q.front(); q.pop();
-        order.push_back(u);
-        for(int v: adj[u]){
-            if(parent[v] < 0){
-                parent[v] = u;
-                q.push(v);
-            }
-        }
+    vector<vector<int>> adj(n);
+    for(int i=0;i<m;i++){
+        int u=from[i], v=to[i];
+        adj[u].push_back(v);
+        adj[v].push_back(u);
     }
+    vector<int> a(n);
+    for(int i=0;i<n;i++) cin>>a[i];
 
-    // dp[u][h] = best total in subtree u if path to u has already h halvings.
-    vector<array<ll, H+2>> dp(n);
-    // We'll process in reverse BFS order (i.e. post-order).
-    for(int idx = n-1; idx >= 0; idx--){
-        int u = order[idx];
-        // for each possible h = 0..H
-        for(int h = H; h >= 0; h--){
-            // effective value at u after h halvings:
-            ll val = A[u] >> h;  // same as floor(A[u]/2^h)
-            // OPTION 1: type-1 at u
-            ll opt1 = val - K;
-            // OPTION 2: type-2 at u
-            ll opt2 = val >> 1;  // floor(val/2)
-            // now add children contributions
-            for(int v: adj[u]){
-                if(parent[v] == u){
-                    opt1 += dp[v][h];
-                    opt2 += dp[v][h+1];
-                }
-            }
-            dp[u][h] = max(opt1, opt2);
-        }
-    }
+    int k; cin>>k;
 
-    // the root has no parent, so we must collect at 0 with h=0
-    cout << dp[0][0] << "\n";
+    vector<vector<int>> dp(n,vector<int>(32,-1));
+
+    int ans=f(0,-1,0,adj,a,k,dp);
+    cout<<ans<<endl;
+
     return 0;
 }
