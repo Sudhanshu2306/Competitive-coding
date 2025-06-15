@@ -28,6 +28,7 @@ vector<int> solve(vector<string> &a){
             prev=x;
         }
         else{
+            // generating all substrings in sorted order
             vector<int> st=f(a[i]);
             auto it=lower_bound(st.begin(),st.end(),prev);
             if(it==st.end()) return {-1};
