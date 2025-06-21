@@ -1,5 +1,9 @@
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+
 using namespace std;
+using namespace __gnu_pbds;
 
 // Commonly used loops
 #define for0(i, n) for (int i = 0; i < (n); ++i)
@@ -48,6 +52,7 @@ typedef vector<vll> vvll;
 typedef pair<int, int> pii;
 typedef pair<ll, ll> pll;
 typedef vector<pii> vpii;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update > pbds; // // find_by_order, order_of_key
 #define vvi(a, m, n, x) vector<vector<int>> a(m, vector<int>(n, x))
 #define vvll(a, m, n, x) vector<vector<ll>> a(m, vector<ll>(n, x))
 #define umap unordered_map
@@ -70,40 +75,38 @@ ll bi_expo (ll a,ll b){
 }
 // Segment Tree for SUM in a range
 const int x=100000; // Adjust based on problem constraints
-ll tree[4*x], lazy[4*x];
+ll tr[4*x], lazy[4*x];
 
 void build(const vll& arr, ll node, ll start, ll end) {
-    if(start==end) tree[node]=arr[start];
-    else{ll mid=(start+end)/2; build(arr,2*node,start,mid); build(arr,2*node+1,mid+1,end); tree[node]=tree[2*node]+tree[2*node+1];}
+    if(start==end) tr[node]=arr[start];
+    else{ll mid=(start+end)/2; build(arr,2*node,start,mid); build(arr,2*node+1,mid+1,end); tr[node]=tr[2*node]+tr[2*node+1];}
 }
 void updatePoint(ll node, ll start, ll end, ll idx, ll val) {
-    if (start==end) tree[node]=val;
-    else{ll mid=(start+end)/2; if(idx<=mid) updatePoint(2*node,start,mid,idx,val); else updatePoint(2*node+1,mid+1,end,idx,val); tree[node]=tree[2*node]+tree[2*node+1];}
+    if (start==end) tr[node]=val;
+    else{ll mid=(start+end)/2; if(idx<=mid) updatePoint(2*node,start,mid,idx,val); else updatePoint(2*node+1,mid+1,end,idx,val); tr[node]=tr[2*node]+tr[2*node+1];}
 }
 
 void updateRange(ll node, ll start, ll end, ll l, ll r, ll val) {
-    if(lazy[node]!=0){tree[node]+=(end-start+1)*lazy[node];if(start!=end){lazy[2*node]+=lazy[node]; lazy[2*node+1]+=lazy[node];}lazy[node] = 0;}
+    if(lazy[node]!=0){tr[node]+=(end-start+1)*lazy[node];if(start!=end){lazy[2*node]+=lazy[node]; lazy[2*node+1]+=lazy[node];}lazy[node] = 0;}
     if(start>end || start>r || end<l) return;
-    if (start>=l && end<=r){tree[node]+=(end-start+1)*val; if(start!=end) {lazy[2*node]+=val; lazy[2*node+1]+=val;} return;}
+    if (start>=l && end<=r){tr[node]+=(end-start+1)*val; if(start!=end) {lazy[2*node]+=val; lazy[2*node+1]+=val;} return;}
     ll mid=(start+end)/2;
     updateRange(2*node,start,mid,l,r,val);
     updateRange(2*node+1,mid+1,end,l,r,val);
-    tree[node]=tree[2*node]+tree[2*node+1];
+    tr[node]=tr[2*node]+tr[2*node+1];
 }
 
 ll queryRange(ll node, ll start, ll end, ll l, ll r){
     if(start>end || start>r || end<l) return 0;
-    if(lazy[node]!=0){tree[node]+=(end-start+1)*lazy[node]; if(start!=end) {lazy[2*node]+=lazy[node]; lazy[2*node+1]+=lazy[node];} lazy[node]=0;}
-    if(start>=l && end<=r) return tree[node];
+    if(lazy[node]!=0){tr[node]+=(end-start+1)*lazy[node]; if(start!=end) {lazy[2*node]+=lazy[node]; lazy[2*node+1]+=lazy[node];} lazy[node]=0;}
+    if(start>=l && end<=r) return tr[node];
     ll mid=(start+end)/2;
     ll leftSum=queryRange(2*node,start,mid,l,r);
     ll rightSum=queryRange(2*node+1,mid+1,end,l,r);
     return leftSum+rightSum;
 }
 
-// Floating-point comparisons
-#define EPS 1e-9
-#define EQ(a, b) (abs(a - b) < EPS)
+// dfs - make changes here
 
 // Debugging macro
 #define debug(x) cerr << #x << " = " << x << endl
@@ -116,8 +119,8 @@ vector <bool> is_prime;
 ll moduloMultiplication(ll a,ll b,ll mod){ll res = 0;a %= mod;while (b){if (b & 1)res = (res + a) % mod;b >>= 1;}return res;}
 ll powermod(ll x, ll y, ll p){ll res = 1;x = x % p;if (x == 0) return 0;while (y > 0){if (y & 1)res = (res*x) % p;y = y>>1;x = (x*x) % p;}return res;}
 ll modinv(ll p,ll q){ll ex;ex=M-2;while (ex) {if (ex & 1) {p = (p * q) % M;}q = (q * q) % M;ex>>= 1;}return p;}
-#define gcd __gcd
-#define lcm(a, b) ((a)/gcd(a,b)*(b))
+ll gcd(ll a, ll b) {return b == 0 ? a : gcd(b, a % b);}
+ll lcm(ll a, ll b) {return (a / gcd(a, b)) * b;}
 string decToBinary(int n){string s="";int i = 0;while (n > 0) {s =to_string(n % 2)+s;n = n / 2;i++;}return s;}
 ll binaryToDecimal(string n){string num = n;ll dec_value = 0;int base = 1;int len = num.length();for(int i = len - 1; i >= 0; i--){if (num[i] == '1')dec_value += base;base = base * 2;}return dec_value;}
 bool isPrime(ll n){if(n<=1)return false;if(n<=3)return true;if(n%2==0||n%3==0)return false;for(int i=5;i*i<=n;i=i+6)if(n%i==0||n%(i+2)==0)return false;return true;}
@@ -127,33 +130,82 @@ bool isPerfectSquare(ll x){if (x >= 0) {ll sr = sqrt(x);return (sr * sr == x);}r
 void Sieve(int n){ is_prime.assign(n + 1, true); is_prime[0] = is_prime[1] = false; for(ll i = 2; i * i <= n; i++) if(is_prime[i]) for(ll j = i * i; j <= n; j += i) is_prime[j] = false;}
 void get_primes(int n){ for(int i = 2; i <= n; i++)  if(is_prime[i])  primes.push_back(i); }
 
-map<ll,vll> mp;
-map<ll,ll> dp;
-
-ll ff(ll n){
-    if(dp.find(n)!=dp.end()) return dp[n];
-    ll ans=n;
-    if(mp.find(n)!=mp.end()){
-        // transition can be upto 1e5
-        for(auto it:mp[n]){
-            ll x=n-1+it;
-            ans=max(ans, ff(x));
-        }
-    }
-    return dp[n]=ans;
+/*Common things to remember : 
+    0. sabse pehle brute force socho, agar constraints upar jaa raha toh usme optimization socho, LC aur CC 2 baar aaisa hua h
+    1. unordered_map kabhi nahi use karna h, hamesha map use karo, CF yaad h na!
+    2. hamesha check karo interactive problem mein, t=1 karna mat bhulna, idleness aayega warna. 4 baar WA aaya tha
+    3. interactive problem most of the time BS se hota h bas monotonicity establish karo
+    4. BS mein lower bound aur upperbound ka dhyan rakho, dimag mein hi nahi aata h jabtak koi samne se naa bole, BS on answers bhi try karo sochne ka
+    5. prefix/suffix sum + optimization, hamesha galti karta h isme
+    6. dp ki state hamesha socho, phir usme exception dhundho, aur phir recurrence likho
+    7. ranged query bhi prefix suffix jaisa lagta, itna muskil nahi hota h segment trees
+    8. bfs and dijkstra jab max/min ho (n*logn)
+    9. dfs tab jab path jaisa ho, single run mein, aur constraints chote ho
+    10. dp aur dfs mein difference ye h ki dfs chote constraints par lagta h, jab memoisation ki jaroorat nahi hoti h
+    11. DSU sidhe sidhe nahi dikhta h, thoda socho connect karne ka, jab cycle jaisa kuch ban raha ho
+    12. priority_queue + sorting, bahut baar double sorting ke questions is se hi ban jaate h
+    13. sliding window, (==k) wala case, pehle <=k aur <=(k-1)
+    14. decimal waale questions mein setprecesion aur fixed use karo hamesha
+    15. BIT manupulation mein XOR, AND, OR, given question ko binary (0/1) form mein socho, jab kuch dimag mein nahi aa rha, pakka bits se banega
+*/
+const int MXN = 2e5 + 5;
+ 
+int n, m1, m2, cmp[MXN], kmp[MXN], c, q;
+vector<int> G[MXN], GG[MXN];
+vector<pii> F;
+ 
+void dfs(int v) {
+    cmp[v] = c;
+    for(int u : G[v])
+        if(!cmp[u])
+            dfs(u);
+}
+ 
+void dfs2(int v) {
+    kmp[v] = q;
+    for(int u : GG[v])
+        if(!kmp[u])
+            dfs2(u);
 }
 void solve() {
-    // Your code goes here
-    inll(n);
-    mp.clear(); dp.clear();
-    vll a(n+1);
-    for1(i,n) cin>>a[i];
-    fori(i,2,n){
-        ll x=a[i]-1+i;
-        mp[x].pb(i);
+    cin >> n >> m1 >> m2;
+    F.clear();
+    c = 0;
+    fill(cmp, cmp+n+1, 0);
+    fill(kmp, kmp+n+1, 0);
+    for(int i=1; i<=n; i++) G[i].clear(), GG[i].clear();
+    for(int i=0; i<m1; i++) {
+        int u, v;
+        cin >> u >> v;
+        F.pb({u,v});
+    }   
+    for(int i=0; i<m2; i++) {
+        int u, v;
+        cin >> u >> v;
+        G[u].pb(v);
+        G[v].pb(u);
     }
-    ll ans=ff(n);
-    cout<<ans<<endl;
+    for(int i=1; i<=n; i++)
+        if(!cmp[i]) {
+            c++;
+            dfs(i);
+ 
+        }
+    int ans=0;
+    for(auto [u, v] : F) {
+        if(cmp[u]!=cmp[v]) {
+            ans++;
+        }
+        else GG[u].pb(v), GG[v].pb(u);
+    }
+    q = 0;
+    for(int i=1; i<=n; i++)
+        if(!kmp[i]) {
+            q++;
+            dfs2(i);
+        }
+    ans += q-c;
+    cout << ans << '\n';
 }
 
 int32_t main() {
