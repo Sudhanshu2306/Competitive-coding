@@ -63,7 +63,7 @@ public:
             for (int v = snk; v != src; v = pv[v]){
                 int ei = pe[v];
                 edges[ei].cap -= add;
-                edges[ei ^ 1].cap += add; g
+                edges[ei ^ 1].cap += add; 
             }
             flow += add;
             cost += 1LL * add * pot[snk];

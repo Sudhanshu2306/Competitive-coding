@@ -3,6 +3,7 @@ using namespace std;
 vector<int> vis;
 vector<int> opc_node;
 int ans=0;
+
 int dfs(int node, vector<vector<int>> &adj, int k){
     vis[node]=1;
     for(auto it:adj[node]){

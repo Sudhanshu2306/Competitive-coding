@@ -14,7 +14,7 @@ int f(int node, int parent, int h, vector<vector<int>> &adj,
     }
     int type2=val/2;
     for(auto it:adj[node]){
-        if(it!=parent) type2+f(it,node,h+1,adj,a,k,dp);
+        if(it!=parent) type2+=f(it,node,h+1,adj,a,k,dp);
     }
 
     return dp[node][h]=max(type1,type2);
