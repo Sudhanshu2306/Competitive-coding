@@ -1,34 +1,28 @@
 #include<bits/stdc++.h>
 using namespace std;
+int dp[1001][1001];
+int f(int i, int p, vector<int> &a, vector<int> &b){
+    if(i==a.size() || p==0) return 0;
+
+    if(dp[i][p]!=-1) return dp[i][p];
+    int take=0;
+    if(p-2*a[i]>=0){
+        take=b[i]+f(i+1,p-2*a[i],a,b);
+    } 
+    int nottake=f(i+1,p,a,b);
+
+    return dp[i][p]=max(take,nottake);
+}
 
 int main(){
     int n; cin>>n;
     vector<int> a(n), b(n);
-    for(int i=0;i<n;i++) cin>>a[i];
     for(int i=0;i<n;i++) cin>>b[i];
+    for(int i=0;i<n;i++) cin>>a[i];
 
     int p; cin>>p;
-    vector<pair<double,int>> x;
-    for(int i=0;i<n;i++){
-        double z=(1.0*a[i]/b[i]);
-        x.push_back({z,b[i]*2});
-    }
-    sort(x.begin(),x.end(),[](pair<double,int> &a, pair<double,int> &b){
-        if(a.first!=b.first) return a.first>b.first;
-        return a.second>b.second;
-    });
-
-    // for(auto it:x) cout<<it.first<<" "<<it.second<<endl;
-
-    int ans=0;
-    for(auto it:x){
-        if(it.second<=p){
-            int z=it.first*(it.second/2);
-            // cout<<z<<" ";
-            ans+=z;
-            p-=it.second;
-        }
-    }
+    memset(dp,-1,sizeof(dp));
+    int ans=f(0,p,a,b);
     cout<<ans<<endl;
 
     return 0;
